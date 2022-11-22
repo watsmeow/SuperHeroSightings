@@ -1,0 +1,29 @@
+﻿Courtney
+	Yaren - Super Heroes
+	Sarah - Sighting
+	Andrea - Location
+	Courtney - Organization
+
+	
+Main
+        Controller
+                LocationController
+                OrganizationController
+                SuperHeroController
+                SightingController
+        Entities
+                SuperHero
+                Organization
+                Location
+                Sighting
+        Dao
+                SuperHeroDao
+                SuperHeroDaoInterface
+                OrganizationDao
+                OrganizationDaoInterface
+                LocationDao
+                LocationDaoInterface
+                SightingDao
+                SightingDaoInterface
+        
+**NO SERVICE LAYER**
