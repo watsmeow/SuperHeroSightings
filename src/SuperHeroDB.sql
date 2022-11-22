@@ -21,12 +21,11 @@ CREATE TABLE locations (
     locationDescription varchar(250) NOT NULL,
 	latitude FLOAT(10, 6) NOT NULL,  
 	longitude FLOAT(10, 6) NOT NULL,
-	locaAddress VARCHAR(500) NOT NULL,
+	locAddress VARCHAR(500) NOT NULL,
     locCity VARCHAR(100) NOT NULL,
     locState VARCHAR(2) NOT NULL, 
     locZip VARCHAR(10) NOT NULL
 );
-
 
 CREATE TABLE superHeroes (
     superID int PRIMARY KEY AUTO_INCREMENT,
@@ -49,8 +48,6 @@ CREATE TABLE orgs (
 	FOREIGN KEY fk_orgPhoneNumberID (orgPhoneNumberID)
 		REFERENCES orgPhoneNumbers (phoneNumberID)
 );
-
-
 
 CREATE TABLE sightings (
 	sightingID INT PRIMARY KEY,
