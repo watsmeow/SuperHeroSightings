@@ -63,8 +63,11 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public void deleteLocationById(int locationId) {
-        final String SQL_DELETE = "DELETE FROM locations WHERE locationId = ?";
-        jdbc.update(SQL_DELETE, locationId);
+        final String SQL_DELETE_SIGHTING = "DELETE FROM sightings WHERE locationId = ?";
+        jdbc.update(SQL_DELETE_SIGHTING, locationId);
+
+        final String SQL_DELETE_LOCATION = "DELETE FROM locations WHERE locationId = ?";
+        jdbc.update(SQL_DELETE_LOCATION, locationId);
     }
 
     public static final class LocationMapper implements RowMapper<Location> {
