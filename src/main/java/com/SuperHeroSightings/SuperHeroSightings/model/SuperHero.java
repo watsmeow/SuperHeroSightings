@@ -9,4 +9,6 @@ public class SuperHero {
     private String superDescription;
 
     private String superPower;
+
+    private int mappingID;
 }

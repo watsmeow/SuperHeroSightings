@@ -31,22 +31,31 @@ CREATE TABLE superHeroes (
     superID int PRIMARY KEY AUTO_INCREMENT,
     superName varchar(50) NOT NULL,
     superDescription varchar(250) NOT NULL,
-    superPower varchar(250) NOT NULL
+    superPower varchar(250) NOT NULL,
+    mappingID INT NOT NULL
 );
 
 CREATE TABLE orgs (
     orgID int PRIMARY KEY AUTO_INCREMENT,
     orgName varchar(50) NOT NULL,
     orgDescription varchar(250) NOT NULL,
-	superID INT NOT NULL,
+	mappingID INT NOT NULL,
 	orgAddressID INT NOT NULL,
     orgPhoneNumberID INT NOT NULL,
-	FOREIGN KEY fk_superID (superID)
-		REFERENCES superHeroes(superID),
     FOREIGN KEY fk_orgAddressID (orgAddressID) 
 		REFERENCES orgAddresses (orgAddressID),
 	FOREIGN KEY fk_orgPhoneNumberID (orgPhoneNumberID)
 		REFERENCES orgPhoneNumbers (phoneNumberID)
+);
+
+CREATE TABLE superToOrgMapping (
+    mappingID int PRIMARY KEY AUTO_INCREMENT,
+	superID INT NOT NULL,
+	orgID INT NOT NULL,
+	FOREIGN KEY fk_superID (superID)
+		REFERENCES superHeroes(superID),
+    FOREIGN KEY fk_orgID (orgID) 
+		REFERENCES orgs (orgID)
 );
 
 CREATE TABLE sightings (
