@@ -1,6 +1,5 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Organization {
@@ -10,8 +9,6 @@ public class Organization {
     private String orgName;
 
     private String orgDescription;
-
-    private int superID;
 
     private String orgAddress;
 
@@ -36,10 +33,6 @@ public class Organization {
         return orgDescription;
     }
 
-    public int getSuperID() {
-        return superID;
-    }
-
     public String getOrgAddress() {
         return orgAddress;
     }
@@ -61,8 +54,8 @@ public class Organization {
     }
 
     // Setters
-    public void setOrgID() {
-        this.orgID = orgID;
+    public void setOrgID(int orgID) {
+        this.orgID = this.orgID;
     }
 
     public void setOrgName(String orgName) {
@@ -71,10 +64,6 @@ public class Organization {
 
     public void setOrgDescription(String orgDescription) {
         this.orgDescription = orgDescription;
-    }
-
-    public void setSuperID() {
-        this.superID = superID;
     }
 
     public void setOrgAddress(String orgAddress) {
@@ -110,5 +99,10 @@ public class Organization {
                 && Objects.equals(orgState, organization.orgState)
                 && Objects.equals(orgZip, organization.orgZip)
                 && Objects.equals(orgPhoneNumber, organization.orgPhoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, orgPhoneNumber);
     }
 }
