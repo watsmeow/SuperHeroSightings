@@ -31,15 +31,13 @@ CREATE TABLE superHeroes (
     superID int PRIMARY KEY AUTO_INCREMENT,
     superName varchar(50) NOT NULL,
     superDescription varchar(250) NOT NULL,
-    superPower varchar(250) NOT NULL,
-    mappingID INT NOT NULL
+    superPower varchar(250) NOT NULL
 );
 
 CREATE TABLE orgs (
     orgID int PRIMARY KEY AUTO_INCREMENT,
     orgName varchar(50) NOT NULL,
     orgDescription varchar(250) NOT NULL,
-	mappingID INT NOT NULL,
 	orgAddressID INT NOT NULL,
     orgPhoneNumberID INT NOT NULL,
     FOREIGN KEY fk_orgAddressID (orgAddressID) 

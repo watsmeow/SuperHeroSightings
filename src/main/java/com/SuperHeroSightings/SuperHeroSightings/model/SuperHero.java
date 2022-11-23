@@ -10,5 +10,4 @@ public class SuperHero {
 
     private String superPower;
 
-    private int mappingID;
 }
