@@ -74,6 +74,10 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
                 "WHERE superID=?;";
         jdbc.update(DELETE_SUPER_TO_ORG_MAPPING,superID);
 
+        final String DELETE_SIGHTINGS = "DELETE FROM sightings" +
+                "WHERE superID=?;";
+        jdbc.update(DELETE_SIGHTINGS,superID);
+
         final String DELETE_SUPERHERO_BY_ID = "DELETE FROM superheroes" +
                 "WHERE superID=?;";
         jdbc.update(DELETE_SUPERHERO_BY_ID,superID);
