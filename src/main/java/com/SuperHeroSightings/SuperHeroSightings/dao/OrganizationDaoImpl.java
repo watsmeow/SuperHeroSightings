@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
 public class OrganizationDaoImpl implements OrganizationDao {
 
     @Autowired
@@ -56,6 +58,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
 
     @Override
+    @Transactional
     public void updateOrganization(Organization organization) {
         int orgID = organization.getOrgID();
 
@@ -103,6 +106,21 @@ public class OrganizationDaoImpl implements OrganizationDao {
                     "LEFT JOIN superToOrgMapping USING (orgID)" +
                     "WHERE superID = ?;";
             return jdbcTemplate.queryForStream(SQL_GET_ALL, new OrganizationMapper(), superID)
+                    .collect(Collectors.toList());
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Organization> getAllOrgs() {
+        try {
+            final String SQL_GET_ALL = "SELECT orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, phoneNumber" +
+                    "FROM orgs " +
+                    "LEFT JOIN orgPhoneNumbers ON (phoneNumberID = orgPhoneNumberID) " +
+                    "LEFT JOIN orgAddresses USING (orgAddressID) " +
+                    "LEFT JOIN superToOrgMapping USING (orgID);";
+            return jdbcTemplate.queryForStream(SQL_GET_ALL, new OrganizationMapper())
                     .collect(Collectors.toList());
         } catch (DataAccessException e) {
             return null;

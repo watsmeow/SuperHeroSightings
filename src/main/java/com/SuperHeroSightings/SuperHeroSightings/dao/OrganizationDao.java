@@ -19,4 +19,6 @@ public interface OrganizationDao {
 
     List<SuperHero> getAllMembersOfAnOrg(String orgName);
 
+    List<Organization> getAllOrgs();
+
 }
