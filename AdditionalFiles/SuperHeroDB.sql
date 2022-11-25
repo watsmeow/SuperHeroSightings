@@ -3,7 +3,7 @@ CREATE DATABASE superHeroDB;
 USE superHeroDB;
 
 CREATE TABLE orgAddresses (
-	orgAddressID INT PRIMARY KEY auto_increment,
+	  orgAddressID INT PRIMARY KEY auto_increment, 
     orgAddress VARCHAR(500) NOT NULL,
     orgCity VARCHAR(100) NOT NULL,
     orgState VARCHAR(2) NOT NULL,
