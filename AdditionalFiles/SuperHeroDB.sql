@@ -3,7 +3,7 @@ CREATE DATABASE superHeroDB;
 USE superHeroDB;
 
 CREATE TABLE orgAddresses (
-	orgAddressID INT PRIMARY KEY, 
+	orgAddressID INT PRIMARY KEY auto_increment, 
     orgAddress VARCHAR(500) NOT NULL,
     orgCity VARCHAR(100) NOT NULL,
     orgState VARCHAR(2) NOT NULL, 
@@ -11,7 +11,7 @@ CREATE TABLE orgAddresses (
 );
 
 CREATE TABLE orgPhoneNumbers (
-	phoneNumberID INT PRIMARY KEY,
+	phoneNumberID INT PRIMARY KEY auto_increment,
     phoneNumber VARCHAR(50) NOT NULL
 );
 
@@ -57,7 +57,7 @@ CREATE TABLE superToOrgMapping (
 );
 
 CREATE TABLE sightings (
-	sightingID INT PRIMARY KEY,
+	sightingID INT PRIMARY KEY auto_increment,
 	Timestamp timeStamp,
     superID INT NOT NULL,
     locationID INT NOT NULL,
