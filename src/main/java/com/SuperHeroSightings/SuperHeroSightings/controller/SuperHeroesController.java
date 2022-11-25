@@ -56,7 +56,7 @@ public class SuperHeroesController {
         return "editSuperHero";
     }
 
-    @GetMapping("editSuperHero")
+    @PostMapping("editSuperHero")
     public String editSuperHero(HttpServletRequest request){
         int id=Integer.parseInt(request.getParameter("superID"));
         SuperHero superHero = superHeroesDao.getSuperHeroById(id);
