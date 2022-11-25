@@ -1,5 +1,8 @@
 package com.SuperHeroSightings.SuperHeroSightings.dao;
 
+import com.SuperHeroSightings.SuperHeroSightings.model.Location;
+import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
+import com.SuperHeroSightings.SuperHeroSightings.model.Sighting;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 
 import java.util.List;
@@ -15,4 +18,9 @@ public interface SuperHeroesDao {
     void updateSuperHero(SuperHero superHero);
 
     void deleteSuperHeroById(int superID);
+
+    List<Organization> getSuperHeroOrganizations(SuperHero superHero);
+
+    List<Location> getSuperHeroLocation(SuperHero superHero);
+
 }

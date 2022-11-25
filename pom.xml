@@ -14,7 +14,7 @@
 	<name>SuperHeroSightings</name>
 	<description>Group Project 1</description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>18</java.version>
 	</properties>
 
 	<dependencies>
