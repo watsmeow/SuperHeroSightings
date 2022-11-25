@@ -1,6 +1,8 @@
 package com.SuperHeroSightings.SuperHeroSightings.controller;
 
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
+import com.SuperHeroSightings.SuperHeroSightings.model.Location;
+import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,6 +69,26 @@ public class SuperHeroesController {
 
         superHeroesDao.updateSuperHero(superHero);
         return "redirect:/superheroes";
+    }
+
+    @GetMapping("orgByHero")
+    public String orgByHero(HttpServletRequest request,Model model){
+        int id=Integer.parseInt(request.getParameter("superID"));
+        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
+
+        List<Organization> orgs = superHeroesDao.getSuperHeroOrganizations(superHero);
+        model.addAttribute(orgs);
+        return "superheroes";
+    }
+
+    @GetMapping("locByHero")
+    public String locByHero(HttpServletRequest request,Model model){
+        int id=Integer.parseInt(request.getParameter("superID"));
+        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
+
+        List<Location> locs = superHeroesDao.getSuperHeroLocation(superHero);
+        model.addAttribute(locs);
+        return "superheroes";
     }
 
     // for super powers
