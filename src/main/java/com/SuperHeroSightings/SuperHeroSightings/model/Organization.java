@@ -61,7 +61,7 @@ public class Organization {
 
     // Setters
     public void setOrgID(int orgID) {
-        this.orgID = this.orgID;
+        this.orgID = orgID;
     }
 
     public void setOrgName(String orgName) {
