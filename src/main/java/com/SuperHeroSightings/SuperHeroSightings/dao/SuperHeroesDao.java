@@ -1,9 +1,7 @@
 package com.SuperHeroSightings.SuperHeroSightings.dao;
 
-import com.SuperHeroSightings.SuperHeroSightings.model.Location;
-import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
-import com.SuperHeroSightings.SuperHeroSightings.model.Sighting;
-import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
+import com.SuperHeroSightings.SuperHeroSightings.model.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,4 +21,15 @@ public interface SuperHeroesDao {
 
     List<Location> getSuperHeroLocation(SuperHero superHero);
 
+    List<SuperPower> getAllSuperPowers();
+
+    SuperPower getSuperPowerById(int id);
+
+    @Transactional
+    SuperPower addSuperPower(SuperPower superPower);
+
+    void updateSuperPower(SuperPower superPower);
+
+    @Transactional
+    void deleteSuperPowerById(int superPowerID);
 }

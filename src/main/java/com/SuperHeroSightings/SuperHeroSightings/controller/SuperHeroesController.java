@@ -72,13 +72,13 @@ public class SuperHeroesController {
     }
 
     @GetMapping("orgByHero")
-    public String orgByHero(HttpServletRequest request,Model model){
+    public String orgByHero(Model model,HttpServletRequest request){
         int id=Integer.parseInt(request.getParameter("superID"));
         SuperHero superHero = superHeroesDao.getSuperHeroById(id);
-
-        List<Organization> orgs = superHeroesDao.getSuperHeroOrganizations(superHero);
-        model.addAttribute(orgs);
-        return "superheroes";
+        List<Organization> organizations = superHeroesDao.getSuperHeroOrganizations(superHero);
+        model.addAttribute("superhero", superHero);
+        model.addAttribute("organizations", organizations);
+        return "organizationsBySuperHero";
     }
 
     @GetMapping("locByHero")
@@ -87,10 +87,9 @@ public class SuperHeroesController {
         SuperHero superHero = superHeroesDao.getSuperHeroById(id);
 
         List<Location> locs = superHeroesDao.getSuperHeroLocation(superHero);
-        model.addAttribute(locs);
-        return "superheroes";
+        model.addAttribute("superheroes",superHero);
+        model.addAttribute("locations",locs);
+        return "locationsBySuperHero";
     }
-
-    // for super powers
 
 }
