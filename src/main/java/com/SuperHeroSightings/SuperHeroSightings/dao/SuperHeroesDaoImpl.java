@@ -1,8 +1,6 @@
 package com.SuperHeroSightings.SuperHeroSightings.dao;
 
-import com.SuperHeroSightings.SuperHeroSightings.model.Location;
-import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
-import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
+import com.SuperHeroSightings.SuperHeroSightings.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class SuperHeroesDaoImpl implements SuperHeroesDao{
+public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     @Autowired
     JdbcTemplate jdbc;
@@ -36,7 +34,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
     @Override
     public List<SuperHero> getAllHeroes() {
         final String SELECT_ALL_HEROES = "SELECT * FROM superheroes;";
-        return jdbc.query(SELECT_ALL_HEROES,new SuperHeroMapper());
+        return jdbc.query(SELECT_ALL_HEROES, new SuperHeroMapper());
     }
 
     @Override
@@ -44,7 +42,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
         try {
             final String SELECT_SUPERHERO_BY_ID = "SELECT * FROM superheroes WHERE superID=?;";
             return jdbc.queryForObject(SELECT_SUPERHERO_BY_ID, new SuperHeroMapper(), id);
-        }catch(DataAccessException ex){
+        } catch (DataAccessException ex) {
             return null;
         }
     }
@@ -54,9 +52,9 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
     public SuperHero addSuperHero(SuperHero superHero) {
         final String INSERT_SUPERHERO = "INSERT INTO superheroes (superName," +
                 "superDescription,superPower) VALUES (?,?,?);";
-        jdbc.update(INSERT_SUPERHERO,superHero.getSuperName(),superHero.getSuperDescription(),
+        jdbc.update(INSERT_SUPERHERO, superHero.getSuperName(), superHero.getSuperDescription(),
                 superHero.getSuperName());
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()",Integer.class);
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         superHero.setSuperID(newId);
         return superHero;
     }
@@ -65,8 +63,8 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
     public void updateSuperHero(SuperHero superHero) {
         final String UPDATE_SUPERHERO = "UPDATE superheroes SET superName =?," +
                 "superDescription=?,superPower=?;";
-        jdbc.update(UPDATE_SUPERHERO,superHero.getSuperName(),
-                superHero.getSuperDescription(),superHero.getSuperPower());
+        jdbc.update(UPDATE_SUPERHERO, superHero.getSuperName(),
+                superHero.getSuperDescription(), superHero.getSuperPower());
     }
 
     @Override
@@ -74,15 +72,15 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
     public void deleteSuperHeroById(int superID) {
         final String DELETE_SUPER_TO_ORG_MAPPING = "DELETE FROM supertoorgmapping" +
                 "WHERE superID=?;";
-        jdbc.update(DELETE_SUPER_TO_ORG_MAPPING,superID);
+        jdbc.update(DELETE_SUPER_TO_ORG_MAPPING, superID);
 
         final String DELETE_SIGHTINGS = "DELETE FROM sightings" +
                 "WHERE superID=?;";
-        jdbc.update(DELETE_SIGHTINGS,superID);
+        jdbc.update(DELETE_SIGHTINGS, superID);
 
         final String DELETE_SUPERHERO_BY_ID = "DELETE FROM superheroes" +
                 "WHERE superID=?;";
-        jdbc.update(DELETE_SUPERHERO_BY_ID,superID);
+        jdbc.update(DELETE_SUPERHERO_BY_ID, superID);
 
     }
 
@@ -91,18 +89,19 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
     public List<Organization> getSuperHeroOrganizations(SuperHero superHero) {
         final String SELECT_ORGANIZATIONS_SUPERHERO = "SELECT org.* FROM superToOrgMapping stom" +
                 "INNER JOIN orgs o ON stom.orgID = orgs.orgID " +
-                "WHERE stom.superID = ?;";
+                "INNER JOIN superHeroes sh ON stom.superID = sh.superID" +
+                "WHERE sh.superID = ?;";
         return jdbc.query(SELECT_ORGANIZATIONS_SUPERHERO, new OrganizationDaoImpl.OrganizationMapper(),
                 superHero.getSuperID());
     }
 
     @Override
-    public Location getSuperHeroLocation(int sightingID) {
+    public List<Location> getSuperHeroLocation(SuperHero superHero) {
         final String SELECT_LOCATIONS_SUPERHERO = "SELECT loc.* FROM sightings s" +
                 "INNER JOIN locations loc ON s.locationID = loc.locationID " +
-                "WHERE s.sightingID = ?;";
-        return jdbc.queryForObject(SELECT_LOCATIONS_SUPERHERO, new LocationDaoImpl.LocationMapper(),
-                sightingID);
+                "WHERE s.superID = ?;";
+        return jdbc.query(SELECT_LOCATIONS_SUPERHERO, new LocationDaoImpl.LocationMapper(),
+                superHero.getSuperID());
 
     }
 }

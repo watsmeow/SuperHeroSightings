@@ -21,5 +21,6 @@ public interface SuperHeroesDao {
 
     List<Organization> getSuperHeroOrganizations(SuperHero superHero);
 
-    Location getSuperHeroLocation(int sightingID);
+    List<Location> getSuperHeroLocation(SuperHero superHero);
+
 }
