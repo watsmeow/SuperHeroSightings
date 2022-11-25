@@ -24,8 +24,8 @@ public class OrganizationDaoImpl implements OrganizationDao {
     @Override
     @Transactional
     public Organization createOrganization(Organization org) {
-        final String INSERT_ADDRESS = "INSERT INTO orgaddresses (orgAddress, orgCity, orgState, orgZip" +
-                "VALUES (?, ?, ?, ?);";
+        final String INSERT_ADDRESS = "INSERT INTO orgaddresses (orgAddress, orgCity, orgState, orgZip)" +
+                " VALUES (?, ?, ?, ?);";
         jdbcTemplate.update(INSERT_ADDRESS,
                 org.getOrgAddress(),
                 org.getOrgCity(),
@@ -38,7 +38,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
                 org.getOrgPhoneNumber());
         int phoneID = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
 
-        final String INSERT_ORG = "INSERT INTO orgs (orgName, orgDescription, orgAddressID, orgPhoneID) " +
+        final String INSERT_ORG = "INSERT INTO orgs (orgName, orgDescription, orgAddressID, orgPhoneNumberID) " +
                 "VALUES (?, ?, ?, ?);";
         jdbcTemplate.update(INSERT_ORG,
                 org.getOrgName(),
@@ -115,9 +115,10 @@ public class OrganizationDaoImpl implements OrganizationDao {
     @Override
     public List<Organization> getAllOrgs() {
         try {
-            final String SQL_GET_ALL = "SELECT orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, phoneNumber" +
+            final String SQL_GET_ALL = "SELECT orgID, orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, " +
+                    "phoneNumber, superID " +
                     "FROM orgs " +
-                    "LEFT JOIN orgPhoneNumbers ON (phoneNumberID = orgPhoneNumberID) " +
+                    "LEFT JOIN orgPhoneNumbers ON (orgPhoneNumbers.phoneNumberID = orgs.orgPhoneNumberID) " +
                     "LEFT JOIN orgAddresses USING (orgAddressID) " +
                     "LEFT JOIN superToOrgMapping USING (orgID);";
             return jdbcTemplate.queryForStream(SQL_GET_ALL, new OrganizationMapper())
@@ -151,7 +152,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
             organization.setOrgCity(rs.getString("orgCity"));
             organization.setOrgState(rs.getString("orgState"));
             organization.setOrgZip(rs.getString("orgZip"));
-            organization.setOrgPhoneNumber(rs.getString("orgPhoneNumber"));
+            organization.setOrgPhoneNumber(rs.getString("phoneNumber"));
             organization.setSuperID(rs.getInt("superID"));
             return organization;
         }

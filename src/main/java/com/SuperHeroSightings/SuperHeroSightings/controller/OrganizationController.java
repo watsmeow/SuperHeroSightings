@@ -3,6 +3,7 @@ package com.SuperHeroSightings.SuperHeroSightings.controller;
 import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,21 @@ public class OrganizationController {
     SuperHeroesDao superHeroesDao;
 
     @GetMapping("organizations")
-    public String getAllOrgsAHeroBelongsTo(Model model) {
+    public String getAllOrgs(Model model) {
         List<Organization> organizations = organizationDao.getAllOrgs();
+        List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
         model.addAttribute("organizations", organizations);
+        model.addAttribute("superheroes", superHeroes);
         return "organizations";
+    }
+
+    @GetMapping("organizationsBySuperHero")
+    public String getAllOrgsAHeroBelongsTo(Model model, int superID) {
+        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
+        List<Organization> organizations = organizationDao.getAllOrgsAHeroBelongsTo(superID);
+        model.addAttribute("superhero", superHero);
+        model.addAttribute("organizations", organizations);
+        return "organizationsBySuperHero";
     }
 
 //    @GetMapping("organizations")
@@ -44,6 +56,14 @@ public class OrganizationController {
         String state = request.getParameter("state");
         String zip = request.getParameter("zip");
         String phone = request.getParameter("phone");
+        String superName = request.getParameter("member");
+
+        SuperHero superHero = superHeroesDao.getAllHeroes()
+                .stream()
+                .filter(hero -> hero.getSuperName().equals(superName))
+                .findFirst().get();
+
+        int superID = superHero.getSuperID();
 
         Organization organization = new Organization();
         organization.setOrgName(name);
@@ -53,6 +73,7 @@ public class OrganizationController {
         organization.setOrgCity(city);
         organization.setOrgZip(zip);
         organization.setOrgPhoneNumber(phone);
+        organization.setSuperID(superID);
 
         organizationDao.createOrganization(organization);
 
