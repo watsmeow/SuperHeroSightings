@@ -40,15 +40,8 @@ public class OrganizationController {
         return "organizationsBySuperHero";
     }
 
-//    @GetMapping("organizations")
-//    public String getAllMembersOfAnOrg(Model model, String orgName) {
-//        List<SuperHero> superHeroes = organizationDao.getAllMembersOfAnOrg(orgName);
-//        model.addAttribute("organizations", superHeroes);
-//        return "organizations";
-//    }
-
     @PostMapping("addOrganization")
-    public String addOrganization(HttpServletRequest request) {
+    public String createOrganization(HttpServletRequest request) {
         String name = request.getParameter("orgName");
         String description = request.getParameter("description");
         String address = request.getParameter("address");
@@ -78,5 +71,48 @@ public class OrganizationController {
         organizationDao.createOrganization(organization);
 
         return "redirect:/organizations";
+    }
+
+    @GetMapping("editOrganization")
+    public String updateOrganization(int orgID, Model model) {
+        Organization organization = organizationDao.getOrgByID(orgID);
+        List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
+        model.addAttribute("organization", organization);
+        model.addAttribute("superHeroes", superHeroes);
+        return "editOrganization";
+    }
+
+    @PostMapping("editOrganization")
+    public String performUpdateOrganization(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("orgID"));
+        Organization organization = organizationDao.getOrgByID(id);
+
+        organization.setOrgName(request.getParameter("orgName"));
+        organization.setOrgDescription(request.getParameter("orgDescription"));
+        organization.setOrgAddress(request.getParameter("orgAddress"));
+        organization.setOrgCity(request.getParameter("orgCity"));
+        organization.setOrgState(request.getParameter("orgState"));
+        organization.setOrgZip(request.getParameter("orgZip"));
+        organization.setOrgPhoneNumber(request.getParameter("orgPhoneNumber"));
+
+        organizationDao.updateOrganization(organization);
+
+        return "redirect:/organizations";
+    }
+
+    @GetMapping("deleteOrganization")
+    public String deleteOrganization(int orgID) {
+        organizationDao.deleteOrgByID(orgID);
+        return "redirect:/organizations";
+    }
+
+    @GetMapping("organizationMembers")
+    public String getMembersOfOrg(int orgID, Model model) {
+        Organization organization = organizationDao.getOrgByID(orgID);
+        String orgName = organization.getOrgName();
+        List<SuperHero> superHeroes = organizationDao.getAllMembersOfAnOrg(orgName);
+        model.addAttribute("organization", organization);
+        model.addAttribute("superHeroes", superHeroes);
+        return "organizationMembers";
     }
 }

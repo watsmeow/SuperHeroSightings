@@ -21,4 +21,6 @@ public interface OrganizationDao {
 
     List<Organization> getAllOrgs();
 
+    Organization getOrgByID(int orgID);
+
 }
