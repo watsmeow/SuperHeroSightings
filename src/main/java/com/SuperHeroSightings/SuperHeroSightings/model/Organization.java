@@ -20,6 +20,8 @@ public class Organization {
 
     private String orgPhoneNumber;
 
+    private int superID;
+
     // Getters
     public int getOrgID() {
         return orgID;
@@ -53,6 +55,10 @@ public class Organization {
         return orgPhoneNumber;
     }
 
+    public int getSuperID() {
+        return superID;
+    }
+
     // Setters
     public void setOrgID(int orgID) {
         this.orgID = this.orgID;
@@ -84,6 +90,10 @@ public class Organization {
 
     public void setOrgPhoneNumber(String orgPhoneNumber) {
         this.orgPhoneNumber = orgPhoneNumber;
+    }
+
+    public void setSuperID(int superID) {
+        this.superID = superID;
     }
 
     @Override
