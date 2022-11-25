@@ -92,6 +92,4 @@ public class SuperHeroesController {
         return "locationsBySuperHero";
     }
 
-    // for super powers
-
 }
