@@ -1,5 +1,7 @@
 package com.SuperHeroSightings.SuperHeroSightings.dao;
 
+import com.SuperHeroSightings.SuperHeroSightings.model.Location;
+import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -81,6 +83,26 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao{
         final String DELETE_SUPERHERO_BY_ID = "DELETE FROM superheroes" +
                 "WHERE superID=?;";
         jdbc.update(DELETE_SUPERHERO_BY_ID,superID);
+
+    }
+
+
+    @Override
+    public List<Organization> getSuperHeroOrganizations(SuperHero superHero) {
+        final String SELECT_ORGANIZATIONS_SUPERHERO = "SELECT org.* FROM superToOrgMapping stom" +
+                "INNER JOIN orgs o ON stom.orgID = orgs.orgID " +
+                "WHERE stom.superID = ?;";
+        return jdbc.query(SELECT_ORGANIZATIONS_SUPERHERO, new OrganizationDaoImpl.OrganizationMapper(),
+                superHero.getSuperID());
+    }
+
+    @Override
+    public Location getSuperHeroLocation(int sightingID) {
+        final String SELECT_LOCATIONS_SUPERHERO = "SELECT loc.* FROM sightings s" +
+                "INNER JOIN locations loc ON s.locationID = loc.locationID " +
+                "WHERE s.sightingID = ?;";
+        return jdbc.queryForObject(SELECT_LOCATIONS_SUPERHERO, new LocationDaoImpl.LocationMapper(),
+                sightingID);
 
     }
 }
