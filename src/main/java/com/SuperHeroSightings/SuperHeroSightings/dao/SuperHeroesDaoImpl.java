@@ -62,9 +62,9 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     public void updateSuperHero(SuperHero superHero) {
         final String UPDATE_SUPERHERO = "UPDATE superheroes SET superName =?," +
-                "superDescription=?,superPower=?;";
+                "superDescription=?,superPower=? WHERE superID=?;";
         jdbc.update(UPDATE_SUPERHERO, superHero.getSuperName(),
-                superHero.getSuperDescription(), superHero.getSuperPower());
+                superHero.getSuperDescription(), superHero.getSuperPower(),superHero.getSuperID());
     }
 
     @Override
@@ -119,15 +119,15 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
         public SuperPower mapRow(ResultSet rs, int index) throws SQLException {
             SuperPower superPower = new SuperPower();
             superPower.setSuperPowerID(rs.getInt("superPowerID"));
-            superPower.setSuperPowerName(rs.getString("superPower"));
+            superPower.setSuperPowerName(rs.getString("superPowerName"));
             return superPower;
         }
     }
 
     @Override
     public List<SuperPower> getAllSuperPowers() {
-        final String SELECT_ALL_HEROES = "SELECT * FROM superPowers;";
-        return jdbc.query(SELECT_ALL_HEROES, new SuperPowerMapper());
+        final String SELECT_ALL_POWERS = "SELECT * FROM superPowers;";
+        return jdbc.query(SELECT_ALL_POWERS, new SuperPowerMapper());
     }
 
     @Override
@@ -154,8 +154,8 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     @Override
     public void updateSuperPower(SuperPower superPower) {
-        final String UPDATE_SUPERHERO = "UPDATE superPowers SET superPowerName =?;";
-        jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName());
+        final String UPDATE_SUPERHERO = "UPDATE superPowers SET superPowerName =? WHERE superPowerID= ?;";
+        jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName(),superPower.getSuperPowerID());
     }
 
     @Override

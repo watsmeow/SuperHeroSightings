@@ -43,16 +43,14 @@ public class SuperHeroesController {
     }
 
     @GetMapping("deleteSuperHero")
-    public String deleteSuperHero(HttpServletRequest request){
-        int id = Integer.parseInt(request.getParameter("superID"));
-        superHeroesDao.deleteSuperHeroById(id);
+    public String deleteSuperHero(int superID){
+        superHeroesDao.deleteSuperHeroById(superID);
 
         return "redirect:/superheroes";
     }
 
     @GetMapping("editSuperHero")
     public String editSuperHero(int superID, Model model){
-//        int id=Integer.parseInt(request.getParameter("superID"));
         SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
         model.addAttribute("superhero",superHero);
         return "editSuperHero";
