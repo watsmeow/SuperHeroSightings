@@ -38,12 +38,19 @@
         </div>
         <div class="col-7 text-center m-3">
             <form action="editSuperHero" method="POST">
+                <div class="form-group row d-none">
+                    <label for="superID" class="col-3 col-form-label"> superID</label>
+                    <div class="col-9">
+                        <input name="superID" id="superID" type="text" class="form-control"
+                               th:value="${superhero.superID}"/>
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label for="superName" class="col-3 col-form-label">
                         Super Name</label>
                     <div class="col-9">
                         <input type="text" name="superName"
-                               id="superName" class="form-control" th:value="${superHero.superName}"/>
+                               id="superName" class="form-control" th:value="${superhero.superName}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -51,7 +58,7 @@
                         Super Description</label>
                     <div class="col-9">
                         <input type="text" name="superDescription"
-                               id="superDescription" class="form-control" th:value="${superHero.superDescription}"/>
+                               id="superDescription" class="form-control" th:value="${superhero.superDescription}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -59,11 +66,11 @@
                         Super Power</label>
                     <div class="col-9">
                         <input type="text" name="superPower"
-                               id="superPower" class="form-control" th:value="${superHero.superPower}"/>
+                               id="superPower" class="form-control" th:value="${superhero.superPower}"/>
                     </div>
                 </div>
 
-                <input type="hidden" name="id" th:value="${superHero.superID}"/>
+                <input type="hidden" name="id" th:value="${superhero.superID}"/>
                 <button type="submit" class="btn btn-primary">Update Super Hero</button>
             </form>
         </div>
