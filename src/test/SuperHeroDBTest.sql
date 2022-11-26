@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS superHeroDB;
-CREATE DATABASE superHeroDB;
-USE superHeroDB;
+DROP DATABASE IF EXISTS superHeroDBTest;
+CREATE DATABASE superHeroDBTest;
+USE superHeroDBTest;
 
 CREATE TABLE orgAddresses (
 	  orgAddressID INT PRIMARY KEY auto_increment, 
