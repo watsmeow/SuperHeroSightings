@@ -143,7 +143,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     @Transactional
     public SuperPower addSuperPower(SuperPower superPower) {
-        final String INSERT_SUPERHERO = "INSERT INTO superPower (superPowerName) VALUES (?);";
+        final String INSERT_SUPERHERO = "INSERT INTO superPowers (superPowerName) VALUES (?);";
 
         jdbc.update(INSERT_SUPERHERO, superPower.getSuperPowerName());
 
@@ -154,7 +154,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     @Override
     public void updateSuperPower(SuperPower superPower) {
-        final String UPDATE_SUPERHERO = "UPDATE superPower SET superPowerName =?;";
+        final String UPDATE_SUPERHERO = "UPDATE superPowers SET superPowerName =?;";
         jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName());
     }
 
@@ -165,7 +165,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
                 "WHERE superPowerID=?;";
         jdbc.update(DELETE_HEROESPOWERS, superPowerID);
 
-        final String DELETE_SUPERPOWER_BY_ID = "DELETE FROM heroesPowers" +
+        final String DELETE_SUPERPOWER_BY_ID = "DELETE FROM superPowers" +
                 "WHERE superPowerID=?;";
 
         jdbc.update(DELETE_SUPERPOWER_BY_ID, superPowerID);
