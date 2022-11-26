@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>Organizations</title>
 </head>
 <body>
@@ -33,37 +33,24 @@
 
 
     <div class="row m-4 border border-dark">
-        <div class="text-center m-3">
-            <span class="h3">See Orgs by Hero</span>
+        <div class="col text-center m-3">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    See Organizations by Hero
+                </button>
+                <ul class="dropdown-menu" th:each="superhero : ${superheroes}">
+                    <li>
+                        <a class="dropdown-item"
+                           th:href="@{/organizationsBySuperHero(superID=${superhero.superID})}"
+                           th:text="${superhero.superName}">
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-7 text-center m-3">
-            <form action="orgsByHero" method="POST">
-                <div class="form-group row">
-                    <label for="orgByHero" class="col-3 col-form-label">
-                        Hero Name</label>
-                    <div class="col-9">
-                        <input type="text" name="orgByHero"
-                               id="orgByHero" class="form-control"/>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-        </div>
-        <div class="text-center m-3">
-            <span class="h3">See Members of an Org</span>
-        </div>
-        <div class="col-7 text-center m-3">
-            <form action="orgMembers" method="POST">
-                <div class="form-group row">
-                    <label for="orgMembers" class="col-3 col-form-label">
-                        Hero Name</label>
-                    <div class="col-9">
-                        <input type="text" name="orgMembers"
-                               id="orgMembers" class="form-control"/>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
+        <div class="col text-center m-3">
+            <a href="" class="btn btn-outline-primary btn-lg">Get All Members of an Org</a>
         </div>
     </div>
 
@@ -84,22 +71,18 @@
                     <th>State</th>
                     <th>Phone</th>
 
-<!--                    <th>Edit</th>-->
-<!--                    <th>Delete</th>-->
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="organization : ${organizations}">
-                    <td th:text="${organization.name}">Name</td>
-                    <td th:text="${organization.description}">Description</td>
-                    <td th:text="${organization.address}">Address</td>
-                    <td th:text="${organization.city}">City</td>
-                    <td th:text="${organization.state}">State</td>
-                    <td th:text="${organization.zip}">Zip</td>
-                    <td th:text="${organization.phone}">Phone</td>
+                    <td th:text="${organization.orgName}">Name</td>
+                    <td th:text="${organization.orgDescription}">Description</td>
+                    <td th:text="${organization.orgAddress}">Address</td>
+                    <td th:text="${organization.orgCity}">City</td>
+                    <td th:text="${organization.orgState}">State</td>
+                    <td th:text="${organization.orgZip}">Zip</td>
+                    <td th:text="${organization.orgPhoneNumber}">Phone</td>
 
-<!--                    <td><a href="#" th:href="@{/editTeacher(id=${teacher.id})}">Edit</a></td>-->
-<!--                    <td><a href="#" th:href="@{/deleteTeacher(id=${teacher.id})}">Delete</a></td>-->
                 </tr>
                 </tbody>
             </table>
@@ -168,6 +151,16 @@
                                id="phone" class="form-control"/>
                     </div>
                 </div>
+
+                <div class="form-group row">
+                    <label for="member" class="col-3 col-form-label">
+                        Inaugural Super Hero</label>
+                    <div class="col-9">
+                        <input type="text" name="member"
+                               id="member" class="form-control"/>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Add Organization</button>
             </form>
         </div>

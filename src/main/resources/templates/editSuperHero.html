@@ -43,7 +43,7 @@
                         Super Name</label>
                     <div class="col-9">
                         <input type="text" name="superName"
-                               id="superName" class="form-control" th:value="${superHero.superName}"/>
+                               id="superName" class="form-control" th:value="${superhero.superName}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -51,7 +51,7 @@
                         Super Description</label>
                     <div class="col-9">
                         <input type="text" name="superDescription"
-                               id="superDescription" class="form-control" th:value="${superHero.superDescription}"/>
+                               id="superDescription" class="form-control" th:value="${superhero.superDescription}"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -59,11 +59,11 @@
                         Super Power</label>
                     <div class="col-9">
                         <input type="text" name="superPower"
-                               id="superPower" class="form-control" th:value="${superHero.superPower}"/>
+                               id="superPower" class="form-control" th:value="${superhero.superPower}"/>
                     </div>
                 </div>
 
-                <input type="hidden" name="id" th:value="${superHero.superID}"/>
+                <input type="hidden" name="id" th:value="${superhero.superID}"/>
                 <button type="submit" class="btn btn-primary">Update Super Hero</button>
             </form>
         </div>
