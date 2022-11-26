@@ -62,8 +62,9 @@ public class OrganizationDaoImpl implements OrganizationDao {
     public void updateOrganization(Organization organization) {
         int orgID = organization.getOrgID();
 
-        final String UPDATE_ADDRESS = "UPDATE orgaddresses SET orgAddress = ?, orgCity = ?, orgState = ?, orgZip = ?" +
-                "JOIN orgs USING (orgAddressID)" +
+        final String UPDATE_ADDRESS = "UPDATE orgaddresses " +
+                "JOIN orgs ON (orgaddresses.orgAddressID = orgs.orgAddressID) " +
+                "SET orgAddress = ?, orgCity = ?, orgState = ?, orgZip = ? " +
                 "WHERE orgID = ?;";
         jdbcTemplate.update(UPDATE_ADDRESS,
             organization.getOrgAddress(),
@@ -72,14 +73,14 @@ public class OrganizationDaoImpl implements OrganizationDao {
             organization.getOrgZip(),
                 orgID);
 
-        final String UPDATE_PHONE = "UPDATE orgphonenumbers SET phoneNumber = ?" +
-                "JOIN orgs ON (phoneNumberID = orgPhoneNumberID) " +
+        final String UPDATE_PHONE = "UPDATE orgphonenumbers " +
+                "JOIN orgs ON (phoneNumberID = orgPhoneNumberID) SET phoneNumber = ? " +
                 "WHERE orgID = ?;";
         jdbcTemplate.update(UPDATE_PHONE,
                 organization.getOrgPhoneNumber(),
                 orgID);
 
-        final String UPDATE_ORG = "UPDATE orgs SET orgName, orgDescription WHERE orgID = ?;";
+        final String UPDATE_ORG = "UPDATE orgs SET orgName = ? , orgDescription = ? WHERE orgID = ?;";
         jdbcTemplate.update(UPDATE_ORG,
                 organization.getOrgName(),
                 organization.getOrgDescription(),
@@ -113,6 +114,21 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
 
     @Override
+    public Organization getOrgByID(int orgID) {
+        try {
+            final String SQL_GET_ALL = "SELECT orgID, orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, phoneNumber, " +
+                    "superID FROM orgs " +
+                    "LEFT JOIN orgPhoneNumbers ON (phoneNumberID = orgPhoneNumberID) " +
+                    "LEFT JOIN orgAddresses USING (orgAddressID) " +
+                    "LEFT JOIN superToOrgMapping USING (orgID) " +
+                    "WHERE orgID = ?;";
+            return jdbcTemplate.queryForObject(SQL_GET_ALL, new OrganizationMapper(), orgID);
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
     public List<Organization> getAllOrgs() {
         try {
             final String SQL_GET_ALL = "SELECT orgID, orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, " +
@@ -131,7 +147,8 @@ public class OrganizationDaoImpl implements OrganizationDao {
     @Override
     public List<SuperHero> getAllMembersOfAnOrg(String orgName) {
         try {
-            final String SQL_GET_ALL = "SELECT superName FROM superHeroes " +
+            final String SQL_GET_ALL = "SELECT superHeroes.superID, superName, superDescription, " +
+                    "superPower FROM superHeroes " +
                     "LEFT JOIN superToOrgMapping USING (superID) " +
                     "LEFT JOIN orgs USING (orgID) " +
                     "WHERE orgName = ?;";
