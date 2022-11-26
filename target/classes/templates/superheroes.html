@@ -85,7 +85,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
                 <tr th:each="superhero : ${superheroes}">
                     <td th:text="${superhero.superID}">ID</td>
                     <td th:text="${superhero.superName}">Super Name</td>
@@ -94,7 +93,6 @@
                     <td><a href="#" th:href="@{/editSuperHero(superID=${superhero.superID})}">Edit</a></td>
                     <td><a href="#" th:href="@{/deleteSuperHero(superID=${superhero.superID})}">Delete</a></td>
                 </tr>
-
                 </tbody>
             </table>
         </div>
