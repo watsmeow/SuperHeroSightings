@@ -93,8 +93,8 @@
                     <td th:text="${superhero.superName}">Super Name</td>
                     <td th:text="${superhero.superDescription}">Super Description</td>
                     <td th:text="${superhero.superPower}">Super Power</td>
-                    <td><a href="#" th:href="@{/editSuperHero(id=${superhero.superID})}">Edit</a></td>
-                    <td><a href="#" th:href="@{/deleteSupeHero(id=${superhero.superID})}">Delete</a></td>
+                    <td><a href="#" th:href="@{/editSuperHero(superID=${superhero.superID})}">Edit</a></td>
+                    <td><a href="#" th:href="@{/deleteSuperHero(superID=${superhero.superID})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -107,6 +107,7 @@
     </div>
     <div class="col-7 text-center m-3">
         <form action="addSuperHero" method="POST">
+
             <div class="form-group row">
                 <label for="superName" class="col-3 col-form-label">
                     Super Name</label>

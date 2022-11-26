@@ -4,6 +4,7 @@ import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperPower;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,10 +51,9 @@ public class SuperHeroesController {
     }
 
     @GetMapping("editSuperHero")
-    public String editSuperHero(HttpServletRequest request,Model model){
-        int id=Integer.parseInt(request.getParameter("superID"));
-        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
-
+    public String editSuperHero(int superID, Model model){
+//        int id=Integer.parseInt(request.getParameter("superID"));
+        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
         model.addAttribute("superhero",superHero);
         return "editSuperHero";
     }
