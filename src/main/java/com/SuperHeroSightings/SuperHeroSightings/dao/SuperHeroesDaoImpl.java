@@ -74,7 +74,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     @Transactional
     public void deleteSuperHeroById(int superID) {
-        /*final String DELETE_SUPER_TO_ORG_MAPPING = "DELETE FROM supertoorgmapping" +
+       /* final String DELETE_SUPER_TO_ORG_MAPPING = "DELETE FROM supertoorgmapping" +
                 "WHERE superID=?;";
         jdbc.update(DELETE_SUPER_TO_ORG_MAPPING, superID);
 
@@ -110,7 +110,8 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     public List<Location> getSuperHeroLocation(SuperHero superHero) {
         final String SELECT_LOCATIONS_SUPERHERO = "SELECT loc.* FROM sightings s" +
                 " INNER JOIN locations loc ON s.locationID = loc.locationID " +
-                "WHERE s.superID = ?;";
+                " INNER JOIN superheroes sh ON s.superID = sh.superID" +
+                " WHERE s.superID = ?;";
         return jdbc.query(SELECT_LOCATIONS_SUPERHERO, new LocationDaoImpl.LocationMapper(),
                 superHero.getSuperID());
 

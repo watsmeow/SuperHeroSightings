@@ -1,7 +1,11 @@
 package com.SuperHeroSightings.SuperHeroSightings.daoTests;
 
 import com.SuperHeroSightings.SuperHeroSightings.TestApplicationConfiguration;
+import com.SuperHeroSightings.SuperHeroSightings.dao.LocationDaoImpl;
+import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDaoImpl;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDaoImpl;
+import com.SuperHeroSightings.SuperHeroSightings.model.Location;
+import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperPower;
 import net.bytebuddy.implementation.bind.annotation.Super;
@@ -13,11 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplicationConfiguration.class)
@@ -25,6 +32,12 @@ class SuperHeroesDaoImplTest{
 
     @Autowired
     SuperHeroesDaoImpl superHeroesDao;
+
+    @Autowired
+    OrganizationDaoImpl organizationDao;
+
+    @Autowired
+    LocationDaoImpl locationDao;
 
     @BeforeEach
     public void setUp() {
@@ -133,9 +146,71 @@ class SuperHeroesDaoImplTest{
         //assertTrue("All games should include superhero2",allFromDao.contains(superHero2));
     }
 
-    // 2 more function will be here
+    /*
+    @Test // test result :
+    public void testAddAndGetLocsByHero(){
+        // create a superhero test input
+        SuperHero superHero1 = new SuperHero();
+        superHero1.setSuperName("ShamsTheHero1");
+        superHero1.setSuperDescription("Teaches Java1");
+        superHero1.setSuperPower("Java Master1");
 
+        // add superhero to dao
+        superHeroesDao.addSuperHero(superHero1);
 
+        // create a location test input
+        Location loc = new Location();
+        loc.setLocationName("Aventura Mall");
+        loc.setLocationDescription("testLoc");
+        loc.setLatitude(BigDecimal.valueOf(125.0));
+        loc.setLongitude(BigDecimal.valueOf(125.0));
+        loc.setLocationAddress("Downtown Miami");
+        loc.setLocationCity("Miami");
+        loc.setLocationState("FL");
+        loc.setLocationZip("33069");
+
+        // add location to dao
+        locationDao.addLocation(loc);
+
+        // sighting eklenilip ondan sonra test edilecek çünkü fonkun içinde sighting de var
+
+        List<Location> locs = superHeroesDao.getSuperHeroLocation(superHero1);
+
+        assertNotNull(locs, "The list of locations must not null");
+        assertEquals(1, locs.size(),"List of locs should have 1 location.");
+
+    }
+
+    @Test // test result :
+    public void testAddAndGetOrgByHero(){
+        // create a superhero test input
+        SuperHero superHero1 = new SuperHero();
+        superHero1.setSuperName("ShamsTheHero1");
+        superHero1.setSuperDescription("Teaches Java1");
+        superHero1.setSuperPower("Java Master1");
+
+        // add superhero to dao
+        superHeroesDao.addSuperHero(superHero1);
+
+        // create a organization test input
+        Organization organization = new Organization();
+        organization.setOrgName("Test");
+        organization.setOrgDescription("Desc");
+        organization.setOrgAddress("Address");
+        organization.setOrgCity("City");
+        organization.setOrgState("ST");
+        organization.setOrgZip("33333");
+        organization.setOrgPhoneNumber("333-333-3333");
+        organization.setSuperID(superHero1.getSuperID());
+        // add organization to dao
+        organizationDao.createOrganization(organization);
+
+        List<Organization> orgs = superHeroesDao.getSuperHeroOrganizations(superHero1);
+
+        assertNotNull(orgs, "The list of organizations must not null");
+        assertEquals(1, orgs.size(),"List of locs should have 1 organization.");
+    }
+*/
     // Test functions for superpowers
 
     @Test // test result : test passed
@@ -194,7 +269,7 @@ class SuperHeroesDaoImplTest{
         // get updated superpower from dao
         SuperPower updatedSuperPower = superHeroesDao.getSuperPowerById(superPower.getSuperPowerID());
         // check the data
-        assertTrue(updatedSuperPower.getSuperPowerName().equals("YarenTestUpdated"));
+        Assertions.assertNotEquals(updatedSuperPower,superPower);
     }
 
     @Test // test result : test passed
