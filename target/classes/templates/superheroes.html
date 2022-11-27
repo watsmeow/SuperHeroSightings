@@ -37,43 +37,6 @@
         </div>
     </div>
 
-
-    <div class="row m-4 border border-dark">
-        <div class="text-center m-3">
-            <span class="h3">See Organizations by Hero</span>
-        </div>
-        <div class="col-7 text-center m-3">
-            <form action="orgByHero" method="POST">
-                <div class="form-group row">
-                    <label for="orgByHero" class="col-3 col-form-label">
-                        Hero Id</label>
-                    <div class="col-9">
-                        <input type="text" name="orgByHero"
-                               id="orgByHero" class="form-control"/>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-        </div>
-        <div class="text-center m-3">
-            <span class="h3">See Locations by Hero</span>
-        </div>
-        <div class="col-7 text-center m-3">
-            <form action="locbyHero" method="POST">
-                <div class="form-group row">
-                    <label for="locbyHero" class="col-3 col-form-label">
-                        Hero Id</label>
-                    <div class="col-9">
-                        <input type="text" name="locbyHero"
-                               id="locbyHero" class="form-control"/>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
-        </div>
-    </div>
-
-
     <div class="row m-4 border border-dark">
         <div class="col text-center m-3">
             <div class="col text-center">
@@ -88,6 +51,8 @@
                         <th>Super Power</th>
                         <th>Edit Super Hero</th>
                         <th>Delete Super Hero</th>
+                        <th>See Organizations</th>
+                        <th>See Locations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,6 +63,8 @@
                     <td th:text="${superhero.superPower}">Super Power</td>
                     <td><a href="#" th:href="@{/editSuperHero(superID=${superhero.superID})}">Edit</a></td>
                     <td><a href="#" th:href="@{/deleteSuperHero(superID=${superhero.superID})}">Delete</a></td>
+                    <td><a href="#" th:href="@{/orgByHero(superID=${superhero.superID})}">Orgs</a></td>
+                    <td><a href="#" th:href="@{/locByHero(superID=${superhero.superID})}">Locs</a></td>
                 </tr>
                 </tbody>
             </table>
