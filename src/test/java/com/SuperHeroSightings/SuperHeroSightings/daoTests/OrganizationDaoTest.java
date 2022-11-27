@@ -2,7 +2,9 @@ package com.SuperHeroSightings.SuperHeroSightings.daoTests;
 
 import com.SuperHeroSightings.SuperHeroSightings.TestApplicationConfiguration;
 import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDaoImpl;
+import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDaoImpl;
 import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
@@ -20,33 +22,17 @@ public class OrganizationDaoTest extends TestCase {
     @Autowired
     OrganizationDaoImpl organizationDao;
 
-//    public OrganizationDaoTest() {}
-
-    @BeforeAll
-    public static void setUpClass() {
-    }
-
-    @AfterAll
-    public static void tearDownClass() {
-    }
-
-    @BeforeEach
-    public void setUp() {
-        List<Organization> organizations = organizationDao.getAllOrgs();
-        for(Organization organization : organizations) {
-            organizationDao.deleteOrgByID(organization.getOrgID());
-        }
-
-
-    }
-
-    @AfterEach
-    public void tearDown() {
-    }
+    @Autowired
+    SuperHeroesDaoImpl superHeroesDao;
 
     @Test
     public void testAddAndGetOrg() {
-
+        SuperHero hero = new SuperHero();
+        hero.setSuperName("Test");
+        hero.setSuperDescription("Description");
+        hero.setSuperPower("test power");
+        superHeroesDao.addSuperHero(hero);
+        int superID = hero.getSuperID();
         Organization organization = new Organization();
         organization.setOrgName("Test");
         organization.setOrgDescription("Desc");
@@ -55,11 +41,106 @@ public class OrganizationDaoTest extends TestCase {
         organization.setOrgState("ST");
         organization.setOrgZip("33333");
         organization.setOrgPhoneNumber("333-333-3333");
+        organization.setSuperID(superID);
         organization = organizationDao.createOrganization(organization);
 
         Organization fromDao = organizationDao.getOrgByID(organization.getOrgID());
 
         Assertions.assertEquals(organization, fromDao);
+        organizationDao.deleteOrgByID(organization.getOrgID());
+    }
+
+    @Test
+    public void testGetAllOrgs() {
+        SuperHero hero = new SuperHero();
+        hero.setSuperName("Test");
+        hero.setSuperDescription("Description");
+        hero.setSuperPower("test power");
+        superHeroesDao.addSuperHero(hero);
+        int superID = hero.getSuperID();
+        Organization organization = new Organization();
+        organization.setOrgName("Test1");
+        organization.setOrgDescription("Desc1");
+        organization.setOrgAddress("Address1");
+        organization.setOrgCity("City1");
+        organization.setOrgState("ST");
+        organization.setOrgZip("33333");
+        organization.setOrgPhoneNumber("333-333-3333");
+        organization.setSuperID(superID);
+        organization = organizationDao.createOrganization(organization);
+
+        Organization organization2 = new Organization();
+        organization2.setOrgName("Test2");
+        organization2.setOrgDescription("Desc2");
+        organization2.setOrgAddress("Address2");
+        organization2.setOrgCity("City2");
+        organization2.setOrgState("ST");
+        organization2.setOrgZip("33333");
+        organization2.setOrgPhoneNumber("333-333-3333");
+        organization2.setSuperID(superID);
+        organization2 = organizationDao.createOrganization(organization2);
+
+        List<Organization> organizations = organizationDao.getAllOrgs();
+
+        Assertions.assertTrue(organizations.contains(organization));
+        Assertions.assertTrue(organizations.contains(organization2));
+
+        organizationDao.deleteOrgByID(organization.getOrgID());
+        organizationDao.deleteOrgByID(organization2.getOrgID());
+    }
+
+    @Test
+    public void testUpdateOrg() {
+        SuperHero hero = new SuperHero();
+        hero.setSuperName("Test");
+        hero.setSuperDescription("Description");
+        hero.setSuperPower("test power");
+        superHeroesDao.addSuperHero(hero);
+        int superID = hero.getSuperID();
+        Organization organization = new Organization();
+        organization.setOrgName("Test1");
+        organization.setOrgDescription("Desc1");
+        organization.setOrgAddress("Address1");
+        organization.setOrgCity("City1");
+        organization.setOrgState("ST");
+        organization.setOrgZip("33333");
+        organization.setOrgPhoneNumber("333-333-3333");
+        organization.setSuperID(superID);
+        organization = organizationDao.createOrganization(organization);
+
+        Organization fromDao = organizationDao.getOrgByID(organization.getOrgID());
+
+        organization.setOrgName("UPDATED NAME");
+        organizationDao.updateOrganization(organization);
+
+        Assertions.assertNotEquals(fromDao, organization);
+
+        organizationDao.deleteOrgByID(organization.getOrgID());
+    }
+
+    @Test
+    public void testDeleteOrg() {
+        SuperHero hero = new SuperHero();
+        hero.setSuperName("Test");
+        hero.setSuperDescription("Description");
+        hero.setSuperPower("test power");
+        superHeroesDao.addSuperHero(hero);
+        int superID = hero.getSuperID();
+        Organization organization = new Organization();
+        organization.setOrgName("Test1");
+        organization.setOrgDescription("Desc1");
+        organization.setOrgAddress("Address1");
+        organization.setOrgCity("City1");
+        organization.setOrgState("ST");
+        organization.setOrgZip("33333");
+        organization.setOrgPhoneNumber("333-333-3333");
+        organization.setSuperID(superID);
+        organization = organizationDao.createOrganization(organization);
+
+
+        organizationDao.deleteOrgByID(organization.getOrgID());
+
+        Assertions.assertNull(organizationDao.getOrgByID(organization.getOrgID()));
     }
 
 }
