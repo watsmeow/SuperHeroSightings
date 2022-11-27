@@ -68,11 +68,11 @@ public class SuperHeroesController {
         superHeroesDao.updateSuperHero(superHero);
         return "redirect:/superheroes";
     }
-
+    // !!!!!!!!!!!!
     @GetMapping("orgByHero")
-    public String orgByHero(Model model,HttpServletRequest request){
-        int id=Integer.parseInt(request.getParameter("superID"));
-        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
+    public String orgByHero(int superID, Model model){
+
+        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
         List<Organization> organizations = superHeroesDao.getSuperHeroOrganizations(superHero);
         model.addAttribute("superhero", superHero);
         model.addAttribute("organizations", organizations);
@@ -80,12 +80,12 @@ public class SuperHeroesController {
     }
 
     @GetMapping("locByHero")
-    public String locByHero(HttpServletRequest request,Model model){
-        int id=Integer.parseInt(request.getParameter("superID"));
-        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
+    public String locByHero(int superID, Model model){
+
+        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
 
         List<Location> locs = superHeroesDao.getSuperHeroLocation(superHero);
-        model.addAttribute("superheroes",superHero);
+        model.addAttribute("superhero",superHero);
         model.addAttribute("locations",locs);
         return "locationsBySuperHero";
     }
