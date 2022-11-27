@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <title>Edit an Organizations</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+  <div class="row m-4">
+    <div class="col text-center border border-dark">
+      <h1>
+        <a href="/" class="text-dark">Super Organizations</a>
+      </h1>
+    </div>
+  </div>
+  <div class="row m-4 border border-dark">
+    <div class="col text-center m-3">
+      <a href="teachers" class="btn btn-outline-primary btn-lg">blank</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="students" class="btn btn-outline-primary btn-lg">blank</a>
+    </div>
+    <div class="col text-center m-3">
+      <a href="courses" class="btn btn-outline-primary btn-lg">blank</a>
+    </div>
+  </div>
+  <!-- Add an organization form -->
+  <div class="row m-4 border border-dark">
+    <div class="col text-center m-3">
+      <span class="h3">Edit an Organization</span>
+    </div>
+    <div class="col-7 text-center m-3">
+      <form action="editOrganization" method="POST">
+        <div class="form-group row d-none">
+          <label for="orgID" class="col-3 col-form-label"> orgID</label>
+          <div class="col-9">
+            <input name="orgID" id="orgID" type="text" class="form-control"
+                  th:value="${organization.orgID}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="orgName" class="col-3 col-form-label"> Name</label>
+          <div class="col-9">
+            <input type="text" name="orgName" id="orgName" class="form-control"
+                   th:value="${organization.orgName}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="orgDescription" class="col-3 col-form-label"> Description</label>
+          <div class="col-9">
+            <input type="text" name="orgDescription" id="orgDescription" class="form-control"
+                   th:value="${organization.orgDescription}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="orgAddress" class="col-3 col-form-label"> Address</label>
+          <div class="col-9">
+            <input type="text" name="orgAddress" id="orgAddress" class="form-control"
+                   th:value="${organization.orgAddress}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="orgCity" class="col-3 col-form-label"> City</label>
+          <div class="col-9">
+            <input type="text" name="orgCity" id="orgCity" class="form-control"
+                   th:value="${organization.orgCity}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="orgState" class="col-3 col-form-label"> State</label>
+          <div class="col-9">
+            <input type="text" name="orgState" id="orgState" class="form-control"
+                   th:value="${organization.orgState}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="orgZip" class="col-3 col-form-label"> Zip</label>
+          <div class="col-9">
+            <input type="text" name="orgZip" id="orgZip" class="form-control"
+                   th:value="${organization.orgZip}"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="orgPhoneNumber" class="col-3 col-form-label"> Phone</label>
+          <div class="col-9">
+            <input type="text" name="orgPhoneNumber" id="orgPhoneNumber" class="form-control"
+                   th:value="${organization.orgPhoneNumber}"/>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Organization</button>
+      </form>
+    </div>
+  </div>
+  <!-- End main body -->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</div>
+</body>
+</html>;
