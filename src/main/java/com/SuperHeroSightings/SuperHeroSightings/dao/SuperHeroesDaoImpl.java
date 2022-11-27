@@ -18,6 +18,10 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Autowired
     JdbcTemplate jdbc;
 
+    public SuperHeroesDaoImpl(JdbcTemplate jdbc) {
+        this.jdbc = jdbc;
+    }
+
     public static final class SuperHeroMapper implements RowMapper<SuperHero> {
 
         @Override
@@ -62,15 +66,15 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     public void updateSuperHero(SuperHero superHero) {
         final String UPDATE_SUPERHERO = "UPDATE superheroes SET superName =?," +
-                "superDescription=?,superPower=?;";
+                "superDescription=?,superPower=? WHERE superID=?;";
         jdbc.update(UPDATE_SUPERHERO, superHero.getSuperName(),
-                superHero.getSuperDescription(), superHero.getSuperPower());
+                superHero.getSuperDescription(), superHero.getSuperPower(),superHero.getSuperID());
     }
 
     @Override
     @Transactional
     public void deleteSuperHeroById(int superID) {
-        final String DELETE_SUPER_TO_ORG_MAPPING = "DELETE FROM supertoorgmapping" +
+        /*final String DELETE_SUPER_TO_ORG_MAPPING = "DELETE FROM supertoorgmapping" +
                 "WHERE superID=?;";
         jdbc.update(DELETE_SUPER_TO_ORG_MAPPING, superID);
 
@@ -81,9 +85,9 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
         final String DELETE_SUPERPOWERS = "DELETE FROM heroesPowers" +
                 "WHERE superID=?;";
         jdbc.update(DELETE_SUPERPOWERS, superID);
-
+*/
         final String DELETE_SUPERHERO_BY_ID = "DELETE FROM superheroes" +
-                "WHERE superID=?;";
+                " WHERE superID=?;";
 
         jdbc.update(DELETE_SUPERHERO_BY_ID, superID);
 
@@ -93,7 +97,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     public List<Organization> getSuperHeroOrganizations(SuperHero superHero) {
         final String SELECT_ORGANIZATIONS_SUPERHERO = "SELECT orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, phoneNumber, " +
-                "superID FROM orgs " +
+                " superID FROM orgs " +
                 "LEFT JOIN orgPhoneNumbers ON (phoneNumberID = orgPhoneNumberID) " +
                 "LEFT JOIN orgAddresses USING (orgAddressID) " +
                 "LEFT JOIN superToOrgMapping USING (orgID)" +
@@ -105,7 +109,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     public List<Location> getSuperHeroLocation(SuperHero superHero) {
         final String SELECT_LOCATIONS_SUPERHERO = "SELECT loc.* FROM sightings s" +
-                "INNER JOIN locations loc ON s.locationID = loc.locationID " +
+                " INNER JOIN locations loc ON s.locationID = loc.locationID " +
                 "WHERE s.superID = ?;";
         return jdbc.query(SELECT_LOCATIONS_SUPERHERO, new LocationDaoImpl.LocationMapper(),
                 superHero.getSuperID());
@@ -119,15 +123,15 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
         public SuperPower mapRow(ResultSet rs, int index) throws SQLException {
             SuperPower superPower = new SuperPower();
             superPower.setSuperPowerID(rs.getInt("superPowerID"));
-            superPower.setSuperPowerName(rs.getString("superPower"));
+            superPower.setSuperPowerName(rs.getString("superPowerName"));
             return superPower;
         }
     }
 
     @Override
     public List<SuperPower> getAllSuperPowers() {
-        final String SELECT_ALL_HEROES = "SELECT * FROM superPowers;";
-        return jdbc.query(SELECT_ALL_HEROES, new SuperPowerMapper());
+        final String SELECT_ALL_POWERS = "SELECT * FROM superPowers;";
+        return jdbc.query(SELECT_ALL_POWERS, new SuperPowerMapper());
     }
 
     @Override
@@ -154,19 +158,19 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     @Override
     public void updateSuperPower(SuperPower superPower) {
-        final String UPDATE_SUPERHERO = "UPDATE superPowers SET superPowerName =?;";
-        jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName());
+        final String UPDATE_SUPERHERO = "UPDATE superPowers SET superPowerName =? WHERE superPowerID= ?;";
+        jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName(),superPower.getSuperPowerID());
     }
 
     @Override
     @Transactional
     public void deleteSuperPowerById(int superPowerID) {
         final String DELETE_HEROESPOWERS = "DELETE FROM heroesPowers" +
-                "WHERE superPowerID=?;";
+                " WHERE superPowerID=?;";
         jdbc.update(DELETE_HEROESPOWERS, superPowerID);
 
         final String DELETE_SUPERPOWER_BY_ID = "DELETE FROM superPowers" +
-                "WHERE superPowerID=?;";
+                " WHERE superPowerID=?;";
 
         jdbc.update(DELETE_SUPERPOWER_BY_ID, superPowerID);
     }

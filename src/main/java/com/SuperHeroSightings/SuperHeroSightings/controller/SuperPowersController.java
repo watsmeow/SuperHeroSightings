@@ -2,6 +2,7 @@ package com.SuperHeroSightings.SuperHeroSightings.controller;
 
 
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperPower;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,17 +38,15 @@ public class SuperPowersController {
     }
 
     @GetMapping("deleteSuperPower")
-    public String deleteSuperHero(HttpServletRequest request){
-        int id = Integer.parseInt(request.getParameter("superPowerID"));
-        superHeroesDao.deleteSuperPowerById(id);
+    public String deleteSuperPower(int superPowerID){
+        superHeroesDao.deleteSuperPowerById(superPowerID);
 
         return "redirect:/superpowers";
     }
 
     @GetMapping("editSuperPower")
-    public String editSuperPower(HttpServletRequest request,Model model){
-        int id=Integer.parseInt(request.getParameter("superPowerID"));
-        SuperPower superPower = superHeroesDao.getSuperPowerById(id);
+    public String editSuperPower(int superPowerID,Model model){
+        SuperPower superPower = superHeroesDao.getSuperPowerById(superPowerID);
 
         model.addAttribute("superpower",superPower);
         return "editSuperPower";
