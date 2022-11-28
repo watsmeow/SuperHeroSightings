@@ -74,18 +74,18 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     @Transactional
     public void deleteSuperHeroById(int superID) {
-       /* final String DELETE_SUPER_TO_ORG_MAPPING = "DELETE FROM supertoorgmapping" +
-                "WHERE superID=?;";
+        final String DELETE_SUPER_TO_ORG_MAPPING = "DELETE FROM supertoorgmapping" +
+                " WHERE superID=?;";
         jdbc.update(DELETE_SUPER_TO_ORG_MAPPING, superID);
 
         final String DELETE_SIGHTINGS = "DELETE FROM sightings" +
-                "WHERE superID=?;";
+                " WHERE superID=?;";
         jdbc.update(DELETE_SIGHTINGS, superID);
 
         final String DELETE_SUPERPOWERS = "DELETE FROM heroesPowers" +
-                "WHERE superID=?;";
+                " WHERE superID=?;";
         jdbc.update(DELETE_SUPERPOWERS, superID);
-*/
+
         final String DELETE_SUPERHERO_BY_ID = "DELETE FROM superheroes" +
                 " WHERE superID=?;";
 
@@ -96,13 +96,15 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     @Override
     public List<Organization> getSuperHeroOrganizations(SuperHero superHero) {
-        final String SELECT_ORGANIZATIONS_SUPERHERO = "SELECT orgID, orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, phoneNumber, " +
-                " superID FROM orgs " +
-                "LEFT JOIN orgPhoneNumbers ON (phoneNumberID = orgPhoneNumberID) " +
-                "LEFT JOIN orgAddresses USING (orgAddressID) " +
-                "LEFT JOIN superToOrgMapping USING (orgID) " +
-                "WHERE superID = ?;";
-        return jdbc.query(SELECT_ORGANIZATIONS_SUPERHERO, new OrganizationDaoImpl.OrganizationMapper(),
+       final String SELECT_ALLORGANIZATIONS_SUPERHERO = "SELECT * FROM orgs o " +
+                "LEFT JOIN orgPhoneNumbers opn ON (opn.phoneNumberID = o.orgPhoneNumberID) " +
+                "LEFT JOIN orgAddresses oa USING (orgAddressID) " +
+                "LEFT JOIN superToOrgMapping s USING (orgID)" +
+                "WHERE s.superID = ?;";
+
+
+
+        return jdbc.query(SELECT_ALLORGANIZATIONS_SUPERHERO, new OrganizationDaoImpl.OrganizationMapper(),
                 superHero.getSuperID());
     }
 

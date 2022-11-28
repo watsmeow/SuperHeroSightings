@@ -58,7 +58,6 @@
                     <th>City</th>
                     <th>State</th>
                     <th>Zip Code</th>
-                    <th>Phone</th>
 
 
                 </tr>
@@ -70,11 +69,10 @@
                     <td th:text="${location.locationDescription}">Description</td>
                     <td th:text="${location.latitude}">Latitude</td>
                     <td th:text="${location.longitude}">Longitude</td>
-                    <td th:text="${location.address}">Address</td>
-                    <td th:text="${location.city}">City</td>
-                    <td th:text="${location.state}">State</td>
-                    <td th:text="${location.zip}">Zip</td>
-                    <td th:text="${location.phone}">Phone</td>
+                    <td th:text="${location.locationAddress}">Address</td>
+                    <td th:text="${location.locationCity}">City</td>
+                    <td th:text="${location.locationState}">State</td>
+                    <td th:text="${location.locationZip}">Zip</td>
 
 
                 </tr>
