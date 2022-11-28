@@ -30,8 +30,8 @@ public class LocationController {
     @Autowired
     OrganizationDao organizationDao;
 
-    @Autowired
-    SightingDao sightingDao;
+    //@Autowired
+    //SightingDao sightingDao;
 
     @Autowired
     SuperHeroesDao superHeroesDao;
