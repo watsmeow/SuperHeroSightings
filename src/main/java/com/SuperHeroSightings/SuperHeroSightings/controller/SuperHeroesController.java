@@ -5,13 +5,16 @@ import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
-import com.SuperHeroSightings.SuperHeroSightings.model.SuperPower;
+import javax.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.*;
 import java.util.*;
 
 @Controller
@@ -22,11 +25,13 @@ public class SuperHeroesController {
     @Autowired
     OrganizationDao organizationDao;
 
+    Set<ConstraintViolation<SuperHero>> violations = new HashSet<ConstraintViolation<SuperHero>>();
 
     @GetMapping("superheroes")
     public String displaySuperHeroes(Model model){
         List<SuperHero> superheroes = superHeroesDao.getAllHeroes();
         model.addAttribute("superheroes",superheroes);
+        model.addAttribute("errors", violations);
         return "superheroes";
     }
 
@@ -41,7 +46,13 @@ public class SuperHeroesController {
         superHero.setSuperDescription(superDescription);
         superHero.setSuperPower(superPower);
 
-        superHeroesDao.addSuperHero(superHero);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(superHero);
+
+        if(violations.isEmpty()) {
+            superHeroesDao.addSuperHero(superHero);
+        }
+
 
         return "redirect:/superheroes";
     }
@@ -61,14 +72,17 @@ public class SuperHeroesController {
     }
 
     @PostMapping("editSuperHero")
-    public String editSuperHero(HttpServletRequest request){
-        int id=Integer.parseInt(request.getParameter("superID"));
+    public String editSuperHero(@Valid SuperHero superHero, BindingResult result){
+        if(result.hasErrors()) {
+            return "editSuperHero";
+        }
+        /*int id=Integer.parseInt(request.getParameter("superID"));
         SuperHero superHero = superHeroesDao.getSuperHeroById(id);
 
         superHero.setSuperName(request.getParameter("superName"));
         superHero.setSuperDescription(request.getParameter("superDescription"));
         superHero.setSuperPower(request.getParameter("superPower"));
-
+        */
         superHeroesDao.updateSuperHero(superHero);
         return "redirect:/superheroes";
     }

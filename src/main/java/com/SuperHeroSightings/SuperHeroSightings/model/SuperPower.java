@@ -1,11 +1,13 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.xml.transform.Source;
 import java.util.Objects;
 
-public class SuperPower {
+public class SuperPower implements Source {
 
     private int superPowerID;
-
+    @NotBlank(message = "Super Power Name must not be blank")
     private String superPowerName;
 
     public int getSuperPowerID() {
@@ -35,5 +37,15 @@ public class SuperPower {
     @Override
     public int hashCode() {
         return Objects.hash(superPowerID, superPowerName);
+    }
+
+    @Override
+    public void setSystemId(String systemId) {
+
+    }
+
+    @Override
+    public String getSystemId() {
+        return null;
     }
 }
