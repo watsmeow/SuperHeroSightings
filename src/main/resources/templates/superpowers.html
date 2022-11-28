@@ -56,8 +56,8 @@
                 <tr th:each="superpower : ${superpowers}">
                     <td th:text="${superpower.superPowerID}">ID</td>
                     <td th:text="${superpower.superPowerName}">Super Power Name</td>
-                    <td><a href="#" th:href="@{/editSuperPower(id=${superpower.superPowerID})}">Edit</a></td>
-                    <td><a href="#" th:href="@{/deleteSuperPower(id=${superpower.superPowerID})}">Delete</a></td>
+                    <td><a href="#" th:href="@{/editSuperPower(superPowerID=${superpower.superPowerID})}">Edit</a></td>
+                    <td><a href="#" th:href="@{/deleteSuperPower(superPowerID=${superpower.superPowerID})}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>

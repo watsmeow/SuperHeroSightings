@@ -55,19 +55,21 @@
           <th>Address</th>
           <th>City</th>
           <th>State</th>
+          <th>Zip</th>
           <th>Phone</th>
           
         </tr>
         </thead>
         <tbody>
         <tr th:each="organization : ${organizations}">
-          <td th:text="${organization.name}">Name</td>
-          <td th:text="${organization.description}">Description</td>
-          <td th:text="${organization.address}">Address</td>
-          <td th:text="${organization.city}">City</td>
-          <td th:text="${organization.state}">State</td>
-          <td th:text="${organization.zip}">Zip</td>
-          <td th:text="${organization.phone}">Phone</td>
+          <td th:text="${organization.orgID}">ID</td>
+          <td th:text="${organization.orgName}">Name</td>
+          <td th:text="${organization.orgDescription}">Description</td>
+          <td th:text="${organization.orgAddress}">Address</td>
+          <td th:text="${organization.orgCity}">City</td>
+          <td th:text="${organization.orgState}">State</td>
+          <td th:text="${organization.orgZip}">Zip</td>
+          <td th:text="${organization.orgPhoneNumber}">Phone</td>
 
         </tr>
         </tbody>
