@@ -1,5 +1,6 @@
 package com.SuperHeroSightings.SuperHeroSightings.controller;
 
+import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
@@ -17,6 +18,9 @@ import java.util.*;
 public class SuperHeroesController {
     @Autowired
     SuperHeroesDao superHeroesDao;
+
+    @Autowired
+    OrganizationDao organizationDao;
 
 
     @GetMapping("superheroes")
@@ -68,15 +72,14 @@ public class SuperHeroesController {
         superHeroesDao.updateSuperHero(superHero);
         return "redirect:/superheroes";
     }
-    // !!!!!!!!!!!!
+
     @GetMapping("orgByHero")
     public String orgByHero(int superID, Model model){
-
         SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
         List<Organization> organizations = superHeroesDao.getSuperHeroOrganizations(superHero);
         model.addAttribute("superhero", superHero);
         model.addAttribute("organizations", organizations);
-        return "organizationsBySuperHero";
+        return "orgByHero";
     }
 
     @GetMapping("locByHero")
