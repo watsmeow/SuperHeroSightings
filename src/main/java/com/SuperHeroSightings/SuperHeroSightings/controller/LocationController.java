@@ -17,7 +17,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,8 +29,8 @@ public class LocationController {
     @Autowired
     OrganizationDao organizationDao;
 
-    //@Autowired
-    //SightingDao sightingDao;
+    @Autowired
+    SightingDao sightingDao;
 
     @Autowired
     SuperHeroesDao superHeroesDao;
@@ -61,8 +60,8 @@ public class LocationController {
         Location location = new Location();
         location.setLocationName(locationName);
         location.setLocationDescription(locationDescription);
-        location.setLatitude(BigDecimal.valueOf(Long.parseLong(latitude)));
-        location.setLongitude(BigDecimal.valueOf(Long.parseLong(longitude)));
+        location.setLatitude(Double.parseDouble(latitude));
+        location.setLongitude(Double.parseDouble(longitude));
         location.setLocationAddress(locationAddress);
         location.setLocationCity(locationCity);
         location.setLocationState(locationState);
