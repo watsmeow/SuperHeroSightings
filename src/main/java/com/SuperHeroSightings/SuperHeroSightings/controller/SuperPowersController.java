@@ -26,7 +26,7 @@ public class SuperPowersController {
     }
 
     @PostMapping("addSuperPower")
-    public String addSuperHero(HttpServletRequest request){
+    public String addSuperPower(HttpServletRequest request){
         String superPowerName = request.getParameter("superPowerName");
 
         SuperPower superPower = new SuperPower();

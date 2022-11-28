@@ -1,5 +1,6 @@
 package com.SuperHeroSightings.SuperHeroSightings.controller;
 
+import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
@@ -17,6 +18,9 @@ import java.util.*;
 public class SuperHeroesController {
     @Autowired
     SuperHeroesDao superHeroesDao;
+
+    @Autowired
+    OrganizationDao organizationDao;
 
 
     @GetMapping("superheroes")
@@ -70,22 +74,21 @@ public class SuperHeroesController {
     }
 
     @GetMapping("orgByHero")
-    public String orgByHero(Model model,HttpServletRequest request){
-        int id=Integer.parseInt(request.getParameter("superID"));
-        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
+    public String orgByHero(int superID, Model model){
+        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
         List<Organization> organizations = superHeroesDao.getSuperHeroOrganizations(superHero);
         model.addAttribute("superhero", superHero);
         model.addAttribute("organizations", organizations);
-        return "organizationsBySuperHero";
+        return "orgByHero";
     }
 
     @GetMapping("locByHero")
-    public String locByHero(HttpServletRequest request,Model model){
-        int id=Integer.parseInt(request.getParameter("superID"));
-        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
+    public String locByHero(int superID, Model model){
+
+        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
 
         List<Location> locs = superHeroesDao.getSuperHeroLocation(superHero);
-        model.addAttribute("superheroes",superHero);
+        model.addAttribute("superhero",superHero);
         model.addAttribute("locations",locs);
         return "locationsBySuperHero";
     }

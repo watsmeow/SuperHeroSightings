@@ -48,6 +48,10 @@
           <div class="col-9">
             <input type="text" name="orgName" id="orgName" class="form-control"
                    th:value="${organization.orgName}"/>
+            <div th:if="${#fields.hasErrors('organization.orgName')}">
+              <p th:each="error : ${#fields.errors('organization.orgName')}" class="alert alert-danger"
+                 th:text="${error}">Name cannot be blank </p>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -55,6 +59,10 @@
           <div class="col-9">
             <input type="text" name="orgDescription" id="orgDescription" class="form-control"
                    th:value="${organization.orgDescription}"/>
+            <div th:if="${#fields.hasErrors('organization.orgDescription')}">
+              <p th:each="error : ${#fields.errors('organization.orgDescription')}" class="alert alert-danger"
+                 th:text="${error}">Org cannot be blank </p>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -62,6 +70,10 @@
           <div class="col-9">
             <input type="text" name="orgAddress" id="orgAddress" class="form-control"
                    th:value="${organization.orgAddress}"/>
+            <div th:if="${#fields.hasErrors('organization.orgAddress')}">
+              <p th:each="error : ${#fields.errors('organization.orgAddress')}" class="alert alert-danger"
+                 th:text="${error}">Address cannot be blank </p>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -69,6 +81,10 @@
           <div class="col-9">
             <input type="text" name="orgCity" id="orgCity" class="form-control"
                    th:value="${organization.orgCity}"/>
+            <div th:if="${#fields.hasErrors('organization.orgCity')}">
+              <p th:each="error : ${#fields.errors('organization.orgCity')}" class="alert alert-danger"
+                 th:text="${error}">City cannot be blank </p>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -76,6 +92,10 @@
           <div class="col-9">
             <input type="text" name="orgState" id="orgState" class="form-control"
                    th:value="${organization.orgState}"/>
+            <div th:if="${#fields.hasErrors('organization.orgState')}">
+              <p th:each="error : ${#fields.errors('organization.orgState')}" class="alert alert-danger"
+                 th:text="${error}">State must be 2 letters </p>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -83,6 +103,10 @@
           <div class="col-9">
             <input type="text" name="orgZip" id="orgZip" class="form-control"
                    th:value="${organization.orgZip}"/>
+            <div th:if="${#fields.hasErrors('organization.orgZip')}">
+              <p th:each="error : ${#fields.errors('organization.orgZip')}" class="alert alert-danger"
+                 th:text="${error}">Zip cannot be blank </p>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -90,6 +114,10 @@
           <div class="col-9">
             <input type="text" name="orgPhoneNumber" id="orgPhoneNumber" class="form-control"
                    th:value="${organization.orgPhoneNumber}"/>
+            <div th:if="${#fields.hasErrors('organization.orgPhoneNumber')}">
+              <p th:each="error : ${#fields.errors('organization.orgPhoneNumber')}" class="alert alert-danger"
+                 th:text="${error}">Phone cannot be blank </p>
+            </div>
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Update Organization</button>
