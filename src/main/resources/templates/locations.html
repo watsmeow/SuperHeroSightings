@@ -121,41 +121,31 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Description</th>
-                                <th>Latitude</th>
-                                <th>Longitude</th>
-                                <th>Address</th>
                                 <th>City</th>
                                 <th>State</th>
-                                <th>Zip</th>
-                                <th>Sightings</th>
+                                <th>Details</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="location : ${locations}">
-                                <td th:text="${location.locationId}">ID</td>
+                                <td th:text="${location.locationID}">ID</td>
                                 <td th:text="${location.locationName}">Name</td>
-                                <td th:text="${location.locationDescription}">Description</td>
-                                <td th:text="${location.latitude}">Latitude</td>
-                                <td th:text="${location.longitude}">Longitude</td>
-                                <td th:text="${location.locationAddress}">Address</td>
                                 <td th:text="${location.locationCity}">City</td>
                                 <td th:text="${location.locationState}">State</td>
-                                <td th:text="${location.locationZip}">Zip</td>
                                 <td>
-                                    <a href="#" th:href="@{/locationSightings(locationId=${location.locationId})}">
-                                        Sightings
+                                    <a href="#" th:href="@{/locationDetail(locationID=${location.locationID})}">
+                                        Details
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="#" th:href="@{/editLocation(locationId=${location.locationId})}">
+                                    <a href="#" th:href="@{/editLocation(locationID=${location.locationID})}">
                                         Edit
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="#" th:href="@{/deleteLocation(locationId=${location.locationId})}">
+                                    <a href="#" th:href="@{/deleteLocation(locationID=${location.locationID})}">
                                         Delete
                                     </a>
                                 </td>
