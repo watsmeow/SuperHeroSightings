@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
