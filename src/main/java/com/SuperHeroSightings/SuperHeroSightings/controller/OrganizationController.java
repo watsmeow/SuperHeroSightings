@@ -7,11 +7,13 @@ import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.HashSet;
@@ -40,14 +42,6 @@ public class OrganizationController {
         return "organizations";
     }
 
-//    @GetMapping("orgByHero")
-//    public String getAllOrgsAHeroBelongsTo(Model model, int superID) {
-//        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
-//        List<Organization> organizations = organizationDao.getAllOrgsAHeroBelongsTo(superID);
-//        model.addAttribute("superhero", superHero);
-//        model.addAttribute("organizations", organizations);
-//        return "orgByHero";
-//    }
 
     @PostMapping("addOrganization")
     public String createOrganization(HttpServletRequest request) {
@@ -77,8 +71,6 @@ public class OrganizationController {
         organization.setOrgPhoneNumber(phone);
         organization.setSuperID(superID);
 
-//        organizationDao.createOrganization(organization);
-
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
         violations = validate.validate(organization);
 
@@ -99,17 +91,10 @@ public class OrganizationController {
     }
 
     @PostMapping("editOrganization")
-    public String performUpdateOrganization(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("orgID"));
-        Organization organization = organizationDao.getOrgByID(id);
-
-        organization.setOrgName(request.getParameter("orgName"));
-        organization.setOrgDescription(request.getParameter("orgDescription"));
-        organization.setOrgAddress(request.getParameter("orgAddress"));
-        organization.setOrgCity(request.getParameter("orgCity"));
-        organization.setOrgState(request.getParameter("orgState"));
-        organization.setOrgZip(request.getParameter("orgZip"));
-        organization.setOrgPhoneNumber(request.getParameter("orgPhoneNumber"));
+    public String performUpdateOrganization(@Valid Organization organization, BindingResult result) {
+        if(result.hasErrors()) {
+            return "editOrganization";
+        }
 
         organizationDao.updateOrganization(organization);
 
