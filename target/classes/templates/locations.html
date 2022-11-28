@@ -17,51 +17,53 @@
             <div class="row m-4">
                 <div class="col text-center border border-dark">
                     <h1>
-                        <a href="/" class="text-dark">Super Hero Locations</a>
+                        <a href="/" class="text-dark">Locations</a>
                     </h1>
                 </div>
             </div>
 
             <div class="row m-4 border border-dark">
                 <div class="col text-center m-3">
-                    <a href="teachers" class="btn btn-outline-primary btn-lg">Sightings</a>
+                    <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
                 </div>
                 <div class="col text-center m-3">
-                    <a href="teachers" class="btn btn-outline-primary btn-lg">Super Heroes</a>
+                    <a href="superheroes" class="btn btn-outline-primary btn-lg">Super Heroes</a>
                 </div>
                 <div class="col text-center m-3">
-                    <a href="students" class="btn btn-outline-primary btn-lg">Super Powers</a>
+                    <a href="superpowers" class="btn btn-outline-primary btn-lg">Super Powers</a>
                 </div>
                 <div class="col text-center m-3">
-                    <a href="courses" class="btn btn-outline-primary btn-lg">Locations</a>
+                    <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
                 </div>
                 <div class="col text-center m-3">
-                    <a href="courses" class="btn btn-outline-primary btn-lg">Organizations</a>
+                    <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
                 </div>
             </div>
 
-            <!-- Add a location form -->
+            <!-- Add location form -->
             <div class="row m-4 border border-dark">
-                <div class="col text-center m-3">
-                    <span class="h3">Add a Location</span>
+                <div class="col-12 m-1 text-center" th:if="${!errors.isEmpty()}">
+                    <p class="alert alert-danger" th:each="error : ${errors}"
+                       th:text="${error.message}">
+                        Error message
+                    </p>
+                </div>
+                <div class="col-3 text-center m-3">
+                    <span class="h3">Add Location</span>
                 </div>
                 <div class="col-7 text-center m-3">
                     <form action="addLocation" method="POST">
-                        <div class="col-12 m-1 text-center"
-                             th:if="${!errors.isEmpty()}">
-                            <p class="alert alert-danger"
-                               th:each="error : ${errors}" th:text="${error.message}">
-                                Error message
-                            </p>
-                        </div>
                         <div class="form-group row">
                             <label for="locationName" class="col-3 col-form-label">Name</label>
                             <div class="col-9">
-                                <input type="text" name="locationName" id="locationName" class="form-control" />
+                                <input type="text" name="locationName" id="locationName"
+                                       class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="locationDescription" class="col-3 col-form-label">Description</label>
+                            <label for="locationDescription" class="col-3 col-form-label">
+                                Description
+                            </label>
                             <div class="col-9">
                                 <input type="text" name="locationDescription"
                                        id="locationDescription" class="form-control" />
@@ -70,8 +72,7 @@
                         <div class="form-group row">
                             <label for="latitude" class="col-3 col-form-label">Latitude</label>
                             <div class="col-9">
-                                <input type="text" name="latitude"
-                                       id="latitude" class="form-control" />
+                                <input type="text" name="latitude" id="latitude" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
@@ -83,29 +84,29 @@
                         <div class="form-group row">
                             <label for="locationAddress" class="col-3 col-form-label">Address</label>
                             <div class="col-9">
-                                <input type="text" name="locationAddress"
-                                       id="locationAddress" class="form-control" />
+                                <input type="text" name="locationAddress" id="locationAddress"
+                                       class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="locationCity" class="col-3 col-form-label">City</label>
                             <div class="col-9">
-                                <input type="text" name="locationCity"
-                                       id="locationCity" class="form-control" />
+                                <input type="text" name="locationCity" id="locationCity"
+                                       class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="locationState" class="col-3 col-form-label">State</label>
                             <div class="col-9">
-                                <input type="text" name="locationState"
-                                       id="locationState" class="form-control" />
+                                <input type="text" name="locationState" id="locationState"
+                                       class="form-control" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="locationZip" class="col-3 col-form-label">Zip</label>
                             <div class="col-9">
-                                <input type="text" name="locationZip"
-                                       id="locationZip" class="form-control" />
+                                <input type="text" name="locationZip" id="locationZip"
+                                       class="form-control" />
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Add Location</button>
@@ -116,10 +117,10 @@
             <!-- Display all locations -->
             <div class="row m-4 border border-dark">
                 <div class="col text-center m-3">
-                    <div class="col text-center"><h1>Locations</h1></div>
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Latitude</th>
@@ -135,14 +136,15 @@
                         </thead>
                         <tbody>
                             <tr th:each="location : ${locations}">
+                                <td th:text="${location.locationId}">ID</td>
                                 <td th:text="${location.locationName}">Name</td>
                                 <td th:text="${location.locationDescription}">Description</td>
-                                <td th:text="${location.latitude}">Latitue</td>
+                                <td th:text="${location.latitude}">Latitude</td>
                                 <td th:text="${location.longitude}">Longitude</td>
-                                <td th:text="${locaiton.locationAddress}">Address</td>
-                                <td th:text="${location.locationCity}">City</td>
-                                <td th:text="${location.locationState}">State</td>
-                                <td th:text="${location.locationZip}">Zip</td>
+                                <td th:text="${location.locAddress}">Address</td>
+                                <td th:text="${location.locCity}">City</td>
+                                <td th:text="${location.locState}">State</td>
+                                <td th:text="${location.locZip}">Zip</td>
                                 <td>
                                     <a href="#" th:href="@{/locationSightings(locationId=${location.locationId})}">
                                         Sightings
@@ -163,6 +165,7 @@
                     </table>
                 </div>
             </div>
+        </div>
 
             <!-- End main body -->
             <!-- Optional JavaScript -->
@@ -176,6 +179,5 @@
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
                     integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
                     crossorigin="anonymous"></script>
-        </div>
     </body>
 </html>;

@@ -20,15 +20,15 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public List<Location> getAllLocations() {
-        final String SQL_GET_ALL = "SELECT * FROM locations";
-        return jdbc.query(SQL_GET_ALL, new LocationMapper());
+        final String GET_ALL_LOCATIONS = "SELECT * FROM locations";
+        return jdbc.query(GET_ALL_LOCATIONS, new LocationMapper());
     }
 
     @Override
     public Location getLocationById(int locationId) {
         try {
-            final String SQL_GET = "SELECT * FROM locations WHERE locationId = ?";
-            return jdbc.queryForObject(SQL_GET, new LocationMapper(), locationId);
+            final String SQL_GET_LOC_BY_ID = "SELECT * FROM locations WHERE locationId = ?";
+            return jdbc.queryForObject(SQL_GET_LOC_BY_ID, new LocationMapper(), locationId);
         } catch (DataAccessException ex) {
             return null;
         }
@@ -37,11 +37,11 @@ public class LocationDaoImpl implements LocationDao {
     @Override
     @Transactional
     public Location addLocation(Location location) {
-        final String SQL_ADD = "INSERT INTO locations(locationName,locationDescription,"
+        final String ADD_LOCATION = "INSERT INTO locations(locationName,locationDescription,"
                 + "latitude,longitude,locAddress,locCity,locState,locZip) "
                 + "VALUES(?,?,?,?,?,?,?,?)";
 
-        jdbc.update(SQL_ADD, location.getLocationName(), location.getLocationDescription(),
+        jdbc.update(ADD_LOCATION, location.getLocationName(), location.getLocationDescription(),
                 location.getLatitude(), location.getLongitude(),
                 location.getLocationAddress(), location.getLocationCity(),
                 location.getLocationState(), location.getLocationZip());
@@ -54,11 +54,11 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public void updateLocation(Location location) {
-        final String SQL_UPDATE = "UPDATE locations SET locationName = ?, locationDescription = ?,"
-                + " latitude = ?, longitude = ?, locAddress = ?, locCity = ?, "
-                + "locState = ?, locZip = ? WHERE locationId = ?";
+        final String UPDATE_LOCATION = "UPDATE locations SET locationName = ?, "
+                + "locationDescription = ?, latitude = ?, longitude = ?, locAddress = ?, "
+                + "locCity = ?, locState = ?, locZip = ? WHERE locationId = ?";
 
-        jdbc.update(SQL_UPDATE, location.getLocationName(), location.getLocationDescription(),
+        jdbc.update(UPDATE_LOCATION, location.getLocationName(), location.getLocationDescription(),
                 location.getLatitude(), location.getLongitude(), location.getLocationAddress(),
                 location.getLocationCity(), location.getLocationState(),
                 location.getLocationZip(), location.getLocationID());
@@ -67,18 +67,18 @@ public class LocationDaoImpl implements LocationDao {
     @Override
     @Transactional
     public void deleteLocationById(int locationId) {
-        final String SQL_DELETE_SIGHTING = "DELETE FROM sightings WHERE locationId = ?";
-        jdbc.update(SQL_DELETE_SIGHTING, locationId);
+        final String DELETE_SIGHTING = "DELETE FROM sightings WHERE locationId = ?";
+        jdbc.update(DELETE_SIGHTING, locationId);
 
-        final String SQL_DELETE_LOCATION = "DELETE FROM locations WHERE locationId = ?";
-        jdbc.update(SQL_DELETE_LOCATION, locationId);
+        final String DELETE_LOCATION = "DELETE FROM locations WHERE locationId = ?";
+        jdbc.update(DELETE_LOCATION, locationId);
     }
 
     @Override
     public List<Location> getLocationsForSuperHero(SuperHero superHero) {
-        final String SQL_LOCATIONS_FOR_SUPERHERO = "SELECT l.* from locations l "
+        final String LOCATIONS_FOR_SUPERHERO = "SELECT l.* from locations l "
                 + "JOIN sightings s ON s.locationId = l.locationId WHERE s.superId = ?";
-        List<Location> locations = jdbc.query(SQL_LOCATIONS_FOR_SUPERHERO,
+        List<Location> locations = jdbc.query(LOCATIONS_FOR_SUPERHERO,
                 new LocationMapper(), superHero.getSuperID());
         return locations;
     }
@@ -91,8 +91,8 @@ public class LocationDaoImpl implements LocationDao {
             location.setLocationName(rs.getString("locationName"));
             location.setLocationDescription(
                     rs.getString("locationDescription"));
-            location.setLatitude(rs.getBigDecimal("latitude"));
-            location.setLongitude(rs.getBigDecimal("longitude"));
+            location.setLatitude(rs.getDouble("latitude"));
+            location.setLongitude(rs.getDouble("longitude"));
             location.setLocationAddress(rs.getString("locAddress"));
             location.setLocationCity(rs.getString("locCity"));
             location.setLocationState(rs.getString("locState"));
