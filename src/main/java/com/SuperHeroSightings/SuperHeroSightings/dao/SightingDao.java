@@ -8,6 +8,7 @@ public interface SightingDao {
     List<Sighting> getAllSightings();
     Sighting getSightingByID(int sightingID);
 
+//    Sighting getSightingByTime(int sightingID);
     Sighting addSighting(Sighting sighting);
 
     void updateSighting(Sighting sighting);

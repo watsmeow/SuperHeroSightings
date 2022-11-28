@@ -63,6 +63,7 @@ public class SightingDaoImpl implements SightingDao {
             return null;
         }
     }
+
     private static final class SightingMapper implements RowMapper<Sighting> {
         @Override
         public Sighting mapRow(ResultSet rs, int index) throws SQLException {
