@@ -1,15 +1,18 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class SuperHero {
 
     private int superID;
-
+    @NotBlank(message = "Name must not be blank")
     private String superName;
 
+    @NotBlank(message = "Description must not be blank")
     private String superDescription;
 
+    @NotBlank(message = "Super Power must not be blank")
     private String superPower;
 
     public int getSuperID() {
