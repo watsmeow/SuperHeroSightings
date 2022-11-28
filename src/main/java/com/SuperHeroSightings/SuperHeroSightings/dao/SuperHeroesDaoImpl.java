@@ -96,11 +96,11 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     @Override
     public List<Organization> getSuperHeroOrganizations(SuperHero superHero) {
-        final String SELECT_ORGANIZATIONS_SUPERHERO = "SELECT orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, phoneNumber, " +
+        final String SELECT_ORGANIZATIONS_SUPERHERO = "SELECT orgID, orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, phoneNumber, " +
                 " superID FROM orgs " +
                 "LEFT JOIN orgPhoneNumbers ON (phoneNumberID = orgPhoneNumberID) " +
                 "LEFT JOIN orgAddresses USING (orgAddressID) " +
-                "LEFT JOIN superToOrgMapping USING (orgID)" +
+                "LEFT JOIN superToOrgMapping USING (orgID) " +
                 "WHERE superID = ?;";
         return jdbc.query(SELECT_ORGANIZATIONS_SUPERHERO, new OrganizationDaoImpl.OrganizationMapper(),
                 superHero.getSuperID());

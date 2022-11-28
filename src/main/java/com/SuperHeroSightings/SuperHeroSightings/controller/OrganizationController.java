@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class OrganizationController {
@@ -22,23 +27,27 @@ public class OrganizationController {
     @Autowired
     SuperHeroesDao superHeroesDao;
 
+    Set<ConstraintViolation<Organization>> violations = new HashSet<>();
+
+
     @GetMapping("organizations")
     public String getAllOrgs(Model model) {
         List<Organization> organizations = organizationDao.getAllOrgs();
         List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
         model.addAttribute("organizations", organizations);
         model.addAttribute("superheroes", superHeroes);
+        model.addAttribute("errors", violations);
         return "organizations";
     }
 
-    @GetMapping("organizationsBySuperHero")
-    public String getAllOrgsAHeroBelongsTo(Model model, int superID) {
-        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
-        List<Organization> organizations = organizationDao.getAllOrgsAHeroBelongsTo(superID);
-        model.addAttribute("superhero", superHero);
-        model.addAttribute("organizations", organizations);
-        return "organizationsBySuperHero";
-    }
+//    @GetMapping("orgByHero")
+//    public String getAllOrgsAHeroBelongsTo(Model model, int superID) {
+//        SuperHero superHero = superHeroesDao.getSuperHeroById(superID);
+//        List<Organization> organizations = organizationDao.getAllOrgsAHeroBelongsTo(superID);
+//        model.addAttribute("superhero", superHero);
+//        model.addAttribute("organizations", organizations);
+//        return "orgByHero";
+//    }
 
     @PostMapping("addOrganization")
     public String createOrganization(HttpServletRequest request) {
@@ -68,7 +77,14 @@ public class OrganizationController {
         organization.setOrgPhoneNumber(phone);
         organization.setSuperID(superID);
 
-        organizationDao.createOrganization(organization);
+//        organizationDao.createOrganization(organization);
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(organization);
+
+        if(violations.isEmpty()) {
+            organizationDao.createOrganization(organization);
+        }
 
         return "redirect:/organizations";
     }

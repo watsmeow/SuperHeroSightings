@@ -1,23 +1,32 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
-
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Organization {
 
     private int orgID;
 
+    @NotBlank(message = "Name must not be blank")
     private String orgName;
 
+    @NotBlank(message = "Description must not be blank")
     private String orgDescription;
 
+    @NotBlank(message = "Address must not be blank")
     private String orgAddress;
 
+    @NotBlank(message = "City must not be blank")
     private String orgCity;
 
+    @NotBlank(message = "State must not be blank")
+    @Size(max = 50, message="Name must be 2 characters")
     private String orgState;
 
+    @NotBlank(message = "Zip must not be blank")
     private String orgZip;
 
+    @NotBlank(message = "Phone number must not be blank")
     private String orgPhoneNumber;
 
     private int superID;
