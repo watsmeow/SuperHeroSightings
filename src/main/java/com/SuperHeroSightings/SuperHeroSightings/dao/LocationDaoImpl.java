@@ -1,11 +1,13 @@
 package com.SuperHeroSightings.SuperHeroSightings.dao;
 
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +35,7 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
+    @Transactional
     public Location addLocation(Location location) {
         final String SQL_ADD = "INSERT INTO locations(locationName,locationDescription,"
                 + "latitude,longitude,locAddress,locCity,locState,locZip) "
@@ -62,12 +65,22 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
+    @Transactional
     public void deleteLocationById(int locationId) {
         final String SQL_DELETE_SIGHTING = "DELETE FROM sightings WHERE locationId = ?";
         jdbc.update(SQL_DELETE_SIGHTING, locationId);
 
         final String SQL_DELETE_LOCATION = "DELETE FROM locations WHERE locationId = ?";
         jdbc.update(SQL_DELETE_LOCATION, locationId);
+    }
+
+    @Override
+    public List<Location> getLocationsForSuperHero(SuperHero superHero) {
+        final String SQL_LOCATIONS_FOR_SUPERHERO = "SELECT l.* from locations l "
+                + "JOIN sightings s ON s.locationId = l.locationId WHERE s.superId = ?";
+        List<Location> locations = jdbc.query(SQL_LOCATIONS_FOR_SUPERHERO,
+                new LocationMapper(), superHero.getSuperID());
+        return locations;
     }
 
     public static final class LocationMapper implements RowMapper<Location> {
