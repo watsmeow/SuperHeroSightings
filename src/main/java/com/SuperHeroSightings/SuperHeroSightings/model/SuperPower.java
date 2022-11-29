@@ -1,6 +1,7 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import javax.xml.transform.Source;
 import java.util.Objects;
 
@@ -8,6 +9,7 @@ public class SuperPower implements Source {
 
     private int superPowerID;
     @NotBlank(message = "Super Power Name must not be blank")
+    @Size(max=215,message = "Can not be null, not less then 215")
     private String superPowerName;
 
     public int getSuperPowerID() {

@@ -15,5 +15,7 @@ public interface SightingDao {
 
     void deleteSightingByID(int sightingID);
 
+    List<Sighting> newsFeedSightings();
+
 
 }
