@@ -24,7 +24,7 @@ public class SuperPowersController {
     @Autowired
     SuperHeroesDao superHeroesDao;
 
-    Set<ConstraintViolation<SuperPower>> violations = new HashSet<ConstraintViolation<SuperPower>>();
+    Set<ConstraintViolation<SuperPower>> violations = new HashSet();
 
 
     @GetMapping("superpowers")
@@ -36,7 +36,7 @@ public class SuperPowersController {
     }
 
     @PostMapping("addSuperPower")
-    public String addSuperPower(HttpServletRequest request) throws IOException, SAXException {
+    public String addSuperPower(HttpServletRequest request){
         String superPowerName = request.getParameter("superPowerName");
 
         SuperPower superPower = new SuperPower();
@@ -60,8 +60,9 @@ public class SuperPowersController {
     }
 
     @GetMapping("editSuperPower")
-    public String editSuperPower(int superPowerID,Model model){
-        SuperPower superPower = superHeroesDao.getSuperPowerById(superPowerID);
+    public String editSuperPower(HttpServletRequest request,Model model){
+        int id = Integer.parseInt(request.getParameter("superPowerID"));
+        SuperPower superPower = superHeroesDao.getSuperPowerById(id);
 
         model.addAttribute("superpower",superPower);
         return "editSuperPower";
