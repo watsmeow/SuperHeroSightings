@@ -81,13 +81,7 @@ public class SuperHeroesController {
         if(result.hasErrors()) {
             return "editSuperHero";
         }
-        /*int id=Integer.parseInt(request.getParameter("superID"));
-        SuperHero superHero = superHeroesDao.getSuperHeroById(id);
 
-        superHero.setSuperName(request.getParameter("superName"));
-        superHero.setSuperDescription(request.getParameter("superDescription"));
-        superHero.setSuperPower(request.getParameter("superPower"));
-        */
         superHeroesDao.updateSuperHero(superHero);
         return "redirect:/superheroes";
     }

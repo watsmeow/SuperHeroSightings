@@ -53,9 +53,10 @@
                         Super Name</label>
                     <div class="col-9">
                         <input type="text" name="superName"
-                               id="superName" class="form-control" th:value="${superhero.superName}"/>
-                        <div th:if="${#fields.hasErrors('superhero.superName')}">
-                            <p th:each="error : ${#fields.errors('superhero.superName')}" class="alert alert-danger"
+                               id="superName" class="form-control"
+                               th:value="${superhero.superName}"/>
+                        <div th:if="${#fields.hasErrors('superhero.superName')}"required>
+                            <p th:each=" error : ${#fields.errors('superhero.superName')}" class="alert alert-danger"
                                th:text="${error}">Name cannot be blank </p>
                         </div>
                     </div>
@@ -65,7 +66,8 @@
                         Super Description</label>
                     <div class="col-9">
                         <input type="text" name="superDescription"
-                               id="superDescription" class="form-control" th:value="${superhero.superDescription}"/>
+                               id="superDescription" class="form-control"
+                               th:value="${superhero.superDescription}"required>
                         <div th:if="${#fields.hasErrors('superhero.superDescription')}">
                             <p th:each="error : ${#fields.errors('superhero.superDescription')}" class="alert alert-danger"
                                th:text="${error}"> Description cannot be blank </p>
@@ -77,7 +79,7 @@
                         Super Power</label>
                     <div class="col-9">
                         <input type="text" name="superPower"
-                               id="superPower" class="form-control" th:value="${superhero.superPower}"/>
+                               id="superPower" class="form-control" th:value="${superhero.superPower}"required>
                         <div th:if="${#fields.hasErrors('superhero.superPower')}">
                             <p th:each="error : ${#fields.errors('superhero.superPower')}" class="alert alert-danger"
                                th:text="${error}"> Super Power Name cannot be blank  </p>
