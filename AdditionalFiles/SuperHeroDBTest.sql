@@ -3,7 +3,7 @@ CREATE DATABASE superHeroDBTest;
 USE superHeroDBTest;
 
 CREATE TABLE orgAddresses (
-	  orgAddressID INT PRIMARY KEY auto_increment, 
+	orgAddressID INT PRIMARY KEY auto_increment,
     orgAddress VARCHAR(500) NOT NULL,
     orgCity VARCHAR(100) NOT NULL,
     orgState VARCHAR(2) NOT NULL,
@@ -19,9 +19,9 @@ CREATE TABLE locations (
     locationID int PRIMARY KEY AUTO_INCREMENT,
     locationName varchar(50) NOT NULL,
     locationDescription varchar(250) NOT NULL,
-    latitude FLOAT(10, 6) NOT NULL,
-	longitude FLOAT(10, 6) NOT NULL,
-	locAddress VARCHAR(500) NOT NULL,
+    latitude DOUBLE PRECISION(8, 6) NOT NULL,
+    longitude DOUBLE PRECISION(9, 6) NOT NULL,
+    locAddress VARCHAR(500) NOT NULL,
     locCity VARCHAR(100) NOT NULL,
     locState CHAR(2) NOT NULL,
     locZip CHAR(5) NOT NULL
