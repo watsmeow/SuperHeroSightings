@@ -57,6 +57,10 @@
                     <div class="col-9">
                         <input type="text" name="superPowerName"
                                id="superPowerName" class="form-control" th:value="${superpower.superPowerName}"/>
+                        <div th:if="${#fields.hasErrors('superpower.superPowerName')}">
+                            <p th:each="error : ${#fields.errors('superpower.superPowerName')}" class="alert alert-danger"
+                               th:text="${error}"> Bad Super Power Name </p>
+                        </div>
                     </div>
                 </div>
 
