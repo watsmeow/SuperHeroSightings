@@ -41,21 +41,15 @@
         </div>
         <div class="col-7 text-center m-3">
             <form action="editSuperHero" method="POST">
-                <div class="form-group row d-none">
-                    <label for="superID" class="col-3 col-form-label"> superID</label>
-                    <div class="col-9">
-                        <input name="superID" id="superID" type="text" class="form-control"
-                               th:value="${superhero.superID}"/>
-                    </div>
-                </div>
+
                 <div class="form-group row">
                     <label for="superName" class="col-3 col-form-label">
                         Super Name</label>
                     <div class="col-9">
                         <input type="text" name="superName"
                                id="superName" class="form-control"
-                               th:value="${superhero.superName}"/>
-                        <div th:if="${#fields.hasErrors('superhero.superName')}"required>
+                               th:value="${superhero.superName}"required>
+                        <div th:if="${#fields.hasErrors('superhero.superName')}">
                             <p th:each=" error : ${#fields.errors('superhero.superName')}" class="alert alert-danger"
                                th:text="${error}">Name cannot be blank </p>
                         </div>

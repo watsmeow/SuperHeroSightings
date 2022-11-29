@@ -1,12 +1,20 @@
 package com.SuperHeroSightings.SuperHeroSightings.controller;
 
+import com.SuperHeroSightings.SuperHeroSightings.dao.LocationDao;
+import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SightingDao;
+import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
+import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.Sighting;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Controller
@@ -99,11 +107,12 @@ public class SightingController {
         model.addAttribute("sighting", sighting);
         return "editSighting";
     }
-
+/*
     @GetMapping("/")
     public String newsFeedSightings(Model model) {
         List<Sighting> newsFeedSightings = sightingDao.newsFeedSightings();
         model.addAttribute("newsFeedSightings", newsFeedSightings);
         return "index";
     }
+    */
 }
