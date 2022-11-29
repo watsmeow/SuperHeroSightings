@@ -1,5 +1,6 @@
-package com.SuperHeroSightings.SuperHeroSightings;
+package com.SuperHeroSightings.SuperHeroSightings.daoTests;
 
+import com.SuperHeroSightings.SuperHeroSightings.TestApplicationConfiguration;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SightingDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;

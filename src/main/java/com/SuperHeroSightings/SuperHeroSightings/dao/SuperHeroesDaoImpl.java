@@ -57,7 +57,7 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
         final String INSERT_SUPERHERO = "INSERT INTO superheroes (superName," +
                 "superDescription,superPower) VALUES (?,?,?);";
         jdbc.update(INSERT_SUPERHERO, superHero.getSuperName(), superHero.getSuperDescription(),
-                superHero.getSuperName());
+                superHero.getSuperPower());
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         superHero.setSuperID(newId);
         return superHero;

@@ -51,6 +51,10 @@
                     <div class="col-9">
                         <input type="text" name="superName"
                                id="superName" class="form-control" th:value="${superhero.superName}"/>
+                        <div th:if="${#fields.hasErrors('superhero.superName')}">
+                            <p th:each="error : ${#fields.errors('superhero.superName')}" class="alert alert-danger"
+                               th:text="${error}"> Name cannot be blank </p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -59,6 +63,10 @@
                     <div class="col-9">
                         <input type="text" name="superDescription"
                                id="superDescription" class="form-control" th:value="${superhero.superDescription}"/>
+                        <div th:if="${#fields.hasErrors('superhero.superDescriptionName')}">
+                            <p th:each="error : ${#fields.errors('superhero.superDescriptionName')}" class="alert alert-danger"
+                               th:text="${error}"> Description cannot be blank </p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -67,6 +75,10 @@
                     <div class="col-9">
                         <input type="text" name="superPower"
                                id="superPower" class="form-control" th:value="${superhero.superPower}"/>
+                        <div th:if="${#fields.hasErrors('superhero.superPower')}">
+                            <p th:each="error : ${#fields.errors('superhero.superPower')}" class="alert alert-danger"
+                               th:text="${error}"> Super Power name cannot be blank </p>
+                        </div>
                     </div>
                 </div>
 
