@@ -11,5 +11,5 @@ public interface LocationDao {
     Location addLocation(Location location);
     void updateLocation(Location location);
     void deleteLocationById(int locationId);
-    List<Location> getLocationsForSuperHero(SuperHero superHero);
+    List<SuperHero> getSuperHeroesAtLocation(Location location);
 }
