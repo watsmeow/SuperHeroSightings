@@ -50,8 +50,8 @@ public class LocationController {
     public String addLocation(HttpServletRequest request) {
         String locationName = request.getParameter("locationName");
         String locationDescription = request.getParameter("locationDescription");
-        String latitude = request.getParameter("latitude");
-        String longitude = request.getParameter("longitude");
+        double latitude = Double.parseDouble(request.getParameter("latitude"));
+        double longitude = Double.parseDouble(request.getParameter("longitude"));
         String locationAddress = request.getParameter("locationAddress");
         String locationCity = request.getParameter("locationCity");
         String locationState = request.getParameter("locationState");
@@ -60,8 +60,8 @@ public class LocationController {
         Location location = new Location();
         location.setLocationName(locationName);
         location.setLocationDescription(locationDescription);
-        location.setLatitude(Double.parseDouble(latitude));
-        location.setLongitude(Double.parseDouble(longitude));
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
         location.setLocationAddress(locationAddress);
         location.setLocationCity(locationCity);
         location.setLocationState(locationState);
@@ -77,15 +77,15 @@ public class LocationController {
     }
 
     @GetMapping("locationDetail")
-    public String locationDetail(Integer id, Model model) {
-        Location location = locationDao.getLocationById(id);
+    public String locationDetail(Integer locationID, Model model) {
+        Location location = locationDao.getLocationById(locationID);
         model.addAttribute("location", location);
         return "locationDetail";
     }
 
     @GetMapping("deleteLocation")
-    public String deleteLocation(Integer id) {
-        locationDao.deleteLocationById(id);
+    public String deleteLocation(Integer locationID) {
+        locationDao.deleteLocationById(locationID);
         return "redirect:/locations";
     }
 

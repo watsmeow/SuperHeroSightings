@@ -14,11 +14,13 @@ public class Location {
     @Size(max = 250, message = "Location description must be less than 250 characters.")
     private String locationDescription;
 
+    @NotNull(message = "Latitude must not be empty.")
     @Digits(integer = 8, fraction = 6)
     @Min(value = -90, message = "Latitude must be between -90 and 90.")
     @Max(value = 90, message = "Latitude must be between -90 and 90.")
     private double latitude;
 
+    @NotNull(message = "Longitude must not be empty.")
     @Digits(integer = 9, fraction = 6)
     @Min(value = -180, message = "Longitude must be between -180 and 180.")
     @Max(value = 180, message = "Longitude must be between -180 and 180.")
