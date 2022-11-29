@@ -90,7 +90,8 @@ public class LocationController {
     }
 
     @GetMapping("editLocation")
-    public String editLocation(Integer id, Model model) {
+    public String editLocation(HttpServletRequest request, Model model) {
+        int id = Integer.parseInt(request.getParameter("locationID"));
         Location location = locationDao.getLocationById(id);
         model.addAttribute("location", location);
         return "editLocation";
