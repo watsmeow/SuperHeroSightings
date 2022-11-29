@@ -44,6 +44,29 @@
     </div>
   </div>
 
+  <div class="row m-4 border border-dark">
+    <div class="col text-center m-3">
+      <div class="col text-center">
+        <h2>Recent Sightings</h2>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Hero Sighted</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sighting : ${newsFeedSightings}">
+          <td th:text="${sighting.timestamp}">Date</td>
+          <td th:text="${sighting.location.locationName}">Location</td>
+          <td th:text="${sighting.superHero.superName}">Hero Sighted</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
 </div>
 <!-- End main body -->
 

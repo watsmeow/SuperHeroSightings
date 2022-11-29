@@ -12,10 +12,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+
 @Repository
 public class SightingDaoImpl implements SightingDao {
     @Autowired
     JdbcTemplate jdbc;
+
+    // newsfeed sightings
+    public List<Sighting> newsFeedSightings() {
+        try {
+            final String SIGHTINGS_BY_DATE = "SELECT * FROM sightings " +
+                    "ORDER BY timestanp " +
+                    "DESC LIMIT 10;";
+            List<Sighting> newsFeedSightings = jdbc.query(SIGHTINGS_BY_DATE, new SightingMapper());
+            return newsFeedSightings;
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
 
     /* CRUD implementations */
     @Override

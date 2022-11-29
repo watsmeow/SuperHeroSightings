@@ -20,7 +20,7 @@ public class Organization {
     private String orgCity;
 
     @NotBlank(message = "State must not be blank")
-    @Size(max = 2, message="Name must be 2 characters")
+    @Size(max = 2, message="State must be 2 characters")
     private String orgState;
 
     @NotBlank(message = "Zip must not be blank")
