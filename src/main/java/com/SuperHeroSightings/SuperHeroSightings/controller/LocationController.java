@@ -5,6 +5,7 @@ import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SightingDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +80,10 @@ public class LocationController {
     @GetMapping("locationDetail")
     public String locationDetail(Integer locationID, Model model) {
         Location location = locationDao.getLocationById(locationID);
+        List<SuperHero> superHeroesAtLocation =
+                locationDao.getSuperHeroesAtLocation(location);
         model.addAttribute("location", location);
+        model.addAttribute("superHeroesAtLocation", superHeroesAtLocation);
         return "locationDetail";
     }
 

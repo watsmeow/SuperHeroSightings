@@ -1,5 +1,6 @@
 package com.SuperHeroSightings.SuperHeroSightings.dao;
 
+import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDaoImpl.SuperHeroMapper;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,12 +76,12 @@ public class LocationDaoImpl implements LocationDao {
     }
 
     @Override
-    public List<Location> getLocationsForSuperHero(SuperHero superHero) {
-        final String LOCATIONS_FOR_SUPERHERO = "SELECT l.* from locations l "
-                + "JOIN sightings s ON s.locationId = l.locationId WHERE s.superId = ?";
-        List<Location> locations = jdbc.query(LOCATIONS_FOR_SUPERHERO,
-                new LocationMapper(), superHero.getSuperID());
-        return locations;
+    public List<SuperHero> getSuperHeroesAtLocation(Location location) {
+        final String LOCATION_SUPERHEROES = "SELECT sh.superName from superHeroes sh "
+                + "JOIN sightings s ON s.superID = sh.superID WHERE s.locationID = ?";
+        List<SuperHero> superHeroesAtLocation = jdbc.query(LOCATION_SUPERHEROES,
+                new SuperHeroMapper(), location.getLocationID());
+        return superHeroesAtLocation;
     }
 
     public static final class LocationMapper implements RowMapper<Location> {
