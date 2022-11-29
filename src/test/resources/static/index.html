@@ -60,7 +60,7 @@
         <tbody>
         <tr th:each="sighting : ${newsFeedSightings}">
           <td th:text="${sighting.timestamp}">Date</td>
-          <td th:text="${sighting.location.locationName}">Hero Sighted</td>
+          <td th:text="${sighting.location.locationName}">Location</td>
           <td th:text="${sighting.superHero.superName}">Hero Sighted</td>
         </tr>
         </tbody>
