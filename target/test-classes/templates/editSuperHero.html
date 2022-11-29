@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Edit Super Hero</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center border border-dark">
+            <h1><a href="/" class="text-dark">Super Hero Sightings</a></h1>
+        </div>
+    </div>
+    <div class="row m-4 border border-dark">
+        <div class="col text-center m-3">
+            <a href="" class="btn btn-outline-primary btn-lg">Heroes & Villains</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="" class="btn btn-outline-primary btn-lg">Sightings</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="" class="btn btn-outline-primary btn-lg">Organizations</a>
+        </div>
+    </div>
+
+
+    <div class="row m-4 border border-dark">
+        <div class="col-3 text-center m-3">
+            <span class="h3">Edit Super Hero</span>
+        </div>
+        <div class="col-7 text-center m-3">
+            <form action="editSuperHero" method="POST">
+                <div class="form-group row d-none">
+                    <label for="superID" class="col-3 col-form-label"> superID</label>
+                    <div class="col-9">
+                        <input name="superID" id="superID" type="text" class="form-control"
+                               th:value="${superhero.superID}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="superName" class="col-3 col-form-label">
+                        Super Name</label>
+                    <div class="col-9">
+                        <input type="text" name="superName"
+                               id="superName" class="form-control" th:value="${superhero.superName}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="superDescription" class="col-3 col-form-label">
+                        Super Description</label>
+                    <div class="col-9">
+                        <input type="text" name="superDescription"
+                               id="superDescription" class="form-control" th:value="${superhero.superDescription}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="superPower" class="col-3 col-form-label">
+                        Super Power</label>
+                    <div class="col-9">
+                        <input type="text" name="superPower"
+                               id="superPower" class="form-control" th:value="${superhero.superPower}"/>
+                    </div>
+                </div>
+
+                <input type="hidden" name="id" th:value="${superhero.superID}"/>
+                <button type="submit" class="btn btn-primary">Update Super Hero</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>;
