@@ -92,8 +92,8 @@ public class LocationDaoImpl implements LocationDao {
             location.setLocationName(rs.getString("locationName"));
             location.setLocationDescription(
                     rs.getString("locationDescription"));
-            location.setLatitude(rs.getDouble("latitude"));
-            location.setLongitude(rs.getDouble("longitude"));
+            location.setLatitude(rs.getString("latitude"));
+            location.setLongitude(rs.getString("longitude"));
             location.setLocationAddress(rs.getString("locAddress"));
             location.setLocationCity(rs.getString("locCity"));
             location.setLocationState(rs.getString("locState"));

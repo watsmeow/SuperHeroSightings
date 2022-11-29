@@ -51,8 +51,8 @@ public class LocationController {
     public String addLocation(HttpServletRequest request) {
         String locationName = request.getParameter("locationName");
         String locationDescription = request.getParameter("locationDescription");
-        double latitude = Double.parseDouble(request.getParameter("latitude"));
-        double longitude = Double.parseDouble(request.getParameter("longitude"));
+        String latitude = request.getParameter("latitude");
+        String longitude = request.getParameter("longitude");
         String locationAddress = request.getParameter("locationAddress");
         String locationCity = request.getParameter("locationCity");
         String locationState = request.getParameter("locationState");

@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -65,6 +64,30 @@ class LocationDaoTest {
 
     @AfterEach
     void tearDown() {
+        List<Location> locations = locationDao.getAllLocations();
+        for (Location location : locations) {
+            locationDao.deleteLocationById(location.getLocationID());
+        }
+
+        List<Organization> organizations = organizationDao.getAllOrgs();
+        for (Organization organization : organizations) {
+            organizationDao.deleteOrgByID(organization.getOrgID());
+        }
+
+        List<Sighting> sightings = sightingDao.getAllSightings();
+        for (Sighting sighting : sightings) {
+            sightingDao.deleteSightingByID(sighting.getSightingID());
+        }
+
+        List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
+        for (SuperHero superHero : superHeroes) {
+            superHeroesDao.deleteSuperHeroById(superHero.getSuperID());
+        }
+
+        List<SuperPower> superPowers = superHeroesDao.getAllSuperPowers();
+        for (SuperPower superPower : superPowers) {
+            superHeroesDao.deleteSuperPowerById(superPower.getSuperPowerID());
+        }
     }
 
     @Test
@@ -72,8 +95,8 @@ class LocationDaoTest {
         Location location = new Location();
         location.setLocationName("Test Location Name");
         location.setLocationDescription("Test Location Description");
-        location.setLatitude(28.376478);
-        location.setLongitude(-81.549424);
+        location.setLatitude("28.376478");
+        location.setLongitude("-81.549424");
         location.setLocationAddress("200 Epcot Center Dr");
         location.setLocationCity("Lake Buena Vista");
         location.setLocationState("FL");
@@ -90,8 +113,8 @@ class LocationDaoTest {
         Location location = new Location();
         location.setLocationName("Test Location Name");
         location.setLocationDescription("Test Location Description");
-        location.setLatitude(28.376478);
-        location.setLongitude(-81.549424);
+        location.setLatitude("28.376478");
+        location.setLongitude("-81.549424");
         location.setLocationAddress("200 Epcot Center Dr");
         location.setLocationCity("Lake Buena Vista");
         location.setLocationState("FL");
@@ -101,12 +124,12 @@ class LocationDaoTest {
         Location location2 = new Location();
         location2.setLocationName("Test Location Name 2");
         location2.setLocationDescription("Test Location Description 2");
-        location.setLatitude(28.376478);
-        location.setLongitude(-81.549424);
-        location.setLocationAddress("200 Epcot Center Dr");
-        location.setLocationCity("Lake Buena Vista");
-        location.setLocationState("FL");
-        location.setLocationZip("32830");
+        location2.setLatitude("28.376478");
+        location2.setLongitude("-81.549424");
+        location2.setLocationAddress("123 Test Street");
+        location2.setLocationCity("Test City");
+        location2.setLocationState("TX");
+        location2.setLocationZip("12345");
         location2 = locationDao.addLocation(location2);
 
         List<Location> locations = locationDao.getAllLocations();
@@ -121,8 +144,8 @@ class LocationDaoTest {
         Location location = new Location();
         location.setLocationName("Test Location Name");
         location.setLocationDescription("Test Location Description");
-        location.setLatitude(28.376478);
-        location.setLongitude(-81.549424);
+        location.setLatitude("28.376478");
+        location.setLongitude("-81.549424");
         location.setLocationAddress("200 Epcot Center Dr");
         location.setLocationCity("Lake Buena Vista");
         location.setLocationState("FL");
@@ -147,8 +170,8 @@ class LocationDaoTest {
         Location location = new Location();
         location.setLocationName("Test Location Name");
         location.setLocationDescription("Test Location Description");
-        location.setLatitude(28.376478);
-        location.setLongitude(-81.549424);
+        location.setLatitude("28.376478");
+        location.setLongitude("-81.549424");
         location.setLocationAddress("200 Epcot Center Dr");
         location.setLocationCity("Lake Buena Vista");
         location.setLocationState("FL");

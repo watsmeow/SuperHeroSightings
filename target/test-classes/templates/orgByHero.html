@@ -14,26 +14,21 @@
 <body>
 <!-- Main Body of Page -->
 <div class="container">
-  <div class="row m-4">
-    <div class="col text-center border border-dark">
-      <h1><a href="/" class="text-dark">See Locations by Hero</a></h1>
-    </div>
-  </div>
   <div class="row m-4 border border-dark">
     <div class="col text-center m-3">
-      <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+      <a href="teachers" class="btn btn-outline-primary btn-lg">Sightings</a>
     </div>
     <div class="col text-center m-3">
-      <a href="superheroes" class="btn btn-outline-primary btn-lg">Super Heroes</a>
+      <a href="teachers" class="btn btn-outline-primary btn-lg">Super Heroes</a>
     </div>
     <div class="col text-center m-3">
-      <a href="superpowers" class="btn btn-outline-primary btn-lg">Super Powers</a>
+      <a href="students" class="btn btn-outline-primary btn-lg">Super Powers</a>
     </div>
     <div class="col text-center m-3">
-      <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+      <a href="courses" class="btn btn-outline-primary btn-lg">Locations</a>
     </div>
     <div class="col text-center m-3">
-      <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+      <a href="courses" class="btn btn-outline-primary btn-lg">Organizations</a>
     </div>
   </div>
 
@@ -55,22 +50,19 @@
           <th>Address</th>
           <th>City</th>
           <th>State</th>
-          <th>Zip</th>
           <th>Phone</th>
-
-
+          
         </tr>
         </thead>
         <tbody>
         <tr th:each="organization : ${organizations}">
-          <td th:text="${organization.orgID}">ID</td>
-          <td th:text="${organization.orgName}">Name</td>
-          <td th:text="${organization.orgDescription}">Description</td>
-          <td th:text="${organization.orgAddress}">Address</td>
-          <td th:text="${organization.orgCity}">City</td>
-          <td th:text="${organization.orgState}">State</td>
-          <td th:text="${organization.orgZip}">Zip</td>
-          <td th:text="${organization.orgPhoneNumber}">Phone</td>
+          <td th:text="${organization.name}">Name</td>
+          <td th:text="${organization.description}">Description</td>
+          <td th:text="${organization.address}">Address</td>
+          <td th:text="${organization.city}">City</td>
+          <td th:text="${organization.state}">State</td>
+          <td th:text="${organization.zip}">Zip</td>
+          <td th:text="${organization.phone}">Phone</td>
 
         </tr>
         </tbody>
@@ -78,7 +70,7 @@
     </div>
   </div>
 
-</div>
+  </div>
 
 
 </div>

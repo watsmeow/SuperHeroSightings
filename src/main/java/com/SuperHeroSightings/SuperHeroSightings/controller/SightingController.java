@@ -107,11 +107,12 @@ public class SightingController {
         model.addAttribute("sighting", sighting);
         return "editSighting";
     }
-
+/*
     @GetMapping("/")
     public String newsFeedSightings(Model model) {
         List<Sighting> newsFeedSightings = sightingDao.newsFeedSightings();
         model.addAttribute("newsFeedSightings", newsFeedSightings);
         return "index";
     }
+    */
 }

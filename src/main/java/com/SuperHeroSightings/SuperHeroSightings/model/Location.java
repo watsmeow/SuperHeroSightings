@@ -14,17 +14,17 @@ public class Location {
     @Size(max = 250, message = "Location description must be less than 250 characters.")
     private String locationDescription;
 
-    @NotNull(message = "Latitude must not be empty.")
-    @Digits(integer = 8, fraction = 6)
-    @Min(value = -90, message = "Latitude must be between -90 and 90.")
-    @Max(value = 90, message = "Latitude must be between -90 and 90.")
-    private double latitude;
+    @NotBlank(message = "Latitude must not be empty.")
+    @Pattern(regexp=
+            "^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$",
+            message = "Must be a numeric latitude between -90.000000 and 90.000000")
+    private String latitude;
 
-    @NotNull(message = "Longitude must not be empty.")
-    @Digits(integer = 9, fraction = 6)
-    @Min(value = -180, message = "Longitude must be between -180 and 180.")
-    @Max(value = 180, message = "Longitude must be between -180 and 180.")
-    private double longitude;
+    @NotBlank(message = "Longitude must not be empty.")
+    @Pattern(regexp =
+            "^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,6})?))$",
+            message = "Must be a numeric longitude between -180.000000 and 180.000000")
+    private String longitude;
 
     @NotBlank(message = "Location address must not be empty.")
     @Size(max = 500, message = "Location address must be less than 500 characters.")
@@ -66,19 +66,19 @@ public class Location {
         this.locationDescription = locationDescription;
     }
 
-    public double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
@@ -122,8 +122,8 @@ public class Location {
         return locationID == location.locationID
                 && Objects.equals(locationName, location.locationName)
                 && Objects.equals(locationDescription, location.locationDescription)
-                && Double.compare(location.latitude, latitude) == 0
-                && Double.compare(location.longitude, longitude) == 0
+                && Objects.equals(latitude, location.latitude)
+                && Objects.equals(longitude, location.longitude)
                 && Objects.equals(locationAddress, location.locationAddress)
                 && Objects.equals(locationCity, location.locationCity)
                 && Objects.equals(locationState, location.locationState)
@@ -132,7 +132,8 @@ public class Location {
 
     @Override
     public int hashCode() {
-        return Objects.hash(locationID, locationName, locationDescription, latitude,
-                longitude, locationAddress, locationCity, locationState, locationZip);
+        return Objects.hash(locationID, locationName, locationDescription,
+                latitude, longitude, locationAddress, locationCity,
+                locationState, locationZip);
     }
 }
