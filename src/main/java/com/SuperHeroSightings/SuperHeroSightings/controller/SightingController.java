@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +40,9 @@ public class SightingController {
     @Autowired
     SuperHeroesDao superHeroesDao;
 
-    Set<ConstraintViolation<Organization>> violations = new HashSet<>();
+
+    Set<ConstraintViolation<Sighting>> violations = new HashSet<ConstraintViolation<Sighting>>();
+
 
     @GetMapping("sightings")
     public String displaySightings(Model model){
@@ -49,13 +53,16 @@ public class SightingController {
         model.addAttribute("sightings",sightings);
         model.addAttribute("superheroes",superheroes);
         model.addAttribute("locations",locations);
+        model.addAttribute("errors", violations);
+
         return "sightings";
     }
 
     @PostMapping("addSighting")
     public String addSighting(HttpServletRequest request) {
         String timestamp = request.getParameter("timestamp");
-        Timestamp newTimeStamp = Timestamp.valueOf(timestamp);
+//        Timestamp newTimeStamp = Timestamp.valueOf(timestamp);
+
         String superName = request.getParameter("superName");
         String locationName = request.getParameter("locationName");
 
@@ -75,19 +82,26 @@ public class SightingController {
         int locationID = location.getLocationID();
 
         Sighting sighting = new Sighting();
-        sighting.setTimestamp(newTimeStamp);
+        sighting.setTimestamp(timestamp);
         sighting.setSuperID(superID);
         sighting.setLocationID(locationID);
-        sightingDao.addSighting(sighting);
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(sighting);
+
+        if(violations.isEmpty()) {
+            sightingDao.addSighting(sighting);
+        }
 
         return "redirect:/sightings";
     }
+
     @GetMapping("deleteSighting")
-    public String deleteSighting(Integer id) {
-        sightingDao.deleteSightingByID(id);
-
+    public String deleteSighting(Integer sightingID) {
+        sightingDao.deleteSightingByID(sightingID);
         return "redirect:/sightings";
     }
+
     @GetMapping("editSighting")
     public String editSighting(HttpServletRequest request, Model model) {
         int id = Integer.parseInt(request.getParameter("sightingID"));
@@ -125,3 +139,4 @@ public class SightingController {
     }
 
 }
+
