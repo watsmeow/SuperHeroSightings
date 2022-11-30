@@ -80,6 +80,8 @@ public class SuperHeroesController {
 
     @GetMapping("editSuperHero")
     public String editSuperHero(HttpServletRequest request, Model model){
+        List<SuperPower> superPowers = superHeroesDao.getAllSuperPowers();
+        model.addAttribute("superpowers", superPowers);
         int id = Integer.parseInt(request.getParameter("superID"));
         SuperHero superHero = superHeroesDao.getSuperHeroById(id);
         model.addAttribute("superhero",superHero);
