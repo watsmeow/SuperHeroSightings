@@ -60,23 +60,19 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     @Transactional
     public void updateSuperHero(SuperHero superHero) {
-        final String GET_OLD_SUPERHERO = "SELECT * FROM superHeroes WHERE superID = ?";
-        SuperHero oldSuperHero = jdbc.queryForObject(GET_OLD_SUPERHERO,
-                new SuperHeroMapper(), superHero.getSuperID());
-
         final String GET_POWER = "SELECT * FROM superPowers WHERE superPowerName = ?";
         SuperPower power = jdbc.queryForObject(GET_POWER,
                 new SuperPowerMapper(), superHero.getSuperPower());
 
         final String UPDATE_HERO_POWER = "UPDATE heroesPowers SET superPowerID=? " +
                 "WHERE superID=?";
-        jdbc.update(UPDATE_HERO_POWER, power.getSuperPowerID(), oldSuperHero.getSuperID());
+        jdbc.update(UPDATE_HERO_POWER, power.getSuperPowerID(), superHero.getSuperID());
 
         final String UPDATE_SUPERHERO = "UPDATE superheroes SET superName =?," +
                 "superDescription=?,superPower=? WHERE superID=?;";
         jdbc.update(UPDATE_SUPERHERO, superHero.getSuperName(),
                 superHero.getSuperDescription(), superHero.getSuperPower(),
-                oldSuperHero.getSuperID());
+                superHero.getSuperID());
     }
 
     @Override
