@@ -3,9 +3,9 @@ package com.SuperHeroSightings.SuperHeroSightings.daoTests;
 import com.SuperHeroSightings.SuperHeroSightings.TestApplicationConfiguration;
 import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDaoImpl;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDaoImpl;
-import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
-import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
+import com.SuperHeroSightings.SuperHeroSightings.model.*;
 import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
@@ -25,13 +25,34 @@ public class OrganizationDaoTest extends TestCase {
     @Autowired
     SuperHeroesDaoImpl superHeroesDao;
 
+    @Before
+    public void setUp() {
+        List<SuperPower> superPowers = superHeroesDao.getAllSuperPowers();
+        for (SuperPower superPower : superPowers) {
+            superHeroesDao.deleteSuperPowerById(superPower.getSuperPowerID());
+        }
+        List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
+        for (SuperHero superHero : superHeroes) {
+            superHeroesDao.deleteSuperHeroById(superHero.getSuperID());
+        }
+        List<Organization> organizations = organizationDao.getAllOrgs();
+        for (Organization organization : organizations) {
+            organizationDao.deleteOrgByID(organization.getOrgID());
+        }
+    }
+
     @Test
     public void testAddAndGetOrg() {
         SuperHero hero = new SuperHero();
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower Name");
+        superHeroesDao.addSuperPower(superpower);
+
         hero.setSuperName("Test");
         hero.setSuperDescription("Description");
-        hero.setSuperPower("test power");
+        hero.setSuperPower(superpower.getSuperPowerName());
         superHeroesDao.addSuperHero(hero);
+
         int superID = hero.getSuperID();
         Organization organization = new Organization();
         organization.setOrgName("Test");
@@ -53,9 +74,14 @@ public class OrganizationDaoTest extends TestCase {
     @Test
     public void testGetAllOrgs() {
         SuperHero hero = new SuperHero();
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower Name");
+        superHeroesDao.addSuperPower(superpower);
+
         hero.setSuperName("Test");
         hero.setSuperDescription("Description");
-        hero.setSuperPower("test power");
+        hero.setSuperPower(superpower.getSuperPowerName());
+
         superHeroesDao.addSuperHero(hero);
         int superID = hero.getSuperID();
         Organization organization = new Organization();
@@ -92,11 +118,16 @@ public class OrganizationDaoTest extends TestCase {
     @Test
     public void testUpdateOrg() {
         SuperHero hero = new SuperHero();
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower Name");
+        superHeroesDao.addSuperPower(superpower);
+
         hero.setSuperName("Test");
         hero.setSuperDescription("Description");
-        hero.setSuperPower("test power");
+        hero.setSuperPower(superpower.getSuperPowerName());
         superHeroesDao.addSuperHero(hero);
         int superID = hero.getSuperID();
+
         Organization organization = new Organization();
         organization.setOrgName("Test1");
         organization.setOrgDescription("Desc1");
@@ -121,9 +152,14 @@ public class OrganizationDaoTest extends TestCase {
     @Test
     public void testDeleteOrg() {
         SuperHero hero = new SuperHero();
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower Name");
+        superHeroesDao.addSuperPower(superpower);
+
         hero.setSuperName("Test");
         hero.setSuperDescription("Description");
-        hero.setSuperPower("test power");
+        hero.setSuperPower(superpower.getSuperPowerName());
+
         superHeroesDao.addSuperHero(hero);
         int superID = hero.getSuperID();
         Organization organization = new Organization();
