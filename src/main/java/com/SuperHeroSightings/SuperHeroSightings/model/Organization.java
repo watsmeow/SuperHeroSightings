@@ -1,5 +1,7 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -7,28 +9,36 @@ public class Organization {
 
     private int orgID;
 
-    @NotBlank(message = "Name must not be blank")
+    @NotBlank(message = "Organization Name must not be blank")
+    @Size(max = 50, message = "Organization Name cannot be more than 50 characters.")
     private String orgName;
 
-    @NotBlank(message = "Description must not be blank")
+    @NotBlank(message = "Organization Description must not be blank")
+    @Size(max = 250, message = "Organization Description cannot be more than 250 characters")
     private String orgDescription;
 
-    @NotBlank(message = "Address must not be blank")
+    @NotBlank(message = "Organization Address must not be blank")
+    @Size(max = 500, message = "Organization Address cannot be more than 500 characters")
     private String orgAddress;
 
-    @NotBlank(message = "City must not be blank")
+    @NotBlank(message = "Organization City must not be blank")
+    @Size(max = 100, message = "Organization City cannot be more than 100 characters.")
     private String orgCity;
 
-    @NotBlank(message = "State must not be blank")
-    @Size(max = 2, message="State must be 2 characters")
+    @NotBlank(message = "Organization State must not be blank")
+    @Size(min = 2, max = 2, message = "Organization State must be 2 characters")
+    @Pattern(regexp = "[a-zA-Z]{2}", message = "Organization state must be 2 letters (Ex: TX).")
     private String orgState;
 
-    @NotBlank(message = "Zip must not be blank")
+    @NotBlank(message = "Organization Zip must not be blank")
+    @Size(min = 5, max = 5, message = "Organization zip must be 5 characters")
     private String orgZip;
 
-    @NotBlank(message = "Phone number must not be blank")
+    @NotBlank(message = "Organization Phone number must not be blank")
+    @Size(max = 12, message = "Organization Phone Number cannot be more than 12 characters.")
     private String orgPhoneNumber;
 
+    @NotNull(message = "SuperHero ID must not be null.")
     private int superID;
 
     // Getters
@@ -122,6 +132,7 @@ public class Organization {
 
     @Override
     public int hashCode() {
-        return Objects.hash(orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, orgPhoneNumber);
+        return Objects.hash(orgName, orgDescription, orgAddress, orgCity,
+                orgState, orgZip, orgPhoneNumber);
     }
 }
