@@ -1,6 +1,7 @@
 package com.SuperHeroSightings.SuperHeroSightings.daoTests;
 
 import com.SuperHeroSightings.SuperHeroSightings.TestApplicationConfiguration;
+import com.SuperHeroSightings.SuperHeroSightings.dao.LocationDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SightingDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
@@ -24,6 +25,12 @@ public class SightingsDaoTest extends TestCase {
     @Autowired
     SightingDao sightingDao;
 
+    @Autowired
+    SuperHeroesDao superHeroesDao;
+
+    @Autowired
+    LocationDao locationDao;
+
     public SightingsDaoTest() {}
 
     @Before
@@ -42,6 +49,8 @@ public class SightingsDaoTest extends TestCase {
         superhero1.setSuperDescription("Test description1");
         superhero1.setSuperName("Test superhero1");
         superhero1.setSuperPower("Test power1");
+        superHeroesDao.addSuperHero(superhero1);
+
         Location location1 = new Location();
         location1.setLocationID(01);
         location1.setLocationName("Test location name1");
@@ -50,6 +59,7 @@ public class SightingsDaoTest extends TestCase {
         location1.setLocationCity("Test location city1");
         location1.setLocationState("NY");
         location1.setLocationZip("10027");
+        locationDao.addLocation(location1);
 
         /* Create sighting1 object */
         Sighting sighting1 = new Sighting();
@@ -59,6 +69,7 @@ public class SightingsDaoTest extends TestCase {
         Timestamp newTimeStamp1 = Timestamp.valueOf(testTimestamp1);
         sighting1.setTimestamp(newTimeStamp1);
         sighting1.setSuperID(superhero1.getSuperID());
+        sightingDao.addSighting(sighting1);
 
         /* Create superhero2 and location2 objects */
         SuperHero superhero2 = new SuperHero();
@@ -66,6 +77,8 @@ public class SightingsDaoTest extends TestCase {
         superhero2.setSuperDescription("Test description2");
         superhero2.setSuperName("Test superhero2");
         superhero2.setSuperPower("Test power2");
+        superHeroesDao.addSuperHero(superhero2);
+
         Location location2 = new Location();
         location2.setLocationID(02);
         location2.setLocationName("Test location name2");
@@ -74,6 +87,7 @@ public class SightingsDaoTest extends TestCase {
         location2.setLocationCity("Test location city2");
         location2.setLocationState("CA");
         location2.setLocationZip("90001");
+        locationDao.addLocation(location2);
 
         /* Create sighting2 object */
         Sighting sighting2 = new Sighting();
@@ -83,8 +97,6 @@ public class SightingsDaoTest extends TestCase {
         Timestamp newTimeStamp2 = Timestamp.valueOf(testTimestamp2);
         sighting2.setTimestamp(newTimeStamp2);
         sighting2.setSuperID(superhero2.getSuperID());
-
-        sightingDao.addSighting(sighting1);
         sightingDao.addSighting(sighting2);
 
         List<Sighting> sightings = sightingDao.getAllSightings();
