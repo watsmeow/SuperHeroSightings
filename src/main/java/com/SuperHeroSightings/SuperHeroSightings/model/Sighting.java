@@ -1,5 +1,6 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;

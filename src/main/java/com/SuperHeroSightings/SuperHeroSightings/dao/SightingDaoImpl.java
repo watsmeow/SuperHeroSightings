@@ -26,6 +26,7 @@ public class SightingDaoImpl implements SightingDao {
                     "ORDER BY timestamp " +
                     "DESC LIMIT 10;";
             List<Sighting> newsFeedSightings = jdbc.query(SIGHTINGS_BY_DATE, new SightingMapper());
+            associateSuperHeroAndLocation(newsFeedSightings);
             return newsFeedSightings;
         } catch (DataAccessException e) {
             return null;

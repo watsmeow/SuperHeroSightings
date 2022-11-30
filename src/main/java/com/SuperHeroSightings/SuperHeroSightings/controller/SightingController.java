@@ -111,12 +111,17 @@ public class SightingController {
 
         return "redirect:/sightings";
     }
-/*
+
     @GetMapping("/")
     public String newsFeedSightings(Model model) {
         List<Sighting> newsFeedSightings = sightingDao.newsFeedSightings();
-        model.addAttribute("newsFeedSightings", newsFeedSightings);
-        return "index";
+        List<SuperHero> superheroes = superHeroesDao.getAllHeroes();
+        List<Location> locations = locationDao.getAllLocations();
+
+        model.addAttribute("newsFeedSightings",newsFeedSightings);
+        model.addAttribute("superheroes",superheroes);
+        model.addAttribute("locations",locations);
+        return "homepage";
     }
-    */
+
 }
