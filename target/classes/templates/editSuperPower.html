@@ -37,7 +37,7 @@
             <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
         </div>
     </div>
-    <!-- Add a super power form -->
+    <!-- Edit a super power form -->
     <div class="row m-4 border border-dark">
         <div class="col text-center m-3">
             <span class="h3">Edit a Super Power</span>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-
+                <input type="hidden" name="superPowerID" th:value="${superpower.superPowerID}">
                 <button type="submit" class="btn btn-primary">Update Super Power</button>
             </form>
         </div>
