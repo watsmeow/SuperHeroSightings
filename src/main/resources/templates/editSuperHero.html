@@ -41,7 +41,6 @@
         </div>
         <div class="col-7 text-center m-3">
             <form action="editSuperHero" method="POST">
-
                 <div class="form-group row">
                     <label for="superName" class="col-3 col-form-label">
                         Super Name</label>
@@ -72,15 +71,20 @@
                     <label for="superPower" class="col-3 col-form-label">
                         Super Power</label>
                     <div class="col-9">
-                        <input type="text" name="superPower"
-                               id="superPower" class="form-control" th:value="${superhero.superPower}"required>
+                        <select id="superPower" name="superPower" class="form-control">
+                            <option th:each="superPower : ${superpowers}"
+                                    th:value="${superPower.superPowerName}"
+                                    th:text="${superPower.superPowerName}">
+                                Super Power Name
+                            </option>
+                        </select>
                         <div th:if="${#fields.hasErrors('superhero.superPower')}">
                             <p th:each="error : ${#fields.errors('superhero.superPower')}" class="alert alert-danger"
                                th:text="${error}"> Super Power Name cannot be blank  </p>
                         </div>
                     </div>
                 </div>
-
+                <input type="hidden" name="superID" th:value="${superhero.superID}"/>
                 <button type="submit" class="btn btn-primary">Update Super Hero</button>
             </form>
         </div>
