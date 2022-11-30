@@ -25,6 +25,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
@@ -147,71 +148,6 @@ class SuperHeroesDaoImplTest{
         //assertTrue("All games should include superhero2",allFromDao.contains(superHero2));
     }
 
-    /*
-    @Test // test result :
-    public void testAddAndGetLocsByHero(){
-        // create a superhero test input
-        SuperHero superHero1 = new SuperHero();
-        superHero1.setSuperName("ShamsTheHero1");
-        superHero1.setSuperDescription("Teaches Java1");
-        superHero1.setSuperPower("Java Master1");
-
-        // add superhero to dao
-        superHeroesDao.addSuperHero(superHero1);
-
-        // create a location test input
-        Location loc = new Location();
-        loc.setLocationName("Aventura Mall");
-        loc.setLocationDescription("testLoc");
-        loc.setLatitude(BigDecimal.valueOf(125.0));
-        loc.setLongitude(BigDecimal.valueOf(125.0));
-        loc.setLocationAddress("Downtown Miami");
-        loc.setLocationCity("Miami");
-        loc.setLocationState("FL");
-        loc.setLocationZip("33069");
-
-        // add location to dao
-        locationDao.addLocation(loc);
-
-        // sighting eklenilip ondan sonra test edilecek çünkü fonkun içinde sighting de var
-
-        List<Location> locs = superHeroesDao.getSuperHeroLocation(superHero1);
-
-        assertNotNull(locs, "The list of locations must not null");
-        assertEquals(1, locs.size(),"List of locs should have 1 location.");
-
-    }
-
-    @Test // test result :
-    public void testAddAndGetOrgByHero(){
-        // create a superhero test input
-        SuperHero superHero1 = new SuperHero();
-        superHero1.setSuperName("ShamsTheHero1");
-        superHero1.setSuperDescription("Teaches Java1");
-        superHero1.setSuperPower("Java Master1");
-
-        // add superhero to dao
-        superHeroesDao.addSuperHero(superHero1);
-
-        // create a organization test input
-        Organization organization = new Organization();
-        organization.setOrgName("Test");
-        organization.setOrgDescription("Desc");
-        organization.setOrgAddress("Address");
-        organization.setOrgCity("City");
-        organization.setOrgState("ST");
-        organization.setOrgZip("33333");
-        organization.setOrgPhoneNumber("333-333-3333");
-        organization.setSuperID(superHero1.getSuperID());
-        // add organization to dao
-        organizationDao.createOrganization(organization);
-
-        List<Organization> orgs = superHeroesDao.getSuperHeroOrganizations(superHero1);
-
-        assertNotNull(orgs, "The list of organizations must not null");
-        assertEquals(1, orgs.size(),"List of locs should have 1 organization.");
-    }
-*/
     // Test functions for superpowers
 
     @Test // test result : test passed
@@ -220,7 +156,7 @@ class SuperHeroesDaoImplTest{
         SuperPower superPower = new SuperPower();
         superPower.setSuperPowerName("Fly");
 
-        // add superhero to dao
+        // add superpower to dao
         superHeroesDao.addSuperPower(superPower);
         //get superhero from the dao
         SuperPower fromDao = superHeroesDao.getSuperPowerById(superPower.getSuperPowerID());
@@ -251,8 +187,9 @@ class SuperHeroesDaoImplTest{
         assertEquals(2, allFromDao.size(),"List of superpowers should have 2 superpowers.");
 
         // Then the specifics
-        assertTrue("The list of superpowers should include super.",superHeroesDao.getAllHeroes().contains(superPower1));
-        assertTrue("The list of superpowers should include superhero2.",superHeroesDao.getAllHeroes().contains(superPower2));
+        assertTrue("The list of superpowers should include superpower1.",superHeroesDao.getAllSuperPowers().contains(superPower1));
+        assertTrue("The list of superpowers should include superpower2.",superHeroesDao.getAllSuperPowers().contains(superPower2));
+
     }
 
     @Test // test result : test passed
@@ -263,14 +200,17 @@ class SuperHeroesDaoImplTest{
 
         // add test input to the dao
         superHeroesDao.addSuperPower(superPower);
+
+        SuperPower fromDao = superHeroesDao.getSuperPowerById(superPower.getSuperPowerID());
+        assertEquals(superPower, fromDao);
+
         // change one of the properties
         superPower.setSuperPowerName("YarenTestUpdated");
         // call function for update from dao
         superHeroesDao.updateSuperPower(superPower);
-        // get updated superpower from dao
-        SuperPower updatedSuperPower = superHeroesDao.getSuperPowerById(superPower.getSuperPowerID());
+
         // check the data
-        Assertions.assertNotEquals(updatedSuperPower,superPower);
+        Assertions.assertNotEquals(superPower,fromDao);
     }
 
     @Test // test result : test passed
