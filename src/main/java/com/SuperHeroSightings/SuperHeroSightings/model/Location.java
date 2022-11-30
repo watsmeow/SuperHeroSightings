@@ -17,13 +17,13 @@ public class Location {
     @NotBlank(message = "Latitude must not be empty.")
     @Pattern(regexp=
             "^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$",
-            message = "Must be a numeric latitude between -90.000000 and 90.000000")
+            message = "Latitude must be a numeric latitude between -90.000000 and 90.000000")
     private String latitude;
 
     @NotBlank(message = "Longitude must not be empty.")
     @Pattern(regexp =
             "^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,6})?))$",
-            message = "Must be a numeric longitude between -180.000000 and 180.000000")
+            message = "Longitude must be a numeric longitude between -180.000000 and 180.000000")
     private String longitude;
 
     @NotBlank(message = "Location address must not be empty.")
