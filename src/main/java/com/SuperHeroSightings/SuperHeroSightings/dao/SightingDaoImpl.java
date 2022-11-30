@@ -78,15 +78,16 @@ public class SightingDaoImpl implements SightingDao {
     @Override
     public void updateSighting(Sighting sighting) {
         final String SQL_UPDATE = "UPDATE sightings SET locationID = ?,"
-                + " timestamp = ?, superID = ?";
+                + " timestamp = ?, superID = ? WHERE sightingID = ?";
 
         jdbc.update(SQL_UPDATE, sighting.getLocationID(), sighting.getTimestamp(),
-                sighting.getSuperID());
+                sighting.getSuperID(), sighting.getSightingID());
+
     }
 
     @Override
     public void deleteSightingByID(int sightingID) {
-        final String SQL_DELETE = "DELETE FROM sightings WHERE sighting_id = ?;";
+        final String SQL_DELETE = "DELETE FROM sightings WHERE sightingID = ?;";
         jdbc.update(SQL_DELETE, sightingID);
     }
 
@@ -106,10 +107,11 @@ public class SightingDaoImpl implements SightingDao {
         public Sighting mapRow(ResultSet rs, int index) throws SQLException {
             Sighting sighting = new Sighting();
             sighting.setSightingID(rs.getInt("sightingID"));
-            sighting.setTimestamp(rs.getTimestamp("Timestamp"));
+            sighting.setTimestamp(rs.getString("Timestamp"));
             sighting.setSuperID(rs.getInt("superID"));
             sighting.setLocationID(rs.getInt("locationID"));
             return sighting;
         }
     }
 }
+
