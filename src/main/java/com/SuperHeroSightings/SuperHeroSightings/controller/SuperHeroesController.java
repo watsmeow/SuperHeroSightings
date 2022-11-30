@@ -35,7 +35,9 @@ public class SuperHeroesController {
     @GetMapping("superheroes")
     public String displaySuperHeroes(Model model){
         List<SuperHero> superheroes = superHeroesDao.getAllHeroes();
+        List<SuperPower> superPowers = superHeroesDao.getAllSuperPowers();
         model.addAttribute("superheroes",superheroes);
+        model.addAttribute("superpowers", superPowers);
         model.addAttribute("errors", violations);
         return "superheroes";
     }
