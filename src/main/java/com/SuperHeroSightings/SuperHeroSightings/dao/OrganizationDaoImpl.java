@@ -4,7 +4,6 @@ import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
