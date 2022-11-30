@@ -23,19 +23,19 @@
 
   <div class="row m-4 border border-dark">
     <div class="col text-center m-3">
-      <a href="teachers" class="btn btn-outline-primary btn-lg">Sightings</a>
+      <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
     </div>
     <div class="col text-center m-3">
-      <a href="teachers" class="btn btn-outline-primary btn-lg">Super Heroes</a>
+      <a href="superheroes" class="btn btn-outline-primary btn-lg">Super Heroes</a>
     </div>
     <div class="col text-center m-3">
-      <a href="students" class="btn btn-outline-primary btn-lg">Super Powers</a>
+      <a href="superpowers" class="btn btn-outline-primary btn-lg">Super Powers</a>
     </div>
     <div class="col text-center m-3">
-      <a href="courses" class="btn btn-outline-primary btn-lg">Locations</a>
+      <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
     </div>
     <div class="col text-center m-3">
-      <a href="courses" class="btn btn-outline-primary btn-lg">Organizations</a>
+      <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
     </div>
   </div>
 
@@ -94,13 +94,15 @@
           <th>Timestamp (MM-DD-YYYY)</th>
           <th>Superhero Name</th>
           <th>Location Name</th>
+          <th>Edit</th>
+          <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="sighting : ${sightings}">
           <td th:text="${sighting.timestamp}">Timestamp</td>
-          <td th:text="${sighting.superID}">Superhero Name</td>
-          <td th:text="${sighting.locationID}">Location Name</td>
+          <td th:text="${sighting.superHero.superName}">Superhero Name</td>
+          <td th:text="${sighting.location.locationName}">Location Name</td>
           <td>
             <a href="#" th:href="@{/editSighting(sightingID=${sighting.sightingID})}">Edit</a>
           </td>

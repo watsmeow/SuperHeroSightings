@@ -4,11 +4,9 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-  <title>Super Hero Sightings</title>
+  <title>Edit an Organizations</title>
 </head>
 <body>
 <!-- Main Body of Page -->
@@ -16,11 +14,10 @@
   <div class="row m-4">
     <div class="col text-center border border-dark">
       <h1>
-        <a href="/" class="text-dark">Super Hero Sightings</a>
+        <a href="/" class="text-dark">Edit an Organizations</a>
       </h1>
     </div>
   </div>
-
   <div class="row m-4 border border-dark">
     <div class="col text-center m-3">
       <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
@@ -38,88 +35,68 @@
       <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
     </div>
   </div>
-
-  <!-- Add sightings form -->
+  <!-- Add an organization form -->
   <div class="row m-4 border border-dark">
-    <div class="col-3 text-center m-3">
-      <span class="h3">Add Sighting</span>
+    <div class="col text-center m-3">
+      <span class="h3">Edit an Organization</span>
     </div>
     <div class="col-7 text-center m-3">
-      <form action="addSighting" method="POST">
-        <div class="form-group row">
-          <label for="timestamp" class="col-3 col-form-label">Timestamp (YYYY-MM-DD HH:MM:SS)</label>
+      <form action="editSighting" method="POST">
+        <div class="form-group row d-none">
+          <label for="sightingID" class="col-3 col-form-label"> orgID</label>
           <div class="col-9">
-            <input type="text" name="timestamp" id="timestamp" class="form-control"/>
+            <input name="sightingID" id="sightingID" type="text" class="form-control"
+                  th:value="${sighting.sightingID}"/>
           </div>
         </div>
-        <!-- Superhero Name -->
         <div class="form-group row">
-          <label for="superName" class="col-3 col-form-label">
+          <label for="timestamp" class="col-3 col-form-label"> Name</label>
+          <div class="col-9">
+            <input type="text" name="timestamp" id="timestamp" class="form-control"
+                   th:value="${sighting.timestamp}"/>
+            <div th:if="${#fields.hasErrors('sighting.timestamp')}">
+              <p th:each="error : ${#fields.errors('sighting.timestamp')}" class="alert alert-danger"
+                 th:text="${error}">Name cannot be blank </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="locationID" class="col-3 col-form-label">
+            Location</label>
+          <div class="col-9">
+            <select id="locationID" name="locationID" class="form-control" >
+              <option th:each="location : ${locations}"
+                      th:value="${location.locationID}"
+                      th:text="${location.locationName}">
+                Location</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="superID" class="col-3 col-form-label">
             Superhero's Name</label>
           <div class="col-9">
-            <select id="superName" name="superName" class="form-control" >
+            <select id="superID" name="superID" class="form-control" >
               <option th:each="superhero : ${superheroes}"
-                      th:value="${superhero.superName}"
+                      th:value="${superhero.superID}"
                       th:text="${superhero.superName}">
                 Superhero's Name</option>
             </select>
           </div>
         </div>
 
-        <!-- Location Name -->
-        <div class="form-group row">
-          <label for="locationName" class="col-3 col-form-label">
-            Location</label>
-          <div class="col-9">
-            <select id="locationName" name="locationName" class="form-control" >
-              <option th:each="location : ${locations}"
-                      th:value="${location.locationName}"
-                      th:text="${location.locationName}">
-                Location</option>
-            </select>
-          </div>
-        </div>
-        <!-- Location Address -->
-        <button type="submit" class="btn btn-primary">Add Sighting</button>
+        <button type="submit" class="btn btn-primary">Update Organization</button>
       </form>
     </div>
   </div>
-
-  <!-- Display all sightings -->
-  <div class="row m-4 border border-dark">
-    <div class="col text-center m-3">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Timestamp (MM-DD-YYYY)</th>
-          <th>Superhero Name</th>
-          <th>Location Name</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="sighting : ${sightings}">
-          <td th:text="${sighting.timestamp}">Timestamp</td>
-          <td th:text="${sighting.superHero.superName}">Superhero Name</td>
-          <td th:text="${sighting.location.locationName}">Location Name</td>
-          <td>
-            <a href="#" th:href="@{/editSighting(sightingID=${sighting.sightingID})}">Edit</a>
-          </td>
-          <td>
-            <a href="#" th:href="@{/deleteSighting(sightingID=${sighting.sightingID})}">Delete</a>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
   <!-- End main body -->
-</div>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</div>
 </body>
-</html>
+</html>;
