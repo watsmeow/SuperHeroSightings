@@ -100,7 +100,6 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     }
 
-
     @Override
     public List<Organization> getSuperHeroOrganizations(SuperHero superHero) {
        final String SELECT_ALL_ORGANIZATIONS_SUPERHERO = "SELECT * FROM orgs o " +
@@ -156,21 +155,20 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     @Override
     @Transactional
     public void updateSuperPower(SuperPower superPower) {
-        // Update superPowers table
-        final String UPDATE_SUPERPOWER = "UPDATE superPowers SET superPowerName = ? WHERE superPowerID = ?;";
-        jdbc.update(UPDATE_SUPERPOWER, superPower.getSuperPowerName(),superPower.getSuperPowerID());
-
-        // Get superHeroes with power
-        final String HERO_POWER_MAPPING = "SELECT sh.* FROM superHeroes sh JOIN heroesPowers hp " +
-                "ON hp.superId = sh.superID WHERE hp.superPowerID = ?";
-        List<SuperHero> superHeroes = jdbc.query(HERO_POWER_MAPPING, new SuperHeroMapper(),
+        // Get old power name
+        final String GET_OLD_POWER = "SELECT * FROM superPowers WHERE superPowerID = ?";
+        SuperPower oldPower = jdbc.queryForObject(GET_OLD_POWER, new SuperPowerMapper(),
                 superPower.getSuperPowerID());
 
+        // Update superPowers table
+        final String UPDATE_SUPERPOWER =
+                "UPDATE superPowers SET superPowerName = ? WHERE superPowerID = ?;";
+        jdbc.update(UPDATE_SUPERPOWER, superPower.getSuperPowerName(),superPower.getSuperPowerID());
+
         // Update superHeroes table
-        final String UPDATE_SUPERHERO = "UPDATE superHeroes SET superPower = ? WHERE superID = ?";
-        for (SuperHero superHero : superHeroes) {
-            jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName(), superHero.getSuperID());
-        }
+        final String UPDATE_SUPERHERO =
+                "UPDATE superHeroes SET superPower = ? WHERE superPower = ?";
+        jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName(), oldPower.getSuperPowerName());
     }
 
     @Override
