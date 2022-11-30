@@ -29,6 +29,7 @@ public class Organization {
     @NotBlank(message = "Phone number must not be blank")
     private String orgPhoneNumber;
 
+
     private int superID;
 
     // Getters

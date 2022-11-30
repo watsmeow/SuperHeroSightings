@@ -130,14 +130,15 @@
           <label for="member" class="col-3 col-form-label">
             Super Hero</label>
           <div class="col-9">
-            <select id="member" name="member" class="form-control" >
+            <select multiple id="member" name="member" class="form-control" >
               <option th:each="superhero : ${superHeroes}"
-                      th:value="${superhero.superName}"
+                      th:value="${superhero.superID}"
                       th:text="${superhero.superName}">
+<!--                  th:selected="${organization.superheroes.contains(superhero)}">-->
                 Super Hero Name</option>
             </select>
           </div>
-        </div>
+
         <button type="submit" class="btn btn-primary">Update Organization</button>
       </form>
     </div>
