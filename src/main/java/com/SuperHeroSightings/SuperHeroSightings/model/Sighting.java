@@ -14,6 +14,26 @@ public class Sighting {
 
     private int locationID;
 
+    private Location location;
+
+    private SuperHero superHero;
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public SuperHero getSuperHero() {
+        return superHero;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setSuperHero(SuperHero superHero) {
+        this.superHero = superHero;
+    }
+
     public int getSightingID() {
         return sightingID;
     }
