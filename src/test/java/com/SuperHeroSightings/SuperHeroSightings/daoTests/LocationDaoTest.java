@@ -189,7 +189,7 @@ class LocationDaoTest {
         superHero = superHeroesDao.addSuperHero(superHero);
 
         Sighting sighting = new Sighting();
-        sighting.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
+        sighting.setTimestamp(Timestamp.valueOf(LocalDateTime.now()).toString());
         sighting.setSuperID(superHero.getSuperID());
         sighting.setLocationID(location.getLocationID());
         sighting = sightingDao.addSighting(sighting);

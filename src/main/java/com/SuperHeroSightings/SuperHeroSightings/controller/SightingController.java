@@ -10,12 +10,19 @@ import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SightingController {
@@ -32,36 +39,27 @@ public class SightingController {
     @Autowired
     SuperHeroesDao superHeroesDao;
 
+    Set<ConstraintViolation<Sighting>> violations = new HashSet<ConstraintViolation<Sighting>>();
+
     @GetMapping("sightings")
     public String displaySightings(Model model){
         List<Sighting> sightings = sightingDao.getAllSightings();
         List<SuperHero> superheroes = superHeroesDao.getAllHeroes();
         List<Location> locations = locationDao.getAllLocations();
 
-//        String superName = request.getParameter("superName");
-//        String locationName = request.getParameter("locationName");
-//        SuperHero superHero = superHeroesDao.getAllHeroes()
-//                .stream()
-//                .filter(hero -> hero.getSuperName().equals(superName))
-//                .findFirst().get();
-//        int superID = superHero.getSuperID();
-//
-//        /* Retrieve location ID */
-//        Location location = locationDao.getAllLocations()
-//                .stream()
-//                .filter(loc -> loc.getLocationName().equals(locationName))
-//                .findFirst().get();
-
         model.addAttribute("sightings",sightings);
         model.addAttribute("superheroes",superheroes);
         model.addAttribute("locations",locations);
+        model.addAttribute("errors", violations);
+
         return "sightings";
     }
 
     @PostMapping("addSighting")
     public String addSighting(HttpServletRequest request) {
         String timestamp = request.getParameter("timestamp");
-        Timestamp newTimeStamp = Timestamp.valueOf(timestamp);
+//        Timestamp newTimeStamp = Timestamp.valueOf(timestamp);
+
         String superName = request.getParameter("superName");
         String locationName = request.getParameter("locationName");
 
@@ -78,34 +76,50 @@ public class SightingController {
                 .filter(loc -> loc.getLocationName().equals(locationName))
                 .findFirst().get();
 
-//        System.out.println("********************");
-//        List<Location> locationsMap = locationDao.getAllLocations();
-//        for (Location location1: locationsMap) {
-//            System.out.println(location1.getLocationName());
-//        }
-//        System.out.println("********************");
-
         int locationID = location.getLocationID();
 
         Sighting sighting = new Sighting();
-        sighting.setTimestamp(newTimeStamp);
+        sighting.setTimestamp(timestamp);
         sighting.setSuperID(superID);
         sighting.setLocationID(locationID);
-        sightingDao.addSighting(sighting);
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(sighting);
+
+        if(violations.isEmpty()) {
+            sightingDao.addSighting(sighting);
+        }
 
         return "redirect:/sightings";
     }
     @GetMapping("deleteSighting")
-    public String deleteSighting(Integer id) {
-        sightingDao.deleteSightingByID(id);
+    public String deleteSighting(Integer sightingID) {
+        sightingDao.deleteSightingByID(sightingID);
+
         return "redirect:/sightings";
     }
     @GetMapping("editSighting")
     public String editSighting(HttpServletRequest request, Model model) {
         int id = Integer.parseInt(request.getParameter("sightingID"));
         Sighting sighting = sightingDao.getSightingByID(id);
-        model.addAttribute("sighting", sighting);
+        List<SuperHero> superheroes = superHeroesDao.getAllHeroes();
+        List<Location> locations = locationDao.getAllLocations();
+
+        model.addAttribute("sighting",sighting);
+        model.addAttribute("superheroes",superheroes);
+        model.addAttribute("locations",locations);
         return "editSighting";
+    }
+
+    @PostMapping("editSighting")
+    public String performUpdateOrganization(@Valid Sighting sighting, BindingResult result) {
+        if(result.hasErrors()) {
+            return "editSighting";
+        }
+
+        sightingDao.updateSighting(sighting);
+
+        return "redirect:/sightings";
     }
 /*
     @GetMapping("/")
@@ -116,3 +130,4 @@ public class SightingController {
     }
     */
 }
+

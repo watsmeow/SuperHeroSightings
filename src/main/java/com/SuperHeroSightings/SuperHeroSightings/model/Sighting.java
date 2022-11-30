@@ -1,5 +1,9 @@
 package com.SuperHeroSightings.SuperHeroSightings.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -8,11 +12,39 @@ public class Sighting {
 
     private int sightingID;
 
-    private Timestamp timestamp;
+    @NotEmpty(message = "Timestamp must not be blank")
+    @Pattern(regexp=
+            "^\\d{4}[-]?\\d{1,2}[-]?\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}[.]?\\d{1,6}$",
+            message = "Timestamp must YYYY-MM-DD HH:MM:SS formatted.")
+    private String timestamp;
 
+    //    @NotBlank(message = "Super name must not be blank")
+//    @Size(max = 50, message = "Superhero name must be fewer than 50 characters.")
     private int superID;
 
+    //    @NotBlank(message = "Location name must not be blank")
+//    @Size(max = 50, message = "Location name must be fewer than 50 characters.")
     private int locationID;
+
+    private Location location;
+
+    private SuperHero superHero;
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public SuperHero getSuperHero() {
+        return superHero;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setSuperHero(SuperHero superHero) {
+        this.superHero = superHero;
+    }
 
     public int getSightingID() {
         return sightingID;
@@ -22,11 +54,11 @@ public class Sighting {
         this.sightingID = sightingID;
     }
 
-    public Timestamp getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -59,3 +91,4 @@ public class Sighting {
         return Objects.hash(sightingID, timestamp, superID, locationID);
     }
 }
+
