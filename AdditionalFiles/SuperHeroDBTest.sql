@@ -6,13 +6,13 @@ CREATE TABLE orgAddresses (
 	orgAddressID INT PRIMARY KEY auto_increment,
     orgAddress VARCHAR(500) NOT NULL,
     orgCity VARCHAR(100) NOT NULL,
-    orgState VARCHAR(2) NOT NULL,
-    orgZip VARCHAR(10) NOT NULL
+    orgState CHAR(2) NOT NULL,
+    orgZip CHAR(5) NOT NULL
 );
 
 CREATE TABLE orgPhoneNumbers (
 	phoneNumberID INT PRIMARY KEY auto_increment,
-    phoneNumber VARCHAR(50) NOT NULL
+    phoneNumber VARCHAR(12) NOT NULL
 );
 
 CREATE TABLE locations (

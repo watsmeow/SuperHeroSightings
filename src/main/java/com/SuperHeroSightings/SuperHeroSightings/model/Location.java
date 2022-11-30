@@ -36,6 +36,7 @@ public class Location {
 
     @NotBlank(message = "Location state must not be empty.")
     @Size(min = 2, max = 2, message = "Location state (abbreviation) must be 2 characters.")
+    @Pattern(regexp = "[a-zA-Z]{2}", message = "Location state must be 2 letters (Ex: TX).")
     private String locationState;
 
     @NotBlank(message = "Location zip must not be empty.")
