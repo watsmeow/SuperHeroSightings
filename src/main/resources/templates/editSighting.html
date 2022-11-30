@@ -42,19 +42,23 @@
     </div>
     <div class="col-7 text-center m-3">
       <form action="updateSighting" method="POST">
-        <!--
-        <div class="col-12 m-1 text-center"
-             th:if="${!errors.isEmpty()}">
-          <p class="alert alert-danger"
-             th:each="error : ${errors}" th:text="${error.message}">Error message</p>
-        </div>
-        -->
+<!--        <div class="col-12 m-1 text-center"-->
+<!--             th:if="${!errors.isEmpty()}">-->
+<!--          <p class="alert alert-danger"-->
+<!--             th:each="error : ${errors}" th:text="${error.message}">Error message</p>-->
+<!--        </div>-->
 
         <div class="form-group row">
-          <label for="timestamp" class="col-3 col-form-label">Timestamp (YYYY-MM-DD HH:MM:SS)</label>
+          <label for="timestamp" class="col-3 col-form-label">Timestamp</label>
           <div class="col-9">
-            <input type="text" name="timestamp" id="timestamp" class="form-control"
+            <input type="date" name="timestamp" id="timestamp" class="form-control"
             th:value="${sighting.timestamp}"/>
+            <div th:if="${#fields.hasErrors('sighting.timestamp')}">
+              <p th:each="error : ${#fields.errors('sighting.timestamp')}"
+                 class="alert alert-danger" th:text="${error}">
+                Bad timestamp value
+              </p>
+            </div>
           </div>
         </div>
 
@@ -64,10 +68,16 @@
             Superhero's Name</label>
           <div class="col-9">
             <select id="superName" name="superName" class="form-control" >
-              <option th:each="superhero : ${superheroes}"
-                      th:value="${superhero.superName}"
-                      th:text="${superhero.superName}">
+              <option th:each="superHero : ${superheroes}"
+                      th:value="${superHero.superName}"
+                      th:text="${superHero.superName}">
                 Superhero's Name</option>
+              <div th:if="${#fields.hasErrors('sighting.superHero.superName')}">
+                <p th:each="error : ${#fields.errors('sighting.superHero.superName')}"
+                   class="alert alert-danger" th:text="${error}">
+                  Bad superhero name
+                </p>
+              </div>
             </select>
           </div>
         </div>
@@ -82,6 +92,12 @@
                       th:value="${location.locationName}"
                       th:text="${location.locationName}">
                 Location</option>
+              <div th:if="${#fields.hasErrors('sighting.location.locationName')}">
+                <p th:each="error : ${#fields.errors('sighting.location.locationName')}"
+                   class="alert alert-danger" th:text="${error}">
+                  Bad location name
+                </p>
+              </div>
             </select>
           </div>
         </div>
