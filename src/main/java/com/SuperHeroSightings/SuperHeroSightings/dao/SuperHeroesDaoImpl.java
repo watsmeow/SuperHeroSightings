@@ -14,26 +14,8 @@ import java.util.List;
 
 @Repository
 public class SuperHeroesDaoImpl implements SuperHeroesDao {
-
     @Autowired
     JdbcTemplate jdbc;
-
-    public SuperHeroesDaoImpl(JdbcTemplate jdbc) {
-        this.jdbc = jdbc;
-    }
-
-    public static final class SuperHeroMapper implements RowMapper<SuperHero> {
-
-        @Override
-        public SuperHero mapRow(ResultSet rs, int index) throws SQLException {
-            SuperHero superHero = new SuperHero();
-            superHero.setSuperID(rs.getInt("superID"));
-            superHero.setSuperName(rs.getString("superName"));
-            superHero.setSuperDescription(rs.getString("superDescription"));
-            superHero.setSuperPower(rs.getString("superPower"));
-            return superHero;
-        }
-    }
 
     @Override
     public List<SuperHero> getAllHeroes() {
@@ -56,19 +38,44 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     public SuperHero addSuperHero(SuperHero superHero) {
         final String INSERT_SUPERHERO = "INSERT INTO superheroes (superName," +
                 "superDescription,superPower) VALUES (?,?,?);";
-        jdbc.update(INSERT_SUPERHERO, superHero.getSuperName(), superHero.getSuperDescription(),
+        jdbc.update(INSERT_SUPERHERO, superHero.getSuperName(),
+                superHero.getSuperDescription(),
                 superHero.getSuperPower());
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         superHero.setSuperID(newId);
+
+        final String GET_POWER = "SELECT sp.* from superPowers sp " +
+                "JOIN superHeroes sh ON sh.superPower = sp.superPowerName " +
+                "WHERE sp.superPowerName = ?";
+        SuperPower power = jdbc.queryForObject(GET_POWER,
+                new SuperPowerMapper(), superHero.getSuperPower());
+
+        final String INSERT_HEROES_POWERS = "INSERT INTO heroesPowers " +
+                "(superID,superPowerID) VALUES (?,?)";
+        jdbc.update(INSERT_HEROES_POWERS, superHero.getSuperID(), power.getSuperPowerID());
+
         return superHero;
     }
 
     @Override
+    @Transactional
     public void updateSuperHero(SuperHero superHero) {
         final String UPDATE_SUPERHERO = "UPDATE superheroes SET superName =?," +
                 "superDescription=?,superPower=? WHERE superID=?;";
         jdbc.update(UPDATE_SUPERHERO, superHero.getSuperName(),
-                superHero.getSuperDescription(), superHero.getSuperPower(),superHero.getSuperID());
+                superHero.getSuperDescription(), superHero.getSuperPower(),
+                superHero.getSuperID());
+
+        final String GET_POWER = "SELECT sp.* from superPowers sp " +
+                "JOIN superHeroes sh ON sh.superPower = sp.superPowerName " +
+                "WHERE sp.superPowerName = ?";
+        SuperPower power = jdbc.queryForObject(GET_POWER,
+                new SuperPowerMapper(), superHero.getSuperPower());
+
+        final String UPDATE_HERO_POWER = "UPDATE heroesPowers SET superPowerID=? " +
+                "WHERE superID=?";
+        jdbc.update(UPDATE_HERO_POWER, power.getSuperPowerID(), superHero.getSuperID());
+
     }
 
     @Override
@@ -93,18 +100,16 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
 
     }
 
-
     @Override
     public List<Organization> getSuperHeroOrganizations(SuperHero superHero) {
-       final String SELECT_ALLORGANIZATIONS_SUPERHERO = "SELECT * FROM orgs o " +
+       final String SELECT_ALL_ORGANIZATIONS_SUPERHERO = "SELECT * FROM orgs o " +
                 "LEFT JOIN orgPhoneNumbers opn ON (opn.phoneNumberID = o.orgPhoneNumberID) " +
                 "LEFT JOIN orgAddresses oa USING (orgAddressID) " +
                 "LEFT JOIN superToOrgMapping s USING (orgID)" +
                 "WHERE s.superID = ?;";
 
-
-
-        return jdbc.query(SELECT_ALLORGANIZATIONS_SUPERHERO, new OrganizationDaoImpl.OrganizationMapper(),
+        return jdbc.query(SELECT_ALL_ORGANIZATIONS_SUPERHERO,
+                new OrganizationDaoImpl.OrganizationMapper(),
                 superHero.getSuperID());
     }
 
@@ -117,18 +122,6 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
         return jdbc.query(SELECT_LOCATIONS_SUPERHERO, new LocationDaoImpl.LocationMapper(),
                 superHero.getSuperID());
 
-    }
-
-
-    public static final class SuperPowerMapper implements RowMapper<SuperPower> {
-
-        @Override
-        public SuperPower mapRow(ResultSet rs, int index) throws SQLException {
-            SuperPower superPower = new SuperPower();
-            superPower.setSuperPowerID(rs.getInt("superPowerID"));
-            superPower.setSuperPowerName(rs.getString("superPowerName"));
-            return superPower;
-        }
     }
 
     @Override
@@ -160,22 +153,83 @@ public class SuperHeroesDaoImpl implements SuperHeroesDao {
     }
 
     @Override
+    @Transactional
     public void updateSuperPower(SuperPower superPower) {
-        final String UPDATE_SUPERHERO = "UPDATE superPowers SET superPowerName =? WHERE superPowerID= ?;";
-        jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName(),superPower.getSuperPowerID());
+        // Get old power name
+        final String GET_OLD_POWER = "SELECT * FROM superPowers WHERE superPowerID = ?";
+        SuperPower oldPower = jdbc.queryForObject(GET_OLD_POWER, new SuperPowerMapper(),
+                superPower.getSuperPowerID());
+
+        // Update superPowers table
+        final String UPDATE_SUPERPOWER =
+                "UPDATE superPowers SET superPowerName = ? WHERE superPowerID = ?;";
+        jdbc.update(UPDATE_SUPERPOWER, superPower.getSuperPowerName(),superPower.getSuperPowerID());
+
+        // Update superHeroes table
+        final String UPDATE_SUPERHERO =
+                "UPDATE superHeroes SET superPower = ? WHERE superPower = ?";
+        jdbc.update(UPDATE_SUPERHERO, superPower.getSuperPowerName(), oldPower.getSuperPowerName());
     }
 
     @Override
     @Transactional
     public void deleteSuperPowerById(int superPowerID) {
-        final String DELETE_HEROESPOWERS = "DELETE FROM heroesPowers" +
+        // Delete from heroesPowers table
+        final String DELETE_HEROES_POWERS = "DELETE FROM heroesPowers" +
                 " WHERE superPowerID=?;";
-        jdbc.update(DELETE_HEROESPOWERS, superPowerID);
+        jdbc.update(DELETE_HEROES_POWERS, superPowerID);
 
+        // Get SuperPower object from superPowerID passed into method
+        final String GET_POWER = "SELECT * FROM superPowers " +
+                "WHERE superPowerID = ?";
+        SuperPower superPower =
+                jdbc.queryForObject(GET_POWER, new SuperPowerMapper(), superPowerID);
+
+        // Get all heroes with the power
+        final String GET_HEROES_WITH_POWER = "SELECT * FROM superHeroes " +
+                "WHERE superPower = ?";
+        List<SuperHero> heroesWithPower = jdbc.query(GET_HEROES_WITH_POWER,
+                new SuperHeroMapper(), superPower.getSuperPowerName());
+
+        // Delete from superToOrgMapping
+        final String DELETE_SUPER_TO_ORG = "DELETE FROM superToOrgMapping " +
+                "WHERE superID = ?";
+        for (SuperHero superHero : heroesWithPower) {
+            jdbc.update(DELETE_SUPER_TO_ORG, superHero.getSuperID());
+        }
+
+        // Delete SuperHero
+        final String DELETE_SUPER_HERO = "DELETE FROM superHeroes " +
+                "WHERE superPower = ?";
+        jdbc.update(DELETE_SUPER_HERO, superPower.getSuperPowerName());
+
+        // Delete superPower
         final String DELETE_SUPERPOWER_BY_ID = "DELETE FROM superPowers" +
                 " WHERE superPowerID=?;";
-
         jdbc.update(DELETE_SUPERPOWER_BY_ID, superPowerID);
     }
 
+    public static final class SuperHeroMapper implements RowMapper<SuperHero> {
+
+        @Override
+        public SuperHero mapRow(ResultSet rs, int index) throws SQLException {
+            SuperHero superHero = new SuperHero();
+            superHero.setSuperID(rs.getInt("superID"));
+            superHero.setSuperName(rs.getString("superName"));
+            superHero.setSuperDescription(rs.getString("superDescription"));
+            superHero.setSuperPower(rs.getString("superPower"));
+            return superHero;
+        }
+    }
+
+    public static final class SuperPowerMapper implements RowMapper<SuperPower> {
+
+        @Override
+        public SuperPower mapRow(ResultSet rs, int index) throws SQLException {
+            SuperPower superPower = new SuperPower();
+            superPower.setSuperPowerID(rs.getInt("superPowerID"));
+            superPower.setSuperPowerName(rs.getString("superPowerName"));
+            return superPower;
+        }
+    }
 }

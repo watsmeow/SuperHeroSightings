@@ -77,7 +77,7 @@ public class LocationDaoImpl implements LocationDao {
 
     @Override
     public List<SuperHero> getSuperHeroesAtLocation(Location location) {
-        final String LOCATION_SUPERHEROES = "SELECT sh.* from superHeroes sh "
+        final String LOCATION_SUPERHEROES = "SELECT DISTINCT sh.* from superHeroes sh "
                 + "JOIN sightings s ON s.superID = sh.superID WHERE s.locationID = ?";
         List<SuperHero> superHeroesAtLocation = jdbc.query(LOCATION_SUPERHEROES,
                 new SuperHeroMapper(), location.getLocationID());
