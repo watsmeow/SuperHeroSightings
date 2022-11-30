@@ -5,6 +5,7 @@ import com.SuperHeroSightings.SuperHeroSightings.dao.OrganizationDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SightingDao;
 import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
+import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.Sighting;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,9 @@ public class SightingController {
     @Autowired
     SuperHeroesDao superHeroesDao;
 
+
     Set<ConstraintViolation<Sighting>> violations = new HashSet<ConstraintViolation<Sighting>>();
+
 
     @GetMapping("sightings")
     public String displaySightings(Model model){
@@ -92,12 +95,13 @@ public class SightingController {
 
         return "redirect:/sightings";
     }
+
     @GetMapping("deleteSighting")
     public String deleteSighting(Integer sightingID) {
         sightingDao.deleteSightingByID(sightingID);
-
         return "redirect:/sightings";
     }
+
     @GetMapping("editSighting")
     public String editSighting(HttpServletRequest request, Model model) {
         int id = Integer.parseInt(request.getParameter("sightingID"));

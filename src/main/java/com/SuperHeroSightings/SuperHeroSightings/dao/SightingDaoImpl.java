@@ -82,6 +82,7 @@ public class SightingDaoImpl implements SightingDao {
 
         jdbc.update(SQL_UPDATE, sighting.getLocationID(), sighting.getTimestamp(),
                 sighting.getSuperID(), sighting.getSightingID());
+
     }
 
     @Override
