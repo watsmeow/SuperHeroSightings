@@ -5,6 +5,7 @@ import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.Organization;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperPower;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,10 +46,17 @@ public class SuperHeroesController {
         String superDescription = request.getParameter("superDescription");
         String superPower = request.getParameter("superPower");
 
+        SuperPower getPower = superHeroesDao.getAllSuperPowers()
+                .stream()
+                .filter(power -> power.getSuperPowerName().equals(superPower))
+                .findFirst().get();
+
+        String superPowerName = getPower.getSuperPowerName();
+
         SuperHero superHero = new SuperHero();
         superHero.setSuperName(superName);
         superHero.setSuperDescription(superDescription);
-        superHero.setSuperPower(superPower);
+        superHero.setSuperPower(superPowerName);
 
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
         violations = validate.validate(superHero);
