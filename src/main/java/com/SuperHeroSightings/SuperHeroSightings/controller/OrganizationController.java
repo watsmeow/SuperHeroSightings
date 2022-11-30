@@ -52,30 +52,34 @@ public class OrganizationController {
         String state = request.getParameter("state");
         String zip = request.getParameter("zip");
         String phone = request.getParameter("phone");
-        String superName = request.getParameter("member");
+        String[] superNames= request.getParameterValues("member");
 
-        SuperHero superHero = superHeroesDao.getAllHeroes()
-                .stream()
-                .filter(hero -> hero.getSuperName().equals(superName))
-                .findFirst().get();
+        for (String superName: superNames){
 
-        int superID = superHero.getSuperID();
 
-        Organization organization = new Organization();
-        organization.setOrgName(name);
-        organization.setOrgDescription(description);
-        organization.setOrgAddress(address);
-        organization.setOrgState(state);
-        organization.setOrgCity(city);
-        organization.setOrgZip(zip);
-        organization.setOrgPhoneNumber(phone);
-        organization.setSuperID(superID);
+            SuperHero superHero = superHeroesDao.getAllHeroes()
+                    .stream()
+                    .filter(hero -> hero.getSuperName().equals(superName))
+                    .findFirst().get();
 
-        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-        violations = validate.validate(organization);
+            int superID = superHero.getSuperID();
 
-        if(violations.isEmpty()) {
-            organizationDao.createOrganization(organization);
+            Organization organization = new Organization();
+            organization.setOrgName(name);
+            organization.setOrgDescription(description);
+            organization.setOrgAddress(address);
+            organization.setOrgState(state);
+            organization.setOrgCity(city);
+            organization.setOrgZip(zip);
+            organization.setOrgPhoneNumber(phone);
+            organization.setSuperID(superID);
+
+            Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+            violations = validate.validate(organization);
+
+            if (violations.isEmpty()) {
+                organizationDao.createOrganization(organization);
+            }
         }
 
         return "redirect:/organizations";
@@ -90,14 +94,19 @@ public class OrganizationController {
         return "editOrganization";
     }
 
+
     @PostMapping("editOrganization")
-    public String performUpdateOrganization(@Valid Organization organization, BindingResult result) {
+    public String performUpdateOrganization(@Valid Organization organization, BindingResult result,
+                                            HttpServletRequest request) {
         if(result.hasErrors()) {
             return "editOrganization";
         }
-
+        String[] superIDs = request.getParameterValues("member");
         organizationDao.updateOrganization(organization);
 
+        for (String superID : superIDs) {
+            organizationDao.associateSuperHeroToOrg(Integer.parseInt(superID), organization.getOrgID());
+        }
         return "redirect:/organizations";
     }
 
@@ -110,8 +119,7 @@ public class OrganizationController {
     @GetMapping("organizationMembers")
     public String getMembersOfOrg(int orgID, Model model) {
         Organization organization = organizationDao.getOrgByID(orgID);
-        String orgName = organization.getOrgName();
-        List<SuperHero> superHeroes = organizationDao.getAllMembersOfAnOrg(orgName);
+        List<SuperHero> superHeroes = organizationDao.getAllMembersOfAnOrg(orgID);
         model.addAttribute("organization", organization);
         model.addAttribute("superHeroes", superHeroes);
         return "organizationMembers";

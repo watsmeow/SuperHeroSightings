@@ -84,6 +84,22 @@ public class OrganizationDaoImpl implements OrganizationDao {
                 organization.getOrgName(),
                 organization.getOrgDescription(),
                 orgID);
+
+        final String DELETE_MAPPING = "DELETE FROM supertoorgmapping WHERE orgID = ?;";
+        jdbcTemplate.update(DELETE_MAPPING, orgID);
+
+//        final String INSERT_MAP = "INSERT INTO supertoorgmapping (orgID, superID) VALUES (?, ?);";
+//        jdbcTemplate.update(INSERT_MAP,
+//                organization.getOrgID(),
+//                organization.getSuperID());
+    }
+
+    public void associateSuperHeroToOrg(int superID, int orgID) {
+
+        final String INSERT_MAP = "INSERT INTO supertoorgmapping (orgID, superID) VALUES (?, ?);";
+        jdbcTemplate.update(INSERT_MAP,
+                orgID,
+                superID);
     }
 
     @Override
@@ -144,14 +160,13 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
 
     @Override
-    public List<SuperHero> getAllMembersOfAnOrg(String orgName) {
+    public List<SuperHero> getAllMembersOfAnOrg(int orgID) {
         try {
             final String SQL_GET_ALL = "SELECT superHeroes.superID, superName, superDescription, " +
                     "superPower FROM superHeroes " +
                     "LEFT JOIN superToOrgMapping USING (superID) " +
-                    "LEFT JOIN orgs USING (orgID) " +
-                    "WHERE orgName = ?;";
-            return jdbcTemplate.queryForStream(SQL_GET_ALL, new SuperHeroesDaoImpl.SuperHeroMapper(), orgName)
+                    "WHERE orgID = ?;";
+            return jdbcTemplate.queryForStream(SQL_GET_ALL, new SuperHeroesDaoImpl.SuperHeroMapper(), orgID)
                     .collect(Collectors.toList());
         } catch (DataAccessException e) {
             return null;
@@ -173,6 +188,5 @@ public class OrganizationDaoImpl implements OrganizationDao {
             return organization;
         }
     }
-
 
 }
