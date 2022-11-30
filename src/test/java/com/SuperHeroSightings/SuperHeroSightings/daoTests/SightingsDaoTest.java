@@ -7,6 +7,7 @@ import com.SuperHeroSightings.SuperHeroSightings.dao.SuperHeroesDao;
 import com.SuperHeroSightings.SuperHeroSightings.model.Location;
 import com.SuperHeroSightings.SuperHeroSightings.model.Sighting;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
+import com.SuperHeroSightings.SuperHeroSightings.model.SuperPower;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -35,6 +35,10 @@ public class SightingsDaoTest extends TestCase {
 
     @Before
     public void setUp() {
+        List<SuperPower> superPowers = superHeroesDao.getAllSuperPowers();
+        for (SuperPower superPower : superPowers) {
+            superHeroesDao.deleteSuperPowerById(superPower.getSuperPowerID());
+        }
         List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
         for (SuperHero superHero : superHeroes) {
             superHeroesDao.deleteSuperHeroById(superHero.getSuperID());
@@ -51,13 +55,18 @@ public class SightingsDaoTest extends TestCase {
 
     @Test
     public void testGetAllSightings() {
-        /* Create superhero1 and location1 objects */
+        /* Create superhero1 and superPower1 object */
+        SuperPower superpower1 = new SuperPower();
+        superpower1.setSuperPowerName("Test superpower1 Name");
+        superHeroesDao.addSuperPower(superpower1);
+
         SuperHero superhero1 = new SuperHero();
         superhero1.setSuperDescription("Test description1");
         superhero1.setSuperName("Test superhero1");
-        superhero1.setSuperPower("Test power1");
+        superhero1.setSuperPower(superpower1.getSuperPowerName());
         superHeroesDao.addSuperHero(superhero1);
 
+        /* Create location1 object */
         Location location1 = new Location();
         location1.setLocationName("Test location name1");
         location1.setLocationDescription("Test location description1");
@@ -79,10 +88,15 @@ public class SightingsDaoTest extends TestCase {
         sightingDao.addSighting(sighting1);
 
         /* Create superhero2 and location2 objects */
+        SuperPower superpower2 = new SuperPower();
+        superpower2.setSuperPowerName("Test superpower2 Name");
+        superHeroesDao.addSuperPower(superpower2);
+
         SuperHero superhero2 = new SuperHero();
         superhero2.setSuperDescription("Test description2");
         superhero2.setSuperName("Test superhero2");
-        superhero2.setSuperPower("Test power2");
+
+        superhero2.setSuperPower(superpower2.getSuperPowerName());
         superHeroesDao.addSuperHero(superhero2);
 
         Location location2 = new Location();
@@ -117,10 +131,14 @@ public class SightingsDaoTest extends TestCase {
     @Test
     public void testGetSightingByID() {
         /* Create superhero and location objects */
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower Name");
+        superHeroesDao.addSuperPower(superpower);
+
         SuperHero superhero = new SuperHero();
         superhero.setSuperDescription("Test description");
         superhero.setSuperName("Test superhero");
-        superhero.setSuperPower("Test power");
+        superhero.setSuperPower(superpower.getSuperPowerName());
         superHeroesDao.addSuperHero(superhero);
 
         Location location = new Location();
@@ -153,10 +171,14 @@ public class SightingsDaoTest extends TestCase {
     @Test
     public void testAddSighting() {
         /* Create superhero and location objects */
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower1 Name");
+        superHeroesDao.addSuperPower(superpower);
+
         SuperHero superhero = new SuperHero();
         superhero.setSuperDescription("Test description");
         superhero.setSuperName("Test superhero");
-        superhero.setSuperPower("Test power");
+        superhero.setSuperPower(superpower.getSuperPowerName());
         superHeroesDao.addSuperHero(superhero);
 
         Location location = new Location();
@@ -188,10 +210,14 @@ public class SightingsDaoTest extends TestCase {
     @Test
     public void testUpdateSighting() {
         /* Create superhero and location objects */
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower1 Name");
+        superHeroesDao.addSuperPower(superpower);
+
         SuperHero superhero = new SuperHero();
         superhero.setSuperDescription("Test description");
         superhero.setSuperName("Test superhero");
-        superhero.setSuperPower("Test power");
+        superhero.setSuperPower(superpower.getSuperPowerName());
         superHeroesDao.addSuperHero(superhero);
 
         Location location = new Location();
@@ -228,10 +254,14 @@ public class SightingsDaoTest extends TestCase {
     @Test
     public void testDeleteSightingByID() {
         /* Create superhero and location objects */
+        SuperPower superpower = new SuperPower();
+        superpower.setSuperPowerName("Test superpower1 Name");
+        superHeroesDao.addSuperPower(superpower);
+
         SuperHero superhero = new SuperHero();
         superhero.setSuperDescription("Test description");
         superhero.setSuperName("Test superhero");
-        superhero.setSuperPower("Test power");
+        superhero.setSuperPower(superpower.getSuperPowerName());
         superHeroesDao.addSuperHero(superhero);
 
         Location location = new Location();
