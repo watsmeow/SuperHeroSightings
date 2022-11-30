@@ -59,10 +59,17 @@ class SuperHeroesDaoImplTest{
     @Test // test result : test passed
     public void testAddAndGetSuperHero() {
         // create a test input
+        SuperPower superPower = new SuperPower();
+        superPower.setSuperPowerName("Fly");
+
+        // add superpower to dao
+        superHeroesDao.addSuperPower(superPower);
+
+        // create a test input
         SuperHero superHero = new SuperHero();
         superHero.setSuperName("ShamsTheHero");
         superHero.setSuperDescription("Teaches Java");
-        superHero.setSuperPower("Java Master");
+        superHero.setSuperPower(superPower.getSuperPowerName());
         // add superhero to dao
         superHeroesDao.addSuperHero(superHero);
         //get superhero from the dao
@@ -75,16 +82,30 @@ class SuperHeroesDaoImplTest{
     @Test // test result : test passed
     public void testAddAndGetAllSuperHeroes() {
         // create a test input1
+        SuperPower superPower = new SuperPower();
+        superPower.setSuperPowerName("Java Master1");
+
+        // add superpower to dao
+        superHeroesDao.addSuperPower(superPower);
+
+        // create a test input1
         SuperHero superHero1 = new SuperHero();
         superHero1.setSuperName("ShamsTheHero1");
         superHero1.setSuperDescription("Teaches Java1");
-        superHero1.setSuperPower("Java Master1");
+        superHero1.setSuperPower(superPower.getSuperPowerName());
+
+        // create a test input2
+        SuperPower superPower2 = new SuperPower();
+        superPower2.setSuperPowerName("Java Master2");
+
+        // add superpower to dao
+        superHeroesDao.addSuperPower(superPower2);
 
         // create a test input2
         SuperHero superHero2 = new SuperHero();
         superHero2.setSuperName("ShamsTheHero2");
         superHero2.setSuperDescription("Teaches Java2");
-        superHero2.setSuperPower("Java Master2");
+        superHero2.setSuperPower(superPower2.getSuperPowerName());
 
         // add test inputs to dao
         superHeroesDao.addSuperHero(superHero1);
@@ -103,11 +124,18 @@ class SuperHeroesDaoImplTest{
 
     @Test // test result : test passed
     public void testUpdate() {
+        // create a test input1
+        SuperPower superPower = new SuperPower();
+        superPower.setSuperPowerName("Java Master1");
+
+        // add superpower to dao
+        superHeroesDao.addSuperPower(superPower);
+
         // create a test input
         SuperHero superHero1 = new SuperHero();
         superHero1.setSuperName("ShamsTheHero1");
         superHero1.setSuperDescription("Teaches Java1");
-        superHero1.setSuperPower("Java Master1");
+        superHero1.setSuperPower(superPower.getSuperPowerName());
         // add
         superHeroesDao.addSuperHero(superHero1);
         // change one of the properties
@@ -123,16 +151,30 @@ class SuperHeroesDaoImplTest{
     @Test // test result : test passed
     public void testDeleteById() {
         // create a test input1
+        SuperPower superPower = new SuperPower();
+        superPower.setSuperPowerName("Java Master1");
+
+        // add superpower to dao
+        superHeroesDao.addSuperPower(superPower);
+
+        // create a test input1
         SuperHero superHero1 = new SuperHero();
         superHero1.setSuperName("ShamsTheHero1");
         superHero1.setSuperDescription("Teaches Java1");
-        superHero1.setSuperPower("Java Master1");
+        superHero1.setSuperPower(superPower.getSuperPowerName());
+
+        // create a test input2
+        SuperPower superPower2 = new SuperPower();
+        superPower2.setSuperPowerName("Java Master2");
+
+        // add superpower to dao
+        superHeroesDao.addSuperPower(superPower2);
 
         // create a test input2
         SuperHero superHero2 = new SuperHero();
         superHero2.setSuperName("ShamsTheHero2");
         superHero2.setSuperDescription("Teaches Java2");
-        superHero2.setSuperPower("Java Master2");
+        superHero2.setSuperPower(superPower2.getSuperPowerName());
 
         // add test inputs to dao
         superHeroesDao.addSuperHero(superHero1);
