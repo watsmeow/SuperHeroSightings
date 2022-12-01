@@ -63,12 +63,13 @@ public class SightingDaoImpl implements SightingDao {
 
     @Override
     public Sighting addSighting(Sighting sighting) {
-        final String SQL_ADD = "INSERT INTO sightings(sightingID,Timestamp,"
+        final String SQL_ADD = "INSERT INTO sightings(Timestamp,"
                 + "superID,locationID) "
-                + "VALUES(?,?,?,?)";
+                + "VALUES(?,?,?)";
 
-        jdbc.update(SQL_ADD, sighting.getSightingID(), sighting.getTimestamp(),
-                sighting.getLocationID(), sighting.getSuperID());
+        jdbc.update(SQL_ADD, sighting.getTimestamp(),
+                sighting.getSuperID(),
+                sighting.getLocationID());
 
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         sighting.setSightingID(newId);
