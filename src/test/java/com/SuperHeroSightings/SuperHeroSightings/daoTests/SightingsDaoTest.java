@@ -9,15 +9,20 @@ import com.SuperHeroSightings.SuperHeroSightings.model.Sighting;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperHero;
 import com.SuperHeroSightings.SuperHeroSightings.model.SuperPower;
 import junit.framework.TestCase;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestApplicationConfiguration.class)
@@ -35,13 +40,13 @@ public class SightingsDaoTest extends TestCase {
 
     @Before
     public void setUp() {
-        List<SuperPower> superPowers = superHeroesDao.getAllSuperPowers();
-        for (SuperPower superPower : superPowers) {
-            superHeroesDao.deleteSuperPowerById(superPower.getSuperPowerID());
-        }
         List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
         for (SuperHero superHero : superHeroes) {
             superHeroesDao.deleteSuperHeroById(superHero.getSuperID());
+        }
+        List<SuperPower> superPowers = superHeroesDao.getAllSuperPowers();
+        for (SuperPower superPower : superPowers) {
+            superHeroesDao.deleteSuperPowerById(superPower.getSuperPowerID());
         }
         List<Location> locations = locationDao.getAllLocations();
         for (Location location : locations) {
@@ -85,6 +90,8 @@ public class SightingsDaoTest extends TestCase {
 //        Timestamp newTimeStamp1 = Timestamp.valueOf(testTimestamp1);
         sighting1.setTimestamp(testTimestamp1);
         sighting1.setSuperID(superhero1.getSuperID());
+        sighting1.setLocation(location1);
+        sighting1.setSuperHero(superhero1);
         sightingDao.addSighting(sighting1);
 
         /* Create superhero2 and location2 objects */
@@ -121,8 +128,11 @@ public class SightingsDaoTest extends TestCase {
 
         List<Sighting> sightings = sightingDao.getAllSightings();
 
-        Assertions.assertTrue(sightings.contains(sighting1));
-        Assertions.assertTrue(sightings.contains(sighting2));
+        assertNotNull("The list of superheroes must not null", sightings);
+        assertEquals("List of superheros should have 2 superheroes.", 2, sightings.size());
+
+        assertTrue(sightings.contains(sighting1));
+        assertTrue(sightings.contains(sighting2));
 
         sightingDao.deleteSightingByID(sighting1.getSightingID());
         sightingDao.deleteSightingByID(sighting2.getSightingID());
