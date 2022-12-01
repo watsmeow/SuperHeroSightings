@@ -32,17 +32,24 @@ public class OrganizationController {
 
     Set<ConstraintViolation<Organization>> violations = new HashSet<>();
 
-
     @GetMapping("organizations")
     public String getAllOrgs(Model model) {
-        List<Organization> organizations = organizationDao.getAllOrgsNoDuplicates();
+        List<Organization> organizations = organizationDao.getAllOrgs();
+        List<Integer> orgIDs = new ArrayList<>();
+        List<Organization> orgsNoDuplicates = new ArrayList<>();
+        for (Organization org : organizations) {
+            if (!orgIDs.contains(org.getOrgID())) {
+                orgIDs.add(org.getOrgID());
+                orgsNoDuplicates.add(org);
+            }
+        }
+
         List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
-        model.addAttribute("organizations", organizations);
+        model.addAttribute("organizations", orgsNoDuplicates);
         model.addAttribute("superheroes", superHeroes);
         model.addAttribute("errors", violations);
         return "organizations";
     }
-
 
     @PostMapping("addOrganization")
     public String createOrganization(HttpServletRequest request) {
@@ -95,7 +102,6 @@ public class OrganizationController {
         model.addAttribute("superHeroes", superHeroes);
         return "editOrganization";
     }
-
 
     @PostMapping("editOrganization")
     public String performUpdateOrganization(@Valid Organization organization, BindingResult result,

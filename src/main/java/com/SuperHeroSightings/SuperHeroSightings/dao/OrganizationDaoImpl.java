@@ -58,6 +58,12 @@ public class OrganizationDaoImpl implements OrganizationDao {
     public void updateOrganization(Organization organization) {
         int orgID = organization.getOrgID();
 
+        // Delete original super to org mapping
+        final String DELETE_MAPPING = "DELETE FROM supertoorgmapping WHERE orgID = ?;";
+        jdbcTemplate.update(DELETE_MAPPING, orgID);
+
+        // Rebuild super to org mapping in controller with associateSuperHeroToOrg
+
         final String UPDATE_ADDRESS = "UPDATE orgaddresses " +
                 "JOIN orgs ON (orgaddresses.orgAddressID = orgs.orgAddressID) " +
                 "SET orgAddress = ?, orgCity = ?, orgState = ?, orgZip = ? " +
@@ -81,14 +87,6 @@ public class OrganizationDaoImpl implements OrganizationDao {
                 organization.getOrgName(),
                 organization.getOrgDescription(),
                 orgID);
-
-        final String DELETE_MAPPING = "DELETE FROM supertoorgmapping WHERE orgID = ?;";
-        jdbcTemplate.update(DELETE_MAPPING, orgID);
-
-//        final String INSERT_MAP = "INSERT INTO supertoorgmapping (orgID, superID) VALUES (?, ?);";
-//        jdbcTemplate.update(INSERT_MAP,
-//                organization.getOrgID(),
-//                organization.getSuperID());
     }
 
     public void associateSuperHeroToOrg(int superID, int orgID) {
@@ -105,8 +103,22 @@ public class OrganizationDaoImpl implements OrganizationDao {
         final String DELETE_MAPPING = "DELETE FROM supertoorgmapping WHERE orgID = ?;";
         jdbcTemplate.update(DELETE_MAPPING, orgID);
 
+        // Get phone number and address info
+        String phone = getOrgByID(orgID).getOrgPhoneNumber();
+        String address = getOrgByID(orgID).getOrgAddress();
+        String city = getOrgByID(orgID).getOrgCity();
+        String state = getOrgByID(orgID).getOrgState();
+        String zip = getOrgByID(orgID).getOrgZip();
+
         final String DELETE_ORG = "DELETE FROM orgs WHERE orgID = ?;";
         jdbcTemplate.update(DELETE_ORG, orgID);
+
+        final String DELETE_PHONE = "DELETE FROM orgphonenumbers WHERE phonenumber = ?";
+        jdbcTemplate.update(DELETE_PHONE, phone);
+
+        final String DELETE_ADDRESS = "DELETE FROM orgaddresses " +
+                "WHERE orgAddress = ? AND orgCity = ? AND orgState = ? AND orgZip = ?";
+        jdbcTemplate.update(DELETE_ADDRESS, address, city, state, zip);
     }
 
     @Override
@@ -151,33 +163,6 @@ public class OrganizationDaoImpl implements OrganizationDao {
                     "LEFT JOIN superToOrgMapping USING (orgID);";
             return jdbcTemplate.queryForStream(SQL_GET_ALL, new OrganizationMapper())
                     .collect(Collectors.toList());
-        } catch (DataAccessException e) {
-            return null;
-        }
-    }
-
-    @Override
-    public List<Organization> getAllOrgsNoDuplicates() {
-        try {
-            final String SQL_GET_ALL = "SELECT orgID, orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, " +
-                    "phoneNumber, superID " +
-                    "FROM orgs " +
-                    "LEFT JOIN orgPhoneNumbers ON (orgPhoneNumbers.phoneNumberID = orgs.orgPhoneNumberID) " +
-                    "LEFT JOIN orgAddresses USING (orgAddressID) " +
-                    "LEFT JOIN superToOrgMapping USING (orgID);";
-            List<Organization> orgList =  jdbcTemplate.queryForStream(SQL_GET_ALL, new OrganizationMapper())
-                    .collect(Collectors.toList());
-
-            // Remove duplicates caused by multiple members in 1 organization
-            List<Integer> superIdList = new ArrayList<>();
-            for (Organization org : orgList) {
-                if (!superIdList.contains(org.getSuperID()))
-                    superIdList.add(org.getSuperID());
-                else
-                    orgList.remove(org);
-            }
-
-            return orgList;
         } catch (DataAccessException e) {
             return null;
         }
