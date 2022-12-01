@@ -133,7 +133,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
                     "LEFT JOIN orgPhoneNumbers ON (phoneNumberID = orgPhoneNumberID) " +
                     "LEFT JOIN orgAddresses USING (orgAddressID) " +
                     "LEFT JOIN superToOrgMapping USING (orgID) " +
-                    "WHERE orgID = ?;";
+                    "WHERE orgID = ? LIMIT 1";
             return jdbcTemplate.queryForObject(SQL_GET_ALL, new OrganizationMapper(), orgID);
         } catch (DataAccessException e) {
             return null;
@@ -168,7 +168,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
             List<Organization> orgList =  jdbcTemplate.queryForStream(SQL_GET_ALL, new OrganizationMapper())
                     .collect(Collectors.toList());
 
-            // Remove duplicates (caused by multiple members in 1 organization
+            // Remove duplicates caused by multiple members in 1 organization
             List<Integer> superIdList = new ArrayList<>();
             for (Organization org : orgList) {
                 if (!superIdList.contains(org.getSuperID()))
