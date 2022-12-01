@@ -35,7 +35,7 @@
       <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
     </div>
   </div>
-  <!-- Add an organization form -->
+  <!-- Edit an organization form -->
   <div class="row m-4 border border-dark">
     <div class="col text-center m-3">
       <span class="h3">Edit an Organization</span>
@@ -137,6 +137,10 @@
 <!--                  th:selected="${organization.superheroes.contains(superhero)}">-->
                 Super Hero Name</option>
             </select>
+            <div th:if="${#fields.hasErrors('organization.superID')}">
+              <p th:each="error : ${#fields.errors('organization.superID')}" class="alert alert-danger"
+                 th:text="${error}">Must select at least one superhero </p>
+            </div>
           </div>
 
         <button type="submit" class="btn btn-primary">Update Organization</button>
