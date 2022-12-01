@@ -41,6 +41,9 @@ public class Organization {
     @NotNull(message = "SuperHero ID must not be null.")
     private int superID;
 
+    private int orgAddressID;
+    private int orgPhoneNumberID;
+
     // Getters
     public int getOrgID() {
         return orgID;
@@ -76,6 +79,14 @@ public class Organization {
 
     public int getSuperID() {
         return superID;
+    }
+
+    public int getOrgAddressID() {
+        return orgAddressID;
+    }
+
+    public int getOrgPhoneNumberID() {
+        return orgPhoneNumberID;
     }
 
     // Setters
@@ -115,24 +126,35 @@ public class Organization {
         this.superID = superID;
     }
 
+    public void setOrgAddressID(int orgAddressID) {
+        this.orgAddressID = orgAddressID;
+    }
+
+    public void setOrgPhoneNumberID(int orgPhoneNumberID) {
+        this.orgPhoneNumberID = orgPhoneNumberID;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Organization organization = (Organization) o;
-        return orgID == organization.orgID
-                && Objects.equals(orgName, organization.orgName)
-                && Objects.equals(orgDescription, organization.orgDescription)
-                && Objects.equals(orgAddress, organization.orgAddress)
-                && Objects.equals(orgCity, organization.orgCity)
-                && Objects.equals(orgState, organization.orgState)
-                && Objects.equals(orgZip, organization.orgZip)
-                && Objects.equals(orgPhoneNumber, organization.orgPhoneNumber);
+        Organization that = (Organization) o;
+        return orgID == that.orgID && superID == that.superID
+                && orgAddressID == that.orgAddressID
+                && orgPhoneNumberID == that.orgPhoneNumberID
+                && Objects.equals(orgName, that.orgName)
+                && Objects.equals(orgDescription, that.orgDescription)
+                && Objects.equals(orgAddress, that.orgAddress)
+                && Objects.equals(orgCity, that.orgCity)
+                && Objects.equals(orgState, that.orgState)
+                && Objects.equals(orgZip, that.orgZip)
+                && Objects.equals(orgPhoneNumber, that.orgPhoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orgName, orgDescription, orgAddress, orgCity,
-                orgState, orgZip, orgPhoneNumber);
+        return Objects.hash(orgID, orgName, orgDescription, orgAddress,
+                orgCity, orgState, orgZip, orgPhoneNumber, superID,
+                orgAddressID, orgPhoneNumberID);
     }
 }

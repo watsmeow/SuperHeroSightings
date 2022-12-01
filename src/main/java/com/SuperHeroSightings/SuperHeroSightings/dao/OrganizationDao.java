@@ -17,6 +17,8 @@ public interface OrganizationDao {
 
     public List<Organization> getAllOrgsAHeroBelongsTo(int superID);
 
+    List<Organization> getAllOrgsNoDuplicates();
+
     List<SuperHero> getAllMembersOfAnOrg(int orgID);
 
     List<Organization> getAllOrgs();

@@ -16,6 +16,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class OrganizationController {
 
     @GetMapping("organizations")
     public String getAllOrgs(Model model) {
-        List<Organization> organizations = organizationDao.getAllOrgs();
+        List<Organization> organizations = organizationDao.getAllOrgsNoDuplicates();
         List<SuperHero> superHeroes = superHeroesDao.getAllHeroes();
         model.addAttribute("organizations", organizations);
         model.addAttribute("superheroes", superHeroes);
@@ -54,31 +55,32 @@ public class OrganizationController {
         String phone = request.getParameter("phone");
         String[] superNames= request.getParameterValues("member");
 
+        List<Integer> superIDs = new ArrayList<>();
         for (String superName: superNames){
-
-
             SuperHero superHero = superHeroesDao.getAllHeroes()
                     .stream()
                     .filter(hero -> hero.getSuperName().equals(superName))
                     .findFirst().get();
 
-            int superID = superHero.getSuperID();
+            superIDs.add(superHero.getSuperID());
+        }
 
-            Organization organization = new Organization();
-            organization.setOrgName(name);
-            organization.setOrgDescription(description);
-            organization.setOrgAddress(address);
-            organization.setOrgState(state);
-            organization.setOrgCity(city);
-            organization.setOrgZip(zip);
-            organization.setOrgPhoneNumber(phone);
-            organization.setSuperID(superID);
+        Organization organization = new Organization();
+        organization.setOrgName(name);
+        organization.setOrgDescription(description);
+        organization.setOrgAddress(address);
+        organization.setOrgState(state);
+        organization.setOrgCity(city);
+        organization.setOrgZip(zip);
+        organization.setOrgPhoneNumber(phone);
 
-            Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-            violations = validate.validate(organization);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(organization);
 
-            if (violations.isEmpty()) {
-                organizationDao.createOrganization(organization);
+        if (violations.isEmpty()) {
+            organizationDao.createOrganization(organization);
+            for (Integer superID : superIDs) {
+                organizationDao.associateSuperHeroToOrg(superID, organization.getOrgID());
             }
         }
 

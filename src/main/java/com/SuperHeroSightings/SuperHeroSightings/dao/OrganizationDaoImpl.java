@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
         int orgID = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         org.setOrgID(orgID);
 
-
-        final String INSERT_MAP = "INSERT INTO supertoorgmapping (orgID, superID) VALUES (?, ?);";
-        jdbcTemplate.update(INSERT_MAP,
-                org.getOrgID(),
-                org.getSuperID());
+        // Controller will call associateSuperHeroToOrg instead of creating association here
 
         return org;
     }
@@ -160,6 +157,33 @@ public class OrganizationDaoImpl implements OrganizationDao {
     }
 
     @Override
+    public List<Organization> getAllOrgsNoDuplicates() {
+        try {
+            final String SQL_GET_ALL = "SELECT orgID, orgName, orgDescription, orgAddress, orgCity, orgState, orgZip, " +
+                    "phoneNumber, superID " +
+                    "FROM orgs " +
+                    "LEFT JOIN orgPhoneNumbers ON (orgPhoneNumbers.phoneNumberID = orgs.orgPhoneNumberID) " +
+                    "LEFT JOIN orgAddresses USING (orgAddressID) " +
+                    "LEFT JOIN superToOrgMapping USING (orgID);";
+            List<Organization> orgList =  jdbcTemplate.queryForStream(SQL_GET_ALL, new OrganizationMapper())
+                    .collect(Collectors.toList());
+
+            // Remove duplicates (caused by multiple members in 1 organization
+            List<Integer> superIdList = new ArrayList<>();
+            for (Organization org : orgList) {
+                if (!superIdList.contains(org.getSuperID()))
+                    superIdList.add(org.getSuperID());
+                else
+                    orgList.remove(org);
+            }
+
+            return orgList;
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
     public List<SuperHero> getAllMembersOfAnOrg(int orgID) {
         try {
             final String SQL_GET_ALL = "SELECT superHeroes.superID, superName, superDescription, " +
@@ -188,5 +212,4 @@ public class OrganizationDaoImpl implements OrganizationDao {
             return organization;
         }
     }
-
 }
