@@ -17,10 +17,12 @@ public interface OrganizationDao {
 
     public List<Organization> getAllOrgsAHeroBelongsTo(int superID);
 
-    List<SuperHero> getAllMembersOfAnOrg(String orgName);
+    List<SuperHero> getAllMembersOfAnOrg(int orgID);
 
     List<Organization> getAllOrgs();
 
     Organization getOrgByID(int orgID);
+
+    void associateSuperHeroToOrg(int superID, int orgID);
 
 }
