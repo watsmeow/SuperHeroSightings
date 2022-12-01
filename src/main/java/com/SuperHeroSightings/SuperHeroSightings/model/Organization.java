@@ -41,9 +41,6 @@ public class Organization {
     @NotNull(message = "SuperHero ID must not be null.")
     private int superID;
 
-    private int orgAddressID;
-    private int orgPhoneNumberID;
-
     // Getters
     public int getOrgID() {
         return orgID;
@@ -79,14 +76,6 @@ public class Organization {
 
     public int getSuperID() {
         return superID;
-    }
-
-    public int getOrgAddressID() {
-        return orgAddressID;
-    }
-
-    public int getOrgPhoneNumberID() {
-        return orgPhoneNumberID;
     }
 
     // Setters
@@ -126,22 +115,12 @@ public class Organization {
         this.superID = superID;
     }
 
-    public void setOrgAddressID(int orgAddressID) {
-        this.orgAddressID = orgAddressID;
-    }
-
-    public void setOrgPhoneNumberID(int orgPhoneNumberID) {
-        this.orgPhoneNumberID = orgPhoneNumberID;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
         return orgID == that.orgID && superID == that.superID
-                && orgAddressID == that.orgAddressID
-                && orgPhoneNumberID == that.orgPhoneNumberID
                 && Objects.equals(orgName, that.orgName)
                 && Objects.equals(orgDescription, that.orgDescription)
                 && Objects.equals(orgAddress, that.orgAddress)
@@ -154,7 +133,6 @@ public class Organization {
     @Override
     public int hashCode() {
         return Objects.hash(orgID, orgName, orgDescription, orgAddress,
-                orgCity, orgState, orgZip, orgPhoneNumber, superID,
-                orgAddressID, orgPhoneNumberID);
+                orgCity, orgState, orgZip, orgPhoneNumber, superID);
     }
 }
