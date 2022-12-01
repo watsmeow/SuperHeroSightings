@@ -12,9 +12,10 @@ public class Sighting {
 
     private int sightingID;
 
+    //^\d{2}[/]?\d{2}[/]?\d{4}$
     @NotEmpty(message = "Timestamp must not be blank")
     @Pattern(regexp=
-            "^\\d{4}[-]?\\d{1,2}[-]?\\d{1,2}$",
+            "^\\d{4}-\\d{2}-\\d{2}$",
             message = "Must be valid date.")
     private String timestamp;
 

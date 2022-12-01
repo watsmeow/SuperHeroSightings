@@ -41,12 +41,7 @@
       <span class="h3">Edit a Sighting</span>
     </div>
     <div class="col-7 text-center m-3">
-      <form action="updateSighting" method="POST">
-<!--        <div class="col-12 m-1 text-center"-->
-<!--             th:if="${!errors.isEmpty()}">-->
-<!--          <p class="alert alert-danger"-->
-<!--             th:each="error : ${errors}" th:text="${error.message}">Error message</p>-->
-<!--        </div>-->
+      <form action="editSighting" method="POST">
 
         <div class="form-group row">
           <label for="timestamp" class="col-3 col-form-label">Timestamp</label>
@@ -72,12 +67,14 @@
                       th:value="${superHero.superName}"
                       th:text="${superHero.superName}">
                 Superhero's Name</option>
-              <div th:if="${#fields.hasErrors('sighting.superHero.superName')}">
-                <p th:each="error : ${#fields.errors('sighting.superHero.superName')}"
+              <!--
+              <div th:if="${#fields.hasErrors('sighting.superName')}">
+                <p th:each="error : ${#fields.errors('sighting.superName')}"
                    class="alert alert-danger" th:text="${error}">
                   Bad superhero name
                 </p>
               </div>
+              -->
             </select>
           </div>
         </div>
@@ -92,12 +89,14 @@
                       th:value="${location.locationName}"
                       th:text="${location.locationName}">
                 Location</option>
-              <div th:if="${#fields.hasErrors('sighting.location.locationName')}">
-                <p th:each="error : ${#fields.errors('sighting.location.locationName')}"
+              <!--
+              <div th:if="${#fields.hasErrors('sighting.locationName')}">
+                <p th:each="error : ${#fields.errors('sighting.locationName')}"
                    class="alert alert-danger" th:text="${error}">
                   Bad location name
                 </p>
               </div>
+              -->
             </select>
           </div>
         </div>
